@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="categories"
+            type="com.example.rj19carwash.responses.CategoriesResponse" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginStart="@dimen/_10sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/cate_item_icon"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                tools:ignore="ContentDescription"
+                android:imageURL="@{categories.categoryImage}"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:id="@+id/cate_item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{categories.categoryName}"
+                android:gravity="center"
+                android:textSize="@dimen/_14ssp"
+                android:textColor="@color/black"
+                android:padding="@dimen/_2sdp"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
