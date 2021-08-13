@@ -4,6 +4,8 @@ import com.example.rj19carwash.responses.CategoriesResponse;
 import com.example.rj19carwash.responses.LoginResponse;
 import com.example.rj19carwash.responses.RegisterResponse;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -27,7 +29,7 @@ public interface MyApis {
 
 
     @GET("categories")
-    Call<CategoriesResponse> getCategories(
+    Call<ArrayList<CategoriesResponse>> getCategories(
             @Header("Authorization") String token
     );
 }

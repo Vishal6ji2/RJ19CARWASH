@@ -2,10 +2,12 @@ package com.example.rj19carwash.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.rj19carwash.R;
@@ -27,6 +29,8 @@ public class CategoriesActivity extends AppCompatActivity {
     CategoriesAdapter categoriesAdapter;
 
     String token;
+    Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,26 +38,35 @@ public class CategoriesActivity extends AppCompatActivity {
 
         categoriesBinding = DataBindingUtil.setContentView(this, R.layout.activity_categories);
 
-        categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
-
-        initViews();
+        intent = getIntent();
+        if (intent != null) {
+            if (intent.getStringExtra("token") != null) {
+                token = intent.getStringExtra("token");
+                initViews();
+            }
+        }
 
     }
 
-    public void initViews(){
+    public void initViews() {
+
         categoriesBinding.categoriesRecyclerview.setHasFixedSize(true);
         categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
+
         categoriesAdapter = new CategoriesAdapter(this, arrCategoriesList);
-        categoriesBinding.categoriesRecyclerview.setLayoutManager(new GridLayoutManager(this,2));
         categoriesBinding.categoriesRecyclerview.setAdapter(categoriesAdapter);
         getCategories(token);
+
     }
 
-    public void getCategories(String token){
-        categoriesViewModel.getCategories(token).observe(this, categoriesResponse -> {
-            if (categoriesResponse != null){
-                arrCategoriesList.addAll((Collection<? extends CategoriesResponse>) categoriesResponse);
+    public void getCategories(String token) {
+        LiveData<ArrayList<CategoriesResponse>> categoriesResponseLiveData = categoriesViewModel.getCategories(token);
+
+        categoriesViewModel.getCategories(token).observe(this, categoriesResponses -> {
+            if (categoriesResponses != null){
+//                if (categoriesResponses)
             }
         });
     }
+
 }

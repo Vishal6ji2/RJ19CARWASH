@@ -11,18 +11,4 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 public class RegisterViewModel extends ViewModel {
 
-    FirebaseAuth firebaseAuth;
-
-    String verificationId;
-
-    PhoneAuthProvider.OnVerificationStateChangedCallbacks callbacks;
-
-    MutableLiveData<LoginResponse.Data.SubmitCustomer> customerLiveData;
-//    MutableLiveData<Boolean> logOutLiveData;
-
-
-    public void onClick(View view) {
-
-
-    }
 }

@@ -18,7 +18,7 @@ public class Resource<T> {
         this.message = message;
     }
 
-    public static <T> Resource<T> success(@NonNull T data) {
+    public static <T> Resource<T> success(@NonNull T data, String message) {
         return new Resource<>(Status.SUCCESS, data, null);
     }
 

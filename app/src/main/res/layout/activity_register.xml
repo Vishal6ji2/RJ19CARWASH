@@ -5,10 +5,6 @@
 
     <data>
 
-        <variable
-            name="register"
-            type="com.example.rj19carwash.viewmodels.RegisterViewModel" />
-        
     </data>
 
     <LinearLayout
@@ -28,130 +24,158 @@
             android:gravity="center"
             tools:ignore="HardcodedText" />
 
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:background="@drawable/registerbg">
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/et_PhoneLayout"
+            <RelativeLayout
+                android:id="@+id/phoneLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:errorEnabled="true"
-                app:helperTextEnabled="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                tools:ignore="HardcodedText"
-                android:maxLength="10"
-                app:prefixText="+91"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:background="@android:color/transparent">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@drawable/registerbg">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_Phone"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/et_PhoneLayout"
                     android:layout_width="match_parent"
-                    android:background="@color/white"
                     android:layout_height="wrap_content"
+                    app:errorEnabled="true"
+                    app:helperTextEnabled="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    tools:ignore="HardcodedText"
                     android:maxLength="10"
-                    android:imeOptions="actionDone"
+                    app:prefixText="+91"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:background="@android:color/transparent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_Phone"
+                        android:layout_width="match_parent"
+                        android:background="@color/white"
+                        android:layout_height="wrap_content"
+                        android:maxLength="10"
+                        android:imeOptions="actionDone"
+                        android:digits="1234567890"
+                        android:inputType="phone" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_Register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_PhoneLayout"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="10dp"
+                    android:padding="@dimen/_10sdp"
+                    android:text="Get OTP"
+                    android:textAllCaps="false"
+                    app:cornerRadius="10dp"
+                    tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btn_Register"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:padding="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Do you have an account?"
+                        android:textSize="@dimen/_13ssp"
+                        android:textColor="@color/white"
+                        tools:ignore="HardcodedText"/>
+
+                    <TextView
+                        android:id="@+id/tv_signin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" Sign In"
+                        android:textSize="@dimen/_13ssp"
+                        android:textColor="@color/white"
+                        tools:ignore="HardcodedText"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/otpLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:background="@drawable/loginbg">
+
+                <com.chaos.view.PinView
+                    android:id="@+id/et_otpPinView"
+                    style="@style/PinWidget.PinView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="true"
+                    android:inputType="number"
                     android:digits="1234567890"
-                    android:inputType="phone" />
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:background="@color/white"
+                    android:textColor="@color/design_default_color_primary"
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    app:cursorColor="@color/design_default_color_primary"
+                    app:cursorWidth="@dimen/_2sdp"
+                    app:hideLineWhenFilled="true"
+                    app:itemCount="6"
+                    app:itemHeight="@dimen/_45sdp"
+                    app:itemRadius="@dimen/_3sdp"
+                    app:itemSpacing="0dp"
+                    app:itemWidth="@dimen/_45sdp"
+                    app:lineWidth="@dimen/_4sdp"
+                    app:viewType="none"
+                    tools:ignore="HardcodedText" />
 
-            </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_otpVerify"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_otpPinView"
+                    android:padding="@dimen/_10sdp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Verify"
+                    android:textAllCaps="false"
+                    app:cornerRadius="@dimen/_10sdp"
+                    tools:ignore="HardcodedText" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_Register"
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/reg_loadinglayout"
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/et_PhoneLayout"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginEnd="10dp"
-                android:padding="@dimen/_10sdp"
-                android:text="Get OTP"
-                android:textAllCaps="false"
-                app:cornerRadius="10dp"
-                tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
+                android:visibility="visible">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/btn_Register"
-                android:layout_margin="@dimen/_10sdp"
-                android:gravity="center"
-                android:padding="@dimen/_10sdp"
-                android:orientation="horizontal">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#6A000000"/>
 
-                <TextView
+                <ProgressBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Do you have an account?"
-                    android:textSize="@dimen/_13ssp"
-                    android:textColor="@color/white"
-                    tools:ignore="HardcodedText"/>
+                    android:layout_centerInParent="true"
+                    android:progressTint="@color/design_default_color_primary"/>
 
-                <TextView
-                    android:id="@+id/tv_signin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" Sign In"
-                    android:textSize="@dimen/_13ssp"
-                    android:textColor="@color/white"
-                    tools:ignore="HardcodedText"/>
-
-            </LinearLayout>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/otpLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="invisible"
-            android:background="@drawable/loginbg">
-
-            <com.chaos.view.PinView
-                android:id="@+id/et_otpPinView"
-                style="@style/PinWidget.PinView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:cursorVisible="true"
-                android:inputType="text"
-                android:gravity="center"
-                android:padding="@dimen/_5sdp"
-                android:background="@color/white"
-                android:textColor="@color/design_default_color_primary"
-                android:textSize="@dimen/_15ssp"
-                android:textStyle="bold"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                app:cursorColor="@color/design_default_color_primary"
-                app:cursorWidth="@dimen/_2sdp"
-                app:hideLineWhenFilled="true"
-                app:itemCount="6"
-                app:itemHeight="@dimen/_45sdp"
-                app:itemRadius="@dimen/_3sdp"
-                app:itemSpacing="0dp"
-                app:itemWidth="@dimen/_45sdp"
-                app:lineWidth="@dimen/_2sdp"
-                app:viewType="rectangle"
-                tools:ignore="HardcodedText" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_otpVerify"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/et_otpPinView"
-                android:padding="@dimen/_8sdp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:text="Verify"
-                android:textAllCaps="false"
-                app:cornerRadius="@dimen/_10sdp"
-                tools:ignore="HardcodedText" />
+            </RelativeLayout>
 
         </RelativeLayout>
 

@@ -5,14 +5,6 @@
 
     <data>
 
-        <variable
-            name="isLoading"
-            type="Boolean"/>
-
-        <variable
-            name="login"
-            type="com.example.rj19carwash.viewmodels.LoginViewModel" />
-
     </data>
 
     <LinearLayout
@@ -35,10 +27,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <include layout="@layout/blackbg"
-                android:visibility="gone"
-                android:id="@+id/blackbg"/>
 
             <RelativeLayout
                 android:id="@+id/phoneLayout"
@@ -73,7 +61,6 @@
                         android:background="@color/white"
                         android:inputType="phone"
                         android:maxLength="10"
-                        android:text="@{login.phone}"
                         android:digits="1234567890"
                         android:imeOptions="actionDone"
                         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
@@ -88,7 +75,6 @@
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:onClick="@{view->login.sendOtpDetails}"
                     android:padding="@dimen/_10sdp"
                     android:text="Get OTP"
                     android:textAllCaps="false"
@@ -142,7 +128,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:cursorVisible="true"
-                    android:inputType="text"
+                    android:inputType="number"
+                    android:digits="1234567890"
                     android:gravity="center"
                     android:padding="@dimen/_5sdp"
                     android:background="@color/white"
@@ -155,29 +142,45 @@
                     app:cursorWidth="@dimen/_2sdp"
                     app:hideLineWhenFilled="true"
                     app:itemCount="6"
-                    android:text="@{login.otp}"
                     app:itemHeight="@dimen/_45sdp"
                     app:itemRadius="@dimen/_3sdp"
                     app:itemSpacing="0dp"
                     app:itemWidth="@dimen/_45sdp"
-                    app:lineWidth="@dimen/_2sdp"
-                    app:viewType="rectangle"
-                    tools:ignore="HardcodedText" />
+                    app:lineWidth="@dimen/_4sdp"
+                    app:viewType="none"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_otpVerify"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/et_otpPinView"
-                    android:padding="@dimen/_8sdp"
+                    android:padding="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text="Verify"
-                    android:onClick="@{view->login.verifyOtpDetails}"
                     android:textAllCaps="false"
                     app:cornerRadius="@dimen/_10sdp"
                     tools:ignore="HardcodedText" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/login_loadinglayout"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:visibility="visible">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#6A000000"/>
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:progressTint="@color/design_default_color_primary"/>
 
             </RelativeLayout>
 

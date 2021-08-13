@@ -58,7 +58,7 @@ public class CategoriesResponse implements Serializable
     }
 
     public String getCategoryImage() {
-        return categoryImage;
+        return "https://www.rj19carwash.com/storage/"+categoryImage;
     }
 
     public void setCategoryImage(String categoryImage) {

@@ -1,8 +1,9 @@
 package com.example.rj19carwash.responses;
 
-import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 
 public class LoginResponse implements Serializable
