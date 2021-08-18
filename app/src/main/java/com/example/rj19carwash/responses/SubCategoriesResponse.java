@@ -1,28 +1,27 @@
 package com.example.rj19carwash.responses;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
-public class CategoriesResponse implements Serializable
+public class SubCategoriesResponse implements Serializable
 {
 
-    @SerializedName("categories")
+    @SerializedName("subcategories")
     @Expose
-    private ArrayList<Category> categories = null;
+    private ArrayList<Subcategory> subcategories = null;
 
-    public ArrayList<Category> getCategories() {
-        return categories;
+    public ArrayList<Subcategory> getSubcategories() {
+        return subcategories;
     }
 
-    public void setCategories(ArrayList<Category> categories) {
-        this.categories = categories;
+    public void setSubcategories(ArrayList<Subcategory> subcategories) {
+        this.subcategories = subcategories;
     }
 
 
-    public static class Category implements Serializable
+    public static class Subcategory implements Serializable
     {
 
         @SerializedName("id")
@@ -116,6 +115,5 @@ public class CategoriesResponse implements Serializable
 
     }
 }
-
 
 

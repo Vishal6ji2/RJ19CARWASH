@@ -9,7 +9,7 @@ import com.google.gson.GsonBuilder;
 import java.lang.reflect.Modifier;
 
 import okhttp3.OkHttpClient;
-import okhttp3.internal.http.CallServerInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -31,11 +31,15 @@ public class RetrofitClient {
                 .setLenient()
                 .create();
 
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(); interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        httpClient.addInterceptor(interceptor);
+
         String BASE_URL = "https://www.rj19carwash.com/api/";
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(httpClient.build())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
     }

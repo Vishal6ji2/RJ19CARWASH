@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/profile_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:id="@+id/profile_update_icon"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:padding="@dimen/_2sdp"
+            android:layout_gravity="center"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/profile_update_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your Profile Updated"
+            android:textSize="@dimen/_13ssp"
+            android:gravity="center"
+            android:padding="@dimen/_5sdp"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+</layout>

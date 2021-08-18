@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-
+import java.util.ArrayList;
 
 public class LoginResponse implements Serializable
 {
@@ -12,6 +12,12 @@ public class LoginResponse implements Serializable
     @SerializedName("response_code")
     @Expose
     private Integer responseCode;
+    @SerializedName("message")
+    @Expose
+    private String message;
+    @SerializedName("errors")
+    @Expose
+    private Errors errors;
     @SerializedName("data")
     @Expose
     private Data data;
@@ -22,6 +28,22 @@ public class LoginResponse implements Serializable
 
     public void setResponseCode(Integer responseCode) {
         this.responseCode = responseCode;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Errors getErrors() {
+        return errors;
+    }
+
+    public void setErrors(Errors errors) {
+        this.errors = errors;
     }
 
     public Data getData() {
@@ -36,150 +58,155 @@ public class LoginResponse implements Serializable
     public static class Data implements Serializable
     {
 
-        @SerializedName("submit_customer")
+        @SerializedName("id")
         @Expose
-        private SubmitCustomer submitCustomer;
+        private Integer id;
+        @SerializedName("name")
+        @Expose
+        private Object name;
+        @SerializedName("email")
+        @Expose
+        private Object email;
+        @SerializedName("password")
+        @Expose
+        private String password;
+        @SerializedName("phone")
+        @Expose
+        private String phone;
+        @SerializedName("gender")
+        @Expose
+        private Object gender;
+        @SerializedName("address")
+        @Expose
+        private Object address;
+        @SerializedName("profile")
+        @Expose
+        private Object profile;
+        @SerializedName("customer_status")
+        @Expose
+        private String customerStatus;
+        @SerializedName("created_at")
+        @Expose
+        private String createdAt;
+        @SerializedName("updated_at")
+        @Expose
+        private String updatedAt;
+        @SerializedName("token")
+        @Expose
+        private String token;
 
-        public SubmitCustomer getSubmitCustomer() {
-            return submitCustomer;
+        public Integer getId() {
+            return id;
         }
 
-        public void setSubmitCustomer(SubmitCustomer submitCustomer) {
-            this.submitCustomer = submitCustomer;
+        public void setId(Integer id) {
+            this.id = id;
         }
 
+        public Object getName() {
+            return name;
+        }
 
-        public static class SubmitCustomer implements Serializable
-        {
+        public void setName(Object name) {
+            this.name = name;
+        }
 
-            @SerializedName("id")
-            @Expose
-            private Integer id;
-            @SerializedName("name")
-            @Expose
-            private Object name;
-            @SerializedName("email")
-            @Expose
-            private Object email;
-            @SerializedName("phone")
-            @Expose
-            private String phone;
-            @SerializedName("gender")
-            @Expose
-            private Object gender;
-            @SerializedName("address")
-            @Expose
-            private Object address;
-            @SerializedName("profile")
-            @Expose
-            private Object profile;
-            @SerializedName("customer_status")
-            @Expose
-            private String customerStatus;
-            @SerializedName("created_at")
-            @Expose
-            private String createdAt;
-            @SerializedName("updated_at")
-            @Expose
-            private String updatedAt;
-            @SerializedName("token")
-            @Expose
-            private String token;
+        public Object getEmail() {
+            return email;
+        }
 
-            public Integer getId() {
-                return id;
-            }
+        public void setEmail(Object email) {
+            this.email = email;
+        }
 
-            public void setId(Integer id) {
-                this.id = id;
-            }
+        public String getPassword() {
+            return password;
+        }
 
-            public Object getName() {
-                return name;
-            }
+        public void setPassword(String password) {
+            this.password = password;
+        }
 
-            public void setName(Object name) {
-                this.name = name;
-            }
+        public String getPhone() {
+            return phone;
+        }
 
-            public Object getEmail() {
-                return email;
-            }
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
 
-            public void setEmail(Object email) {
-                this.email = email;
-            }
+        public Object getGender() {
+            return gender;
+        }
 
-            public String getPhone() {
-                return phone;
-            }
+        public void setGender(Object gender) {
+            this.gender = gender;
+        }
 
-            public void setPhone(String phone) {
-                this.phone = phone;
-            }
+        public Object getAddress() {
+            return address;
+        }
 
-            public Object getGender() {
-                return gender;
-            }
+        public void setAddress(Object address) {
+            this.address = address;
+        }
 
-            public void setGender(Object gender) {
-                this.gender = gender;
-            }
+        public Object getProfile() {
+            return profile;
+        }
 
-            public Object getAddress() {
-                return address;
-            }
+        public void setProfile(Object profile) {
+            this.profile = profile;
+        }
 
-            public void setAddress(Object address) {
-                this.address = address;
-            }
+        public String getCustomerStatus() {
+            return customerStatus;
+        }
 
-            public Object getProfile() {
-                return profile;
-            }
+        public void setCustomerStatus(String customerStatus) {
+            this.customerStatus = customerStatus;
+        }
 
-            public void setProfile(Object profile) {
-                this.profile = profile;
-            }
+        public String getCreatedAt() {
+            return createdAt;
+        }
 
-            public String getCustomerStatus() {
-                return customerStatus;
-            }
+        public void setCreatedAt(String createdAt) {
+            this.createdAt = createdAt;
+        }
 
-            public void setCustomerStatus(String customerStatus) {
-                this.customerStatus = customerStatus;
-            }
+        public String getUpdatedAt() {
+            return updatedAt;
+        }
 
-            public String getCreatedAt() {
-                return createdAt;
-            }
+        public void setUpdatedAt(String updatedAt) {
+            this.updatedAt = updatedAt;
+        }
 
-            public void setCreatedAt(String createdAt) {
-                this.createdAt = createdAt;
-            }
+        public String getToken() {
+            return token;
+        }
 
-            public String getUpdatedAt() {
-                return updatedAt;
-            }
-
-            public void setUpdatedAt(String updatedAt) {
-                this.updatedAt = updatedAt;
-            }
-
-            public String getToken() {
-                return token;
-            }
-
-            public void setToken(String token) {
-                this.token = token;
-            }
-
+        public void setToken(String token) {
+            this.token = token;
         }
 
     }
 
+    public static class Errors implements Serializable
+    {
+     /*   @SerializedName("phone")
+        @Expose
+        private ArrayList<String> phone = null;
+
+        public ArrayList<String> getPhone() {
+            return phone;
+        }
+
+        public void setPhone(ArrayList<String> phone) {
+            this.phone = phone;
+        }
+*/
+    }
+
 }
-
-
-
-

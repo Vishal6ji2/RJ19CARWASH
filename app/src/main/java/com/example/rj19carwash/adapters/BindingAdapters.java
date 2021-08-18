@@ -17,7 +17,7 @@ public class BindingAdapters {
 
         try {
             imageView.setAlpha(0f);
-            Picasso.get().load(URL).noFade().into(imageView, new Callback() {
+            Picasso.get().load("https://rj19carwash.com"+URL).noFade().into(imageView, new Callback() {
                 @Override
                 public void onSuccess() {
                     imageView.animate().setDuration(200).alpha(1f).start();

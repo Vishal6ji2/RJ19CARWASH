@@ -1,7 +1,6 @@
 package com.example.rj19carwash.viewmodels;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.rj19carwash.repositories.CategoriesRepository;
@@ -17,7 +16,7 @@ public class CategoriesViewModel extends ViewModel {
         categoriesRepository = new CategoriesRepository();
     }
 
-    public LiveData<ArrayList<CategoriesResponse>> getCategories(String token){
+    public LiveData<CategoriesResponse> getCategories(String token){
         return categoriesRepository.getCategories(token);
     }
 

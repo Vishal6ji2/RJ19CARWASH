@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign Up"
+            android:text="Forgot Password"
             android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
@@ -30,13 +30,12 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/register_phoneLayout"
+                android:id="@+id/phoneLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/forgotbg"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/registerbg">
-
+                android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -47,66 +46,38 @@
                     app:cardCornerRadius="@dimen/_10sdp">
 
                     <EditText
-                        android:id="@+id/register_et_phone"
+                        android:id="@+id/forgot_et_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:hint="Phone"
-                        android:maxLength="10"
                         android:digits="1234567890"
-                        android:maxLines="1"
+                        android:hint="Phone"
                         android:imeOptions="actionNext"
                         android:inputType="phone"
+                        android:maxLength="10"
+                        android:maxLines="1"
                         android:padding="@dimen/_10sdp"
                         tools:ignore="Autofill,HardcodedText" />
 
                 </androidx.cardview.widget.CardView>
 
-
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_Register"
+                    android:id="@+id/btn_forgot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="10dp"
                     android:padding="@dimen/_10sdp"
-                    android:text="Register"
+                    android:text="Forgot Password"
                     android:textAllCaps="false"
                     app:cornerRadius="10dp"
                     tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:gravity="center"
-                    android:padding="@dimen/_10sdp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Do you have an account?"
-                        android:textSize="@dimen/_13ssp"
-                        android:textColor="@color/white"
-                        tools:ignore="HardcodedText"/>
-
-                    <TextView
-                        android:id="@+id/tv_signin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" Sign In"
-                        android:textSize="@dimen/_13ssp"
-                        android:textColor="@color/white"
-                        tools:ignore="HardcodedText"/>
-
-                </LinearLayout>
-
             </LinearLayout>
 
             <RelativeLayout
-                android:id="@+id/reg_loadinglayout"
+                android:id="@+id/forgot_loadinglayout"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:visibility="gone">

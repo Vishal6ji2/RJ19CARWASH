@@ -18,25 +18,26 @@ public class CategoriesRepository {
 
     MyApis myApis;
 
-    public CategoriesRepository(){
+    public CategoriesRepository() {
         myApis = RetrofitClient.getInstance().getapi();
     }
 
-    public LiveData<ArrayList<CategoriesResponse>> getCategories(String token){
-        MutableLiveData<ArrayList<CategoriesResponse>> data = new MutableLiveData<>();
+    public LiveData<CategoriesResponse> getCategories(String token) {
+        MutableLiveData<CategoriesResponse> data = new MutableLiveData<>();
 
-        myApis.getCategories("Bearer "+token).enqueue(new Callback<ArrayList<CategoriesResponse>>() {
+        myApis.getCategories(token).enqueue(new Callback<CategoriesResponse>() {
             @Override
-            public void onResponse(@NonNull Call<ArrayList<CategoriesResponse>> call, @NonNull Response<ArrayList<CategoriesResponse>> response) {
+            public void onResponse(@NonNull Call<CategoriesResponse> call, @NonNull Response<CategoriesResponse> response) {
                 data.setValue(response.body());
             }
 
             @Override
-            public void onFailure(@NonNull Call<ArrayList<CategoriesResponse>> call, @NonNull Throwable t) {
-
+            public void onFailure(@NonNull Call<CategoriesResponse> call, @NonNull Throwable t) {
                 data.setValue(null);
             }
         });
+
         return data;
     }
+
 }
