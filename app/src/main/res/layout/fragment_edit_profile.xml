@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -10,7 +10,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".activities.EditProfileActivity">
+        tools:context=".fragments.EditProfileFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,19 +20,55 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Profile"
+                android:text="Edit Profile"
                 android:textSize="@dimen/_14ssp"
                 android:gravity="center"
                 android:padding="@dimen/_10sdp"
                 android:textColor="@color/black"
                 tools:ignore="HardcodedText" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/editprofile_cardimg"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    app:cardCornerRadius="@dimen/_100sdp"
+                    app:cardElevation="@dimen/_3sdp">
+
+                    <ImageView
+                        android:id="@+id/editprofile_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/profileicon"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/editprofile_camimg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fabSize="mini"
+                    tools:ignore="ContentDescription"
+                    android:src="@android:drawable/ic_menu_camera"
+                    android:tint="@color/white"
+                    android:background="@color/white"
+                    android:layout_alignBottom="@id/editprofile_cardimg"
+                    android:layout_alignEnd="@id/editprofile_cardimg"/>
+
+            </RelativeLayout>
+
             <EditText
                 android:id="@+id/editprofile_et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Full Name"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/circleedittext"
@@ -46,7 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email-id"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/circleedittext"
@@ -60,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Phone"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/circleedittext"
@@ -74,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="My Address"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_5sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:background="@drawable/circleedittext"
@@ -89,15 +125,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Use Current Location"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_5sdp"
                 android:textColor="@color/purple_700"
                 android:drawablePadding="@dimen/_10sdp"
+                android:visibility="gone"
+                android:textSize="@dimen/_12ssp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 tools:ignore="HardcodedText"
                 android:layout_gravity="center"
                 app:drawableStartCompat="@drawable/gpsicon" />
-
 
             <com.google.android.gms.maps.MapView
                 android:id="@+id/editprofile_mapview"

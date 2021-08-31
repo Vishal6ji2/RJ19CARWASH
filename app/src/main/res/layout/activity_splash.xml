@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.SplashActivity"
+    android:background="@color/design_default_color_primary"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/_120sdp"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <ImageView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:src="@drawable/gpsicon"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RJ19 CARWASH"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15ssp"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:padding="@dimen/_5sdp"
+            android:gravity="center"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AT JODHPUR"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="normal"
+            android:padding="@dimen/_2sdp"
+            android:gravity="center"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+</LinearLayout>

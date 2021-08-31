@@ -1,6 +1,7 @@
 package com.example.rj19carwash.activities;
 
 import static com.example.rj19carwash.Views.toast;
+import static com.example.rj19carwash.networks.CheckInternet.isConnected;
 import static com.example.rj19carwash.utilities.ViewUtils.phonePattern;
 import static com.example.rj19carwash.utilities.ViewUtils.setViewGroupEnabled;
 
@@ -39,10 +40,14 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         registerBinding.btnRegister.setOnClickListener(view -> {
-            if (!((registerBinding.registerEtPhone).getText().toString().matches(phonePattern))){
-                toast(this, "Phone number is invalid");
+            if (isConnected(this)) {
+                if (!((registerBinding.registerEtPhone).getText().toString().matches(phonePattern))) {
+                    toast(this, "Phone number is invalid");
+                } else {
+                    onSendOtpClick(Objects.requireNonNull(Objects.requireNonNull(registerBinding.registerEtPhone).getText()).toString());
+                }
             }else {
-                onSendOtpClick(Objects.requireNonNull(Objects.requireNonNull(registerBinding.registerEtPhone).getText()).toString());
+                toast(this, "Please Check Your Internet Connection");
             }
 
         });
@@ -83,13 +88,13 @@ public class RegisterActivity extends AppCompatActivity {
                     }else {
                         registerBinding.regLoadinglayout.setVisibility(View.GONE);
                         setViewGroupEnabled(registerBinding.registerPhoneLayout, true);
-                        toast(RegisterActivity.this, response.body().getMessage());
+                        toast(RegisterActivity.this, "This phone is already registered");
                     }
 
                 }else {
                     registerBinding.regLoadinglayout.setVisibility(View.GONE);
                     setViewGroupEnabled(registerBinding.registerPhoneLayout, true);
-                    toast(RegisterActivity.this, "Wrong Credentials");
+                    toast(RegisterActivity.this, "This phone is already registered");
                 }
             }
 

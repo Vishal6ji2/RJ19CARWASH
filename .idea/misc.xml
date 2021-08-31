@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/drawable/circleedittext.xml" value="0.19583333333333333" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/drawable/editlocationicon.xml" value="0.19583333333333333" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/drawable/logoutdrawable.xml" value="0.19583333333333333" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/drawable/passworddrawable.xml" value="0.19583333333333333" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-large/activity_categories.xml" value="0.134765625" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-large/activity_forgot_pwd.xml" value="0.134765625" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-large/activity_login.xml" value="0.4466666666666667" />
@@ -29,18 +31,32 @@
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_change_password.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_edit_profile.xml" value="0.16666666666666666" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_forgot_pwd.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_home.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_login.xml" value="0.16666666666666666" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_my_address.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_otp_verify.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_profile.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_register.xml" value="0.16666666666666666" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_splash.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_sub_categories.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/blackbg.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/categories_item_layout.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_book_service.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_change_password.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_edit_profile.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_home.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_orders.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_profile.xml" value="0.16666666666666666" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_services.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_sub_categories.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_transaction.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/placeslist_layout.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/profile_update_layout.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/services_item_layout.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/slots_item_layout.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/subcategories_item_layout.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/menu/home_menu.xml" value="0.1796875" />
       </map>
     </option>
   </component>

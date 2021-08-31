@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.rj19carwash.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+
+        <action android:id="@+id/cat_to_subcat"
+            app:destination="@+id/subCategoriesFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/transactionFragment"
+        android:name="com.example.rj19carwash.fragments.TransactionFragment"
+        android:label="fragment_transaction"
+        tools:layout="@layout/fragment_transaction" />
+
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.example.rj19carwash.fragments.OrdersFragment"
+        android:label="fragment_orders"
+        tools:layout="@layout/fragment_orders" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.rj19carwash.fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+
+        <action android:id="@+id/changepassword"
+            app:destination="@+id/changePasswordFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"/>
+
+        <action android:id="@+id/editprofile"
+            app:destination="@+id/editProfileFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/subCategoriesFragment"
+        android:name="com.example.rj19carwash.fragments.SubCategoriesFragment"
+        android:label="fragment_sub_categories"
+        tools:layout="@layout/fragment_sub_categories">
+
+        <action android:id="@+id/subcat_to_services"
+            app:destination="@+id/servicesFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.example.rj19carwash.fragments.ChangePasswordFragment"
+        android:label="fragment_change_password"
+        tools:layout="@layout/fragment_change_password" />
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.example.rj19carwash.fragments.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+
+        <action android:id="@+id/saveprofile"
+            app:destination="@+id/profileFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/servicesFragment"
+        android:name="com.example.rj19carwash.fragments.ServicesFragment"
+        android:label="fragment_services"
+        tools:layout="@layout/fragment_services" >
+
+        <action android:id="@+id/tobookservice"
+            app:destination="@+id/bookServiceFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/bookServiceFragment"
+        android:name="com.example.rj19carwash.fragments.BookServiceFragment"
+        android:label="fragment_book_service"
+        tools:layout="@layout/fragment_book_service" />
+
+</navigation>

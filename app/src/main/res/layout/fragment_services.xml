@@ -9,25 +9,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:context=".activities.CategoriesActivity">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sub Categories"
-            android:textSize="@dimen/_14ssp"
+            android:text="Car Wash"
+            android:textSize="@dimen/_13ssp"
+            android:padding="@dimen/_5sdp"
             android:gravity="center"
-            android:padding="@dimen/_10sdp"
-            android:textColor="@color/black"
+            android:textStyle="bold"
             tools:ignore="HardcodedText" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/subcategories_recyclerview"
+            android:id="@+id/services_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            tools:listitem="@layout/subcategories_item_layout" />
+            tools:listitem="@layout/services_item_layout"
+            tools:itemCount="5"/>
 
     </LinearLayout>
 

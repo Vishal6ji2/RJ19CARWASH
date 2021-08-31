@@ -1,9 +1,8 @@
 package com.example.rj19carwash.activities;
 
 import static com.example.rj19carwash.Views.toast;
-import static com.example.rj19carwash.activities.RegisterActivity.checkAllSameDigits;
+import static com.example.rj19carwash.networks.CheckInternet.isConnected;
 import static com.example.rj19carwash.utilities.ViewUtils.phonePattern;
-
 import static com.example.rj19carwash.utilities.ViewUtils.setViewGroupEnabled;
 
 import android.content.Intent;
@@ -20,8 +19,7 @@ import com.example.rj19carwash.R;
 import com.example.rj19carwash.databinding.ActivityLoginBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.LoginResponse;
-
-import java.util.Objects;
+import com.example.rj19carwash.sessions.UserSession;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +28,8 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     ActivityLoginBinding loginBinding;
+
+    UserSession userSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +40,17 @@ public class LoginActivity extends AppCompatActivity {
         loginBinding.tvRegister.setPaintFlags(loginBinding.tvRegister.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         loginBinding.tvForgot.setPaintFlags(loginBinding.tvForgot.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+        userSession = new UserSession(this);
 
         loginBinding.btnSendOtp.setOnClickListener(view -> {
-            if (!((loginBinding.loginEtPhone).getText().toString().matches(phonePattern))){
-                toast(this, "Phone number is invalid");
+            if (isConnected(this)) {
+                if (!((loginBinding.loginEtPhone).getText().toString().matches(phonePattern))) {
+                    toast(this, "Phone number is invalid");
+                } else {
+                    onSendOtpClick(loginBinding.loginEtPhone.getText().toString(), loginBinding.loginEtPass.getText().toString());
+                }
             }else {
-                onSendOtpClick(loginBinding.loginEtPhone.getText().toString(), loginBinding.loginEtPass.getText().toString());
+                toast(this, "Please Check Your Internet Connection");
             }
         });
 
@@ -54,9 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         });
 
-        loginBinding.tvForgot.setOnClickListener(view -> {
-            startActivity(new Intent(this, ForgotPwdActivity.class));
-        });
+        loginBinding.tvForgot.setOnClickListener(view -> startActivity(new Intent(this, ForgotPwdActivity.class)));
 
     }
 
@@ -73,7 +76,11 @@ public class LoginActivity extends AppCompatActivity {
                         loginBinding.loginLoadinglayout.setVisibility(View.GONE);
                         setViewGroupEnabled(loginBinding.phoneLayout, true);
                         toast(LoginActivity.this, response.body().getMessage());
-                        startActivity(new Intent(LoginActivity.this, CategoriesActivity.class).putExtra("token", response.body().getData().getToken()));
+                        LoginResponse.Data data = response.body().getData();
+
+                        userSession.setKeyToken(response.body().getData().getPhone(), response.body().getData().getToken());
+
+                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                         finish();
 
                     }else {
@@ -86,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
                     loginBinding.loginLoadinglayout.setVisibility(View.GONE);
                     setViewGroupEnabled(loginBinding.phoneLayout, true);
                     toast(LoginActivity.this,"Wrong Credentials");
-                    Log.d("errorlogin",response.toString()+"\n"+response.message()+"\n"+response.errorBody());
                 }
             }
 

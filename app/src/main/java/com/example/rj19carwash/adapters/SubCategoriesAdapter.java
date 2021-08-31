@@ -1,11 +1,14 @@
 package com.example.rj19carwash.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rj19carwash.R;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 public class SubCategoriesAdapter extends RecyclerView.Adapter<SubCategoriesAdapter.ViewHolder> {
     Context context;
     ArrayList<SubCategoriesResponse.Subcategory> arrCategoriesList;
+
 
     public SubCategoriesAdapter(Context context, ArrayList<SubCategoriesResponse.Subcategory> arrCategoriesList) {
         this.context = context;
@@ -55,9 +59,9 @@ public class SubCategoriesAdapter extends RecyclerView.Adapter<SubCategoriesAdap
         public void bindCategories(SubCategoriesResponse.Subcategory subcategory){
             categoriesItemLayoutBinding.setSubcategories(subcategory);
             Picasso.get().load("https://www.rj19carwash.com/"+subcategory.getCategoryImage()).into(categoriesItemLayoutBinding.cateItemIcon);
-//            categoriesItemLayoutBinding.cateItemName.setText(subcategory.getCategoryName());
 
             categoriesItemLayoutBinding.executePendingBindings();
+
         }
     }
 

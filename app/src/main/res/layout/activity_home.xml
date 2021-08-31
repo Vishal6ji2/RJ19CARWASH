@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.HomeActivity">
+
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/home_bottom_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_55sdp"
+            android:layout_gravity="bottom"
+            app:fabCradleMargin="@dimen/_5sdp"
+            app:fabCradleVerticalOffset="@dimen/_5sdp"
+            app:fabCradleRoundedCornerRadius="@dimen/_10sdp">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/home_bnv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:background="@android:color/transparent"
+                app:menu="@menu/home_menu"/>
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@id/home_bottom_appbar"
+            tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/navhostfragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            android:layout_marginBottom="@dimen/_55sdp"
+            app:navGraph="@navigation/nav_graph" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+</layout>
