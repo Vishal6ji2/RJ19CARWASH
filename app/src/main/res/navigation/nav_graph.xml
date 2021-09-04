@@ -98,6 +98,19 @@
         android:id="@+id/bookServiceFragment"
         android:name="com.example.rj19carwash.fragments.BookServiceFragment"
         android:label="fragment_book_service"
-        tools:layout="@layout/fragment_book_service" />
+        tools:layout="@layout/fragment_book_service" >
+
+        <action android:id="@+id/toconfirmorder"
+            app:destination="@+id/confirmOrderFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/confirmOrderFragment"
+        android:name="com.example.rj19carwash.ConfirmOrderFragment"
+        android:label="fragment_confirm_order"
+        tools:layout="@layout/fragment_confirm_order" />
 
 </navigation>

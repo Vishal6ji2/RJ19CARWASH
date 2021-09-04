@@ -33,9 +33,9 @@
                 android:id="@+id/phoneLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/forgotbg"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:background="@drawable/registerbg">
+                android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -50,12 +50,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:hint="Phone"
-                        android:maxLength="10"
                         android:digits="1234567890"
-                        android:maxLines="1"
+                        android:hint="Phone"
                         android:imeOptions="actionNext"
                         android:inputType="phone"
+                        android:maxLength="10"
+                        android:maxLines="1"
                         android:padding="@dimen/_10sdp"
                         tools:ignore="Autofill,HardcodedText" />
 

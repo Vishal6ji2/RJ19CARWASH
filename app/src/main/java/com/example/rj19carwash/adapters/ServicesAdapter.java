@@ -59,6 +59,7 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
 
             servicesItemLayoutBinding.getRoot().setOnClickListener(view -> {
                 Bundle bundle = new Bundle();
+                bundle.putInt("id", service.getId());
                 bundle.putString("image", service.getServiceImage());
                 bundle.putString("name", service.getName());
                 bundle.putString("description", service.getLongDescription());

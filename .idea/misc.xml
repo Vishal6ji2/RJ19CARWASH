@@ -9,24 +9,36 @@
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/drawable/passworddrawable.xml" value="0.19583333333333333" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-large/activity_categories.xml" value="0.134765625" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-large/activity_forgot_pwd.xml" value="0.134765625" />
-        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-large/activity_login.xml" value="0.4466666666666667" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-large/activity_home.xml" value="0.134765625" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-large/activity_login.xml" value="0.14666666666666667" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-large/activity_register.xml" value="0.134765625" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-large/activity_splash.xml" value="0.134765625" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-large/activity_sub_categories.xml" value="0.134765625" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-large/categories_item_layout.xml" value="0.134765625" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-normal/activity_categories.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-normal/activity_forgot_pwd.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-normal/activity_home.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-normal/activity_login.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-normal/activity_register.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-normal/activity_splash.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-normal/activity_sub_categories.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-normal/categories_item_layout.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-small/activity_categories.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-small/activity_forgot_pwd.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-small/activity_home.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-small/activity_login.xml" value="0.16666666666666666" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-small/activity_register.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-small/activity_splash.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-small/activity_sub_categories.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-small/categories_item_layout.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-xlarge/activity_categories.xml" value="0.134765625" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-xlarge/activity_forgot_pwd.xml" value="0.134765625" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-xlarge/activity_home.xml" value="0.134765625" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-xlarge/activity_login.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-xlarge/activity_register.xml" value="0.134765625" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-xlarge/activity_splash.xml" value="0.134765625" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-xlarge/activity_sub_categories.xml" value="0.134765625" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout-xlarge/categories_item_layout.xml" value="0.134765625" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_categories.xml" value="0.16666666666666666" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_change_password.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/activity_edit_profile.xml" value="0.16666666666666666" />
@@ -44,6 +56,7 @@
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/categories_item_layout.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_book_service.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_change_password.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_confirm_order.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_edit_profile.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_home.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_orders.xml" value="0.1796875" />
@@ -51,6 +64,7 @@
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_services.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_sub_categories.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/fragment_transaction.xml" value="0.1796875" />
+        <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/orders_item_layout.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/placeslist_layout.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/profile_update_layout.xml" value="0.1796875" />
         <entry key="..\:/Android/AndroidStudioProjects/app/src/main/res/layout/services_item_layout.xml" value="0.1796875" />

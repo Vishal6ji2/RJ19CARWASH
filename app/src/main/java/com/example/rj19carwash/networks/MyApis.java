@@ -2,6 +2,7 @@ package com.example.rj19carwash.networks;
 
 import com.example.rj19carwash.responses.CategoriesResponse;
 import com.example.rj19carwash.responses.ChangePasswordResponse;
+import com.example.rj19carwash.responses.EmployeesResponse;
 import com.example.rj19carwash.responses.ForgotResponse;
 import com.example.rj19carwash.responses.LoginResponse;
 import com.example.rj19carwash.responses.ProfileResponse;
@@ -11,17 +12,13 @@ import com.example.rj19carwash.responses.SlotsResponse;
 import com.example.rj19carwash.responses.SubCategoriesResponse;
 import com.example.rj19carwash.responses.UpdateProfileResponse;
 
-import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface MyApis {
 
@@ -63,6 +60,11 @@ public interface MyApis {
             @Header("Authorization") String token
     );
 
+    @GET("viewemployee")
+    Call<EmployeesResponse> getEmployees(
+            @Header("Authorization") String token
+    );
+
 
     @FormUrlEncoded
     @POST("updateprofile")
@@ -84,8 +86,9 @@ public interface MyApis {
     @POST
     Call<SlotsResponse> getSlots(
             @Header("Authorization") String token,
-            @Field("service_id") String service_id,
-            @Field("employee_id") String employee_id
+            @Field("service_id") int service_id,
+            @Field("employee_id") int employee_id,
+            @Field("customer_id") int customer_id
     );
 
     @FormUrlEncoded
@@ -95,4 +98,6 @@ public interface MyApis {
             @Field("phone") String phone,
             @Field("password") String password
     );
+
+
 }

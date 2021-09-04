@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ConfirmOrderFragment"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Booking Orders"
+            android:gravity="center"
+            android:textSize="@dimen/_13ssp"
+            android:textColor="@color/black"
+            android:padding="@dimen/_5sdp"
+            tools:ignore="HardcodedText" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            app:cardCornerRadius="@dimen/_80sdp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_10sdp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Car Wash"
+            android:gravity="center"
+            android:textSize="@dimen/_13ssp"
+            android:textColor="@color/black"
+            android:padding="@dimen/_5sdp"
+            tools:ignore="HardcodedText" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp">
+
+            <TextView
+                android:id="@+id/confirm_txtservicename"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Car Wash with fam"
+                android:textSize="@dimen/_12ssp"
+                android:padding="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:layout_toStartOf="@id/confirm_txtprice"
+                android:layout_margin="@dimen/_5sdp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/confirm_txtprice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="INR 50"
+                android:textSize="@dimen/_12ssp"
+                android:padding="@dimen/_5sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_alignParentEnd="true"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Appointment Time"
+                android:textSize="@dimen/_12ssp"
+                android:layout_below="@id/confirm_txtservicename"
+                android:padding="@dimen/_5sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_toStartOf="@id/confirm_txttime"
+                android:textColor="@color/pencilcolor"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/confirm_txttime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="INR 50"
+                android:layout_below="@id/confirm_txtprice"
+                android:textColor="@color/pencilcolor"
+                android:padding="@dimen/_5sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_alignParentEnd="true"
+                tools:ignore="HardcodedText" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/confirm_txttime"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/_20sdp"
+                android:gravity="center">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/confirm_btncomplete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_8sdp"
+                android:text="Complete"
+                android:backgroundTint="@color/slotcolor"
+                android:textAllCaps="false"
+                android:layout_margin="@dimen/_10sdp"
+                app:cornerRadius="@dimen/_8sdp"
+                tools:ignore="HardcodedText" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/confirm_btncancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                app:cornerRadius="@dimen/_8sdp"
+                android:textAllCaps="false"
+                android:layout_margin="@dimen/_10sdp"
+                android:backgroundTint="@android:color/holo_red_dark"
+                tools:ignore="HardcodedText"
+                android:padding="@dimen/_8sdp"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</layout>
