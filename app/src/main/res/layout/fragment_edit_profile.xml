@@ -55,8 +55,8 @@
                     android:layout_height="wrap_content"
                     app:fabSize="mini"
                     tools:ignore="ContentDescription"
-                    android:src="@android:drawable/ic_menu_camera"
-                    android:tint="@color/white"
+                    android:src="@drawable/cameraicon"
+                    android:backgroundTint="@color/white"
                     android:background="@color/white"
                     android:layout_alignBottom="@id/editprofile_cardimg"
                     android:layout_alignEnd="@id/editprofile_cardimg"/>

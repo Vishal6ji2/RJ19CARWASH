@@ -5,6 +5,7 @@ import com.example.rj19carwash.responses.ChangePasswordResponse;
 import com.example.rj19carwash.responses.EmployeesResponse;
 import com.example.rj19carwash.responses.ForgotResponse;
 import com.example.rj19carwash.responses.LoginResponse;
+import com.example.rj19carwash.responses.OrdersResponse;
 import com.example.rj19carwash.responses.ProfileResponse;
 import com.example.rj19carwash.responses.RegisterResponse;
 import com.example.rj19carwash.responses.ServicesResponse;
@@ -83,7 +84,7 @@ public interface MyApis {
     );
 
     @FormUrlEncoded
-    @POST
+    @POST("booking-slot")
     Call<SlotsResponse> getSlots(
             @Header("Authorization") String token,
             @Field("service_id") int service_id,
@@ -92,12 +93,18 @@ public interface MyApis {
     );
 
     @FormUrlEncoded
-    @POST
+    @POST("customer-change-password")
     Call<ChangePasswordResponse> changePassword(
             @Header("Authorization") String token,
             @Field("phone") String phone,
             @Field("password") String password
     );
 
+    @GET("orders/{customer_id}")
+    Call<OrdersResponse> getOrders(
+            @Header("Authorization") String token,
+            @Path("customer_id") int customer_id
+
+    );
 
 }

@@ -54,130 +54,147 @@ public class ProfileResponse implements Serializable
         this.data = data;
     }
 
-
     public static class Data implements Serializable
     {
 
-        @SerializedName("id")
-        @Expose
-        private Integer id;
-        @SerializedName("name")
-        @Expose
-        private Object name;
-        @SerializedName("email")
-        @Expose
-        private Object email;
-        @SerializedName("password")
-        @Expose
-        private String password;
-        @SerializedName("phone")
-        @Expose
-        private String phone;
-        @SerializedName("gender")
-        @Expose
-        private Object gender;
-        @SerializedName("address")
-        @Expose
-        private Object address;
         @SerializedName("profile")
         @Expose
-        private String profile;
-        @SerializedName("customer_status")
-        @Expose
-        private String customerStatus;
-        @SerializedName("created_at")
-        @Expose
-        private String createdAt;
-        @SerializedName("updated_at")
-        @Expose
-        private String updatedAt;
+        private Profile profile;
 
-        public Integer getId() {
-            return id;
-        }
-
-        public void setId(Integer id) {
-            this.id = id;
-        }
-
-        public Object getName() {
-            return name;
-        }
-
-        public void setName(Object name) {
-            this.name = name;
-        }
-
-        public Object getEmail() {
-            return email;
-        }
-
-        public void setEmail(Object email) {
-            this.email = email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
-
-        public Object getGender() {
-            return gender;
-        }
-
-        public void setGender(Object gender) {
-            this.gender = gender;
-        }
-
-        public Object getAddress() {
-            return address;
-        }
-
-        public void setAddress(Object address) {
-            this.address = address;
-        }
-
-        public String getProfile() {
+        public Profile getProfile() {
             return profile;
         }
 
-        public void setProfile(String profile) {
+        public void setProfile(Profile profile) {
             this.profile = profile;
         }
 
-        public String getCustomerStatus() {
-            return customerStatus;
-        }
 
-        public void setCustomerStatus(String customerStatus) {
-            this.customerStatus = customerStatus;
-        }
+        public static class Profile implements Serializable
+        {
 
-        public String getCreatedAt() {
-            return createdAt;
-        }
+            @SerializedName("id")
+            @Expose
+            private Integer id;
+            @SerializedName("name")
+            @Expose
+            private String name;
+            @SerializedName("email")
+            @Expose
+            private String email;
+            @SerializedName("password")
+            @Expose
+            private String password;
+            @SerializedName("phone")
+            @Expose
+            private String phone;
+            @SerializedName("gender")
+            @Expose
+            private Object gender;
+            @SerializedName("address")
+            @Expose
+            private String address;
+            @SerializedName("profile")
+            @Expose
+            private String profile;
+            @SerializedName("customer_status")
+            @Expose
+            private String customerStatus;
+            @SerializedName("created_at")
+            @Expose
+            private String createdAt;
+            @SerializedName("updated_at")
+            @Expose
+            private String updatedAt;
 
-        public void setCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
-        }
+            public Integer getId() {
+                return id;
+            }
 
-        public String getUpdatedAt() {
-            return updatedAt;
-        }
+            public void setId(Integer id) {
+                this.id = id;
+            }
 
-        public void setUpdatedAt(String updatedAt) {
-            this.updatedAt = updatedAt;
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public String getEmail() {
+                return email;
+            }
+
+            public void setEmail(String email) {
+                this.email = email;
+            }
+
+            public String getPassword() {
+                return password;
+            }
+
+            public void setPassword(String password) {
+                this.password = password;
+            }
+
+            public String getPhone() {
+                return phone;
+            }
+
+            public void setPhone(String phone) {
+                this.phone = phone;
+            }
+
+            public Object getGender() {
+                return gender;
+            }
+
+            public void setGender(Object gender) {
+                this.gender = gender;
+            }
+
+            public String getAddress() {
+                return address;
+            }
+
+            public void setAddress(String address) {
+                this.address = address;
+            }
+
+            public String getProfile() {
+                return profile;
+            }
+
+            public void setProfile(String profile) {
+                this.profile = profile;
+            }
+
+            public String getCustomerStatus() {
+                return customerStatus;
+            }
+
+            public void setCustomerStatus(String customerStatus) {
+                this.customerStatus = customerStatus;
+            }
+
+            public String getCreatedAt() {
+                return createdAt;
+            }
+
+            public void setCreatedAt(String createdAt) {
+                this.createdAt = createdAt;
+            }
+
+            public String getUpdatedAt() {
+                return updatedAt;
+            }
+
+            public void setUpdatedAt(String updatedAt) {
+                this.updatedAt = updatedAt;
+            }
+
         }
 
     }
@@ -188,6 +205,7 @@ public class ProfileResponse implements Serializable
         private final static long serialVersionUID = -807485482717328309L;
 
     }
+
 }
 
 

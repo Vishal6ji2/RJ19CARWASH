@@ -5,6 +5,10 @@
 
     <data>
 
+        <variable
+            name="orders"
+            type="com.example.rj19carwash.responses.OrdersResponse.Datum" />
+
     </data>
 
     <RelativeLayout
@@ -33,15 +37,14 @@
             android:id="@+id/order_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Car Wash"
-            tools:ignore="HardcodedText"
-            android:textSize="@dimen/_13ssp"
-            android:textColor="@color/black"
-            android:padding="@dimen/_3sdp"
-            android:layout_toStartOf="@id/order_item_price"
             android:layout_marginStart="@dimen/_10sdp"
+            android:layout_toStartOf="@id/order_item_price"
             android:layout_toEndOf="@id/order_item_card"
-            />
+            android:padding="@dimen/_3sdp"
+            android:text="@{orders.serviceId.name}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_13ssp"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/order_item_status"
@@ -52,8 +55,8 @@
             android:layout_toStartOf="@id/order_item_time"
             android:layout_toEndOf="@id/order_item_card"
             android:padding="@dimen/_3sdp"
+            android:text="Pending"
             android:textColor="@color/pencilcolor"
-            android:text="Your order Pending now"
             android:textSize="@dimen/_12ssp"
             tools:ignore="HardcodedText" />
 
@@ -62,13 +65,12 @@
             android:id="@+id/order_item_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="INR 50"
-            tools:ignore="HardcodedText"
-            android:textSize="@dimen/_13ssp"
-            android:textColor="@android:color/holo_red_dark"
-            android:padding="@dimen/_3sdp"
             android:layout_alignParentEnd="true"
-            />
+            android:padding="@dimen/_3sdp"
+            android:text="@{orders.price}"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="@dimen/_13ssp"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/order_item_time"
@@ -77,11 +79,10 @@
             android:layout_below="@id/order_item_price"
             android:layout_alignParentEnd="true"
             android:padding="@dimen/_3sdp"
+            android:text="2021-09-02 12:00:00"
             android:textColor="@color/pencilcolor"
-            android:text="10:00pm"
             android:textSize="@dimen/_12ssp"
             tools:ignore="HardcodedText" />
-
 
     </RelativeLayout>
 

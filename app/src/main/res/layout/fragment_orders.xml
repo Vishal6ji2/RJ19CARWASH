@@ -17,8 +17,8 @@
             android:layout_height="wrap_content"
             android:text="Booking Orders"
             android:gravity="center"
-            android:padding="@dimen/_5sdp"
-            android:textSize="@dimen/_13ssp"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_14ssp"
             android:textColor="@color/black"
             tools:ignore="HardcodedText" />
 

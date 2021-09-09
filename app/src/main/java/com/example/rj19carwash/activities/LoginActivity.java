@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         setViewGroupEnabled(loginBinding.phoneLayout, false);
         loginBinding.loginLoadinglayout.setVisibility(View.VISIBLE);
 
-        RetrofitClient.getInstance().getapi().loginResponse(phone,password).enqueue(new Callback<LoginResponse>() {
+        RetrofitClient.getInstance().getapi().loginResponse(phone, password).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null){

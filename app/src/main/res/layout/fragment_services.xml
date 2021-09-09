@@ -12,9 +12,10 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/services_txtsubname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Car Wash"
+            android:text=""
             android:textSize="@dimen/_13ssp"
             android:padding="@dimen/_5sdp"
             android:gravity="center"

@@ -19,9 +19,9 @@ import java.util.ArrayList;
 public class SlotsAdapter extends RecyclerView.Adapter<SlotsAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<SlotsResponse.Data.Slot> arrSlotList;
+    ArrayList<SlotsResponse.Data.Date> arrSlotList;
 
-    public SlotsAdapter(Context context, ArrayList<SlotsResponse.Data.Slot> arrSlotList) {
+    public SlotsAdapter(Context context, ArrayList<SlotsResponse.Data.Date> arrSlotList) {
         this.context = context;
         this.arrSlotList = arrSlotList;
     }
@@ -54,8 +54,8 @@ public class SlotsAdapter extends RecyclerView.Adapter<SlotsAdapter.ViewHolder> 
             this.slotsItemLayoutBinding = slotsItemLayoutBinding;
         }
 
-        public void bindSlots(SlotsResponse.Data.Slot slot){
-            slotsItemLayoutBinding.setSlots(slot);
+        public void bindSlots(SlotsResponse.Data.Date slotList){
+            slotsItemLayoutBinding.setSlots(slotList);
 
             slotsItemLayoutBinding.executePendingBindings();
         }

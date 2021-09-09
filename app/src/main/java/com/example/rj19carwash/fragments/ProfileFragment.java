@@ -112,14 +112,14 @@ public class ProfileFragment extends Fragment implements OnMapReadyCallback {
                                     ProfileResponse.Data profile = response.body().getData();
 
                                     try {
-                                        int id = profile.getId() ;
-                                        String name = profile.getName().toString() ;
-                                        String email = profile.getEmail().toString() ;
-                                        String phone = profile.getPhone() ;
+                                        int id = profile.getProfile().getId() ;
+                                        String name = profile.getProfile().getName();
+                                        String email = profile.getProfile().getEmail();
+                                        String phone = profile.getProfile().getPhone() ;
                                         String gender = "" ; //U can remove later.. for now just for fix
-                                        String address = profile.getAddress().toString() ;
-                                        String getProfile = profile.getProfile() ;
-                                        String status = profile.getCustomerStatus() ;
+                                        String address = profile.getProfile().getAddress();
+                                        String getProfile = profile.getProfile().getProfile() ;
+                                        String status = profile.getProfile().getCustomerStatus() ;
 
                                         userSession.setKeyCustomerId(id);
                                         userSession.setUserSession(name, email, phone, gender, address, getProfile, status);
@@ -127,7 +127,7 @@ public class ProfileFragment extends Fragment implements OnMapReadyCallback {
                                         Toast.makeText(getContext(), "Error while fetching data. Try again", Toast.LENGTH_SHORT).show();
                                     }
 
-                                    Log.d("profile",response.body().getData().getId().toString());
+                                    Log.d("profile",response.body().getData().getProfile().getId().toString());
                                     setCustomerData();
                                 }
                             }else {

@@ -40,6 +40,19 @@ public class SubCategoriesAdapter extends RecyclerView.Adapter<SubCategoriesAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         holder.bindCategories(arrCategoriesList.get(position));
+
+
+
+        holder.itemView.setOnClickListener(view -> {
+            // goto subcategories fragment
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("subcat_id", arrCategoriesList.get(position).getId());
+            bundle.putString("subcat_name", arrCategoriesList.get(position).getCategoryName());
+
+            Navigation.findNavController(view).navigate(R.id.subcat_to_services, bundle);
+
+        });
     }
 
     @Override

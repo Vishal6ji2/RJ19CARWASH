@@ -39,15 +39,27 @@ public class ServicesFragment extends Fragment {
 
     UserSession userSession;
 
+    Bundle bundle;
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        servicesBinding = DataBindingUtil.inflate(inflater, R.layout.services_item_layout, container, false);
+        servicesBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_services, container, false);
+
+        bundle = getArguments();
 
         if (isConnected(requireActivity())){
-            initViews();
+            if (bundle != null) {
+
+                if (bundle.getString("subcat_name") != null){
+                    servicesBinding.servicesTxtsubname.setText(bundle.getString("subcat_name"));
+                }
+                initViews();
+
+            }
         }else {
             toast(requireActivity(), "Check Your Internet Connection");
         }

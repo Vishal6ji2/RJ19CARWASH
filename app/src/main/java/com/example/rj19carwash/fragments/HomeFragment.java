@@ -30,7 +30,7 @@ import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
 
-    CategoriesViewModel categoriesViewModel;
+
     FragmentHomeBinding fragmentHomeBinding;
 
     ArrayList<CategoriesResponse.Category> arrCategoriesList = new ArrayList<>();

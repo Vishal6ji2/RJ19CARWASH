@@ -44,7 +44,7 @@ public class BookServiceFragment extends Fragment {
 
     SlotsAdapter slotsAdapter;
 
-    ArrayList<SlotsResponse.Data.Slot> arrSlotsList = new ArrayList<>();
+    ArrayList<SlotsResponse.Data.Date> arrSlotsList = new ArrayList<>();
 
     ArrayList<EmployeesResponse.Employee> arrEmployeesList = new ArrayList<>();
 
@@ -126,7 +126,7 @@ public class BookServiceFragment extends Fragment {
                         if (response.isSuccessful()){
                             if (response.body() != null){
                                 if (response.body().getResponseCode() == 201){
-                                    arrSlotsList = response.body().getData().getSlotArrayList();
+                                    arrSlotsList = response.body().getData().getSlotList().getDate();
 
                                     setSlotsToRecyclerview(arrSlotsList);
                                 }
@@ -142,7 +142,7 @@ public class BookServiceFragment extends Fragment {
 
     }
 
-    private void setSlotsToRecyclerview(ArrayList<SlotsResponse.Data.Slot> arrSlotsList) {
+    private void setSlotsToRecyclerview(ArrayList<SlotsResponse.Data.Date> arrSlotsList) {
 
         bookServiceBinding.bookserviceSlotsrecyclerview.setHasFixedSize(true);
 
