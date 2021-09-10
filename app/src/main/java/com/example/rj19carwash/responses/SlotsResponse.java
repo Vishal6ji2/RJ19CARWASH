@@ -4,7 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+
 
 public class SlotsResponse implements Serializable
 {
@@ -54,26 +56,23 @@ public class SlotsResponse implements Serializable
         this.data = data;
     }
 
-    public static class Errors implements Serializable
-    {
-    }
 
     public static class Data implements Serializable
     {
 
-        @SerializedName("slotList")
+        @SerializedName("slotlist")
         @Expose
-        private SlotList slotList;
+        private Slotlist slotlist;
 
-        public SlotList getSlotList() {
-            return slotList;
+        public Slotlist getSlotlist() {
+            return slotlist;
         }
 
-        public void setSlotArrayList(SlotList slotList) {
-            this.slotList = slotList;
+        public void setSlotlist(Slotlist slotlist) {
+            this.slotlist = slotlist;
         }
 
-        public static class SlotList implements Serializable
+        public static class Slotlist implements Serializable
         {
 
             @SerializedName("date")
@@ -88,153 +87,48 @@ public class SlotsResponse implements Serializable
                 this.date = date;
             }
 
-        }
-
-        public static class Date implements Serializable
-        {
-
-            @SerializedName("name")
-            @Expose
-            private String name;
-            @SerializedName("time")
-            @Expose
-            private Time time;
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
-
-            public Time getTime() {
-                return time;
-            }
-
-            public void setTime(Time time) {
-                this.time = time;
-            }
-
-            public static class Time implements Serializable
+            public static class Date implements Serializable
             {
 
-                @SerializedName("0")
+                @SerializedName("name")
                 @Expose
-                private String _0;
-                @SerializedName("1")
+                private String name;
+                @SerializedName("time")
                 @Expose
-                private String _1;
-                @SerializedName("2")
-                @Expose
-                private String _2;
-                @SerializedName("3")
-                @Expose
-                private String _3;
-                @SerializedName("4")
-                @Expose
-                private String _4;
-                @SerializedName("5")
-                @Expose
-                private String _5;
-                @SerializedName("6")
-                @Expose
-                private String _6;
-                @SerializedName("7")
-                @Expose
-                private String _7;
-                @SerializedName("8")
-                @Expose
-                private String _8;
-                @SerializedName("9")
-                @Expose
-                private String _9;
+                private ArrayList<String> time = null;
 
-                public String get0() {
-                    return _0;
+                public String getName() {
+                    return name;
                 }
 
-                public void set0(String _0) {
-                    this._0 = _0;
+                public void setName(String name) {
+                    this.name = name;
                 }
 
-                public String get1() {
-                    return _1;
+                public ArrayList<String> getTime() {
+                    return time;
                 }
 
-                public void set1(String _1) {
-                    this._1 = _1;
-                }
-
-                public String get2() {
-                    return _2;
-                }
-
-                public void set2(String _2) {
-                    this._2 = _2;
-                }
-
-                public String get3() {
-                    return _3;
-                }
-
-                public void set3(String _3) {
-                    this._3 = _3;
-                }
-
-                public String get4() {
-                    return _4;
-                }
-
-                public void set4(String _4) {
-                    this._4 = _4;
-                }
-
-                public String get5() {
-                    return _5;
-                }
-
-                public void set5(String _5) {
-                    this._5 = _5;
-                }
-
-                public String get6() {
-                    return _6;
-                }
-
-                public void set6(String _6) {
-                    this._6 = _6;
-                }
-
-                public String get7() {
-                    return _7;
-                }
-
-                public void set7(String _7) {
-                    this._7 = _7;
-                }
-
-                public String get8() {
-                    return _8;
-                }
-
-                public void set8(String _8) {
-                    this._8 = _8;
-                }
-
-                public String get9() {
-                    return _9;
-                }
-
-                public void set9(String _9) {
-                    this._9 = _9;
+                public void setTime(ArrayList<String> time) {
+                    this.time = time;
                 }
 
             }
 
         }
+
     }
+
+    public static class Errors implements Serializable
+    {
+
+        private final static long serialVersionUID = -807485482717328309L;
+
+    }
+
 }
+
+
 
 
 

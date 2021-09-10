@@ -44,9 +44,13 @@ public class LoginActivity extends AppCompatActivity {
 
         loginBinding.btnSendOtp.setOnClickListener(view -> {
             if (isConnected(this)) {
-                if (!((loginBinding.loginEtPhone).getText().toString().matches(phonePattern))) {
+                if (loginBinding.loginEtPhone.getText().toString().isEmpty()){
+                    toast(LoginActivity.this, "Please enter Phone number");
+                }else if (!((loginBinding.loginEtPhone).getText().toString().matches(phonePattern))) {
                     toast(this, "Phone number is invalid");
-                } else {
+                }else if (loginBinding.loginEtPass.getText().toString().isEmpty()){
+                    toast(LoginActivity.this, "Please enter password");
+                }else {
                     onSendOtpClick(loginBinding.loginEtPhone.getText().toString(), loginBinding.loginEtPass.getText().toString());
                 }
             }else {

@@ -1,20 +1,18 @@
 package com.example.rj19carwash.fragments;
 
 import static com.example.rj19carwash.Views.toast;
-import static com.example.rj19carwash.networks.CheckInternet.isConnected;
 import static com.example.rj19carwash.sessions.UserSession.KEY_PHONE;
 import static com.example.rj19carwash.sessions.UserSession.KEY_TOKEN;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 
 import com.example.rj19carwash.R;
 import com.example.rj19carwash.databinding.FragmentChangePasswordBinding;
@@ -33,35 +31,27 @@ public class ChangePasswordFragment extends Fragment {
     UserSession userSession;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         changePasswordBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_change_password, container, false);
 
-        if (isConnected(requireActivity())){
+        userSession = new UserSession(requireContext());
 
-            initViews();
-        }else {
-            toast(requireActivity(), "Check your Internet Connection");
-        }
+        changePasswordBinding.changepwdBtnsave.setOnClickListener(view -> {
+
+            if (!(changePasswordBinding.changepwdNewpwd.getText().toString().equals(""))){
+                toast(requireActivity(), "Enter New Password");
+            }else if (!(changePasswordBinding.changepwdConfirmpwd.getText().toString().equals(changePasswordBinding.changepwdNewpwd.getText().toString()))){
+                toast(requireActivity(), "Password doesn't match!");
+            }else {
+                changePassword();
+            }
+
+        });
 
         return changePasswordBinding.getRoot();
     }
 
-    private void initViews() {
-
-        userSession = new UserSession(requireActivity());
-
-        if (!changePasswordBinding.changepwdNewpwd.getText().toString().equals("")){
-            toast(requireActivity(), "Enter New Password");
-        }else if (!changePasswordBinding.changepwdConfirmpwd.getText().toString().equals(changePasswordBinding.changepwdNewpwd.getText().toString())){
-            toast(requireActivity(), "Password doesn't match!");
-        }else {
-
-            changePassword();
-        }
-
-    }
 
     private void changePassword() {
 
@@ -88,4 +78,5 @@ public class ChangePasswordFragment extends Fragment {
                     }
                 });
     }
+
 }

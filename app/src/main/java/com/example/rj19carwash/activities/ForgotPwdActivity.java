@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -61,6 +62,8 @@ public class ForgotPwdActivity extends AppCompatActivity {
                             if (response.body() != null){
                                 if (response.body().getResponseCode() == 201){
                                    toast(ForgotPwdActivity.this, response.body().getMessage());
+                                   startActivity(new Intent(ForgotPwdActivity.this, LoginActivity.class));
+                                   finish();
                                 }
                             }else {
                                 toast(ForgotPwdActivity.this, "try again later");

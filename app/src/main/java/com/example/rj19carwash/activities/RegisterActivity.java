@@ -41,7 +41,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         registerBinding.btnRegister.setOnClickListener(view -> {
             if (isConnected(this)) {
-                if (!((registerBinding.registerEtPhone).getText().toString().matches(phonePattern))) {
+                if (registerBinding.registerEtPhone.getText().toString().isEmpty()){
+                    toast(RegisterActivity.this, "Please enter Phone number");
+                }else if (!((registerBinding.registerEtPhone).getText().toString().matches(phonePattern))) {
                     toast(this, "Phone number is invalid");
                 } else {
                     onSendOtpClick(Objects.requireNonNull(Objects.requireNonNull(registerBinding.registerEtPhone).getText()).toString());

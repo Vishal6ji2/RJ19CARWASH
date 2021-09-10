@@ -15,6 +15,8 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.rj19carwash.R;
 import com.example.rj19carwash.adapters.SlotsAdapter;
@@ -53,7 +55,7 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
     SlotsAdapter slotsAdapter;
 
-    ArrayList<SlotsResponse.Data.Date> arrSlotsList = new ArrayList<>();
+    ArrayList<SlotsResponse.Data.Slotlist.Date> arrSlotsList = new ArrayList<>();
 
     ArrayList<ServicesResponse.Service.Employee> arrEmployeesList = new ArrayList<>();
 
@@ -92,7 +94,11 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
         bookServiceBinding.bookserviceBtnbook.setOnClickListener(view -> {
 
-            bookService();
+            Bundle bundle = new Bundle();
+            bundle.putString("inrrupees", inrRupees);
+
+            Navigation.findNavController(view).navigate(R.id.tobookservice, bundle);
+//            bookService();
 
         });
 
@@ -217,7 +223,7 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
                         if (response.isSuccessful()){
                             if (response.body() != null){
                                 if (response.body().getResponseCode() == 201){
-                                    arrSlotsList = response.body().getData().getSlotList().getDate();
+                                    arrSlotsList = response.body().getData().getSlotlist().getDate();
 
                                     setSlotsToRecyclerview(arrSlotsList);
                                 }else {
@@ -237,11 +243,12 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
     }
 
-    private void setSlotsToRecyclerview(ArrayList<SlotsResponse.Data.Date> arrSlotsList) {
+    private void setSlotsToRecyclerview(ArrayList<SlotsResponse.Data.Slotlist.Date> arrSlotsList) {
 
         bookServiceBinding.bookserviceSlotsrecyclerview.setHasFixedSize(true);
 
         slotsAdapter = new SlotsAdapter(requireActivity(), arrSlotsList);
+        bookServiceBinding.bookserviceSlotsrecyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 4));
         bookServiceBinding.bookserviceSlotsrecyclerview.setAdapter(slotsAdapter);
 
     }

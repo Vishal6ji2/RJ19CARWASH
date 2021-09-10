@@ -29,7 +29,14 @@
         android:id="@+id/ordersFragment"
         android:name="com.example.rj19carwash.fragments.OrdersFragment"
         android:label="fragment_orders"
-        tools:layout="@layout/fragment_orders" />
+        tools:layout="@layout/fragment_orders" >
+
+        <action android:id="@+id/checkorderstatus"
+            app:destination="@+id/confirmOrderFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
@@ -100,8 +107,8 @@
         android:label="fragment_book_service"
         tools:layout="@layout/fragment_book_service" >
 
-        <action android:id="@+id/toconfirmorder"
-            app:destination="@+id/confirmOrderFragment"
+        <action android:id="@+id/toconfirmationorder"
+            app:destination="@+id/confirmationOrderFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"/>
 
@@ -112,10 +119,16 @@
         android:name="com.example.rj19carwash.fragments.ConfirmOrderFragment"
         android:label="fragment_confirm_order"
         tools:layout="@layout/fragment_confirm_order" />
+
     <fragment
         android:id="@+id/confirmationOrderFragment"
         android:name="com.example.rj19carwash.fragments.ConfirmationOrderFragment"
         android:label="fragment_confirmation_order"
-        tools:layout="@layout/fragment_confirmation_order" />
+        tools:layout="@layout/fragment_confirmation_order" >
+
+        <action android:id="@+id/gobackhome"
+            app:destination="@+id/homeFragment"/>
+
+    </fragment>
 
 </navigation>

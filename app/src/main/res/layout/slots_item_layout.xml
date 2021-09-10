@@ -7,7 +7,7 @@
 
         <variable
             name="slots"
-            type="com.example.rj19carwash.responses.SlotsResponse.Data.Date" />
+            type="com.example.rj19carwash.responses.SlotsResponse.Data.Slotlist.Date" />
 
     </data>
 
@@ -39,110 +39,13 @@
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/slots_item_timerecyclerview"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            app:cardBackgroundColor="@color/slotcolor">
-
-            <TextView
-                android:id="@+id/slots_item_txtt1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{slots.Time.get0()}"
-                android:textSize="@dimen/_12ssp"
-                tools:ignore="HardcodedText"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:padding="@dimen/_5sdp"
-                android:layout_margin="@dimen/_3sdp"/>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            app:cardBackgroundColor="@color/slotcolor">
-
-            <TextView
-                android:id="@+id/slots_item_txtt2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{slots.Time.get1()}"
-                android:textSize="@dimen/_12ssp"
-                tools:ignore="HardcodedText"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:padding="@dimen/_5sdp"
-                android:layout_margin="@dimen/_3sdp"/>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            app:cardBackgroundColor="@color/slotcolor">
-
-            <TextView
-                android:id="@+id/slots_item_txtt3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{slots.Time.get2()}"
-                android:textSize="@dimen/_12ssp"
-                tools:ignore="HardcodedText"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:padding="@dimen/_5sdp"
-                android:layout_margin="@dimen/_3sdp"/>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            app:cardBackgroundColor="@color/slotcolor">
-
-            <TextView
-                android:id="@+id/slots_item_txtt4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{slots.Time.get3()}"
-                android:textSize="@dimen/_12ssp"
-                tools:ignore="HardcodedText"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:padding="@dimen/_5sdp"
-                android:layout_margin="@dimen/_3sdp"/>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            app:cardBackgroundColor="@color/slotcolor">
-
-            <TextView
-                android:id="@+id/slots_item_txtt5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{slots.Time.get4()}"
-                android:textSize="@dimen/_12ssp"
-                tools:ignore="HardcodedText"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:padding="@dimen/_5sdp"
-                android:layout_margin="@dimen/_3sdp"/>
-
-        </androidx.cardview.widget.CardView>
+            tools:listitem="@layout/time_item_layout"
+            tools:itemCount="5"/>
 
     </LinearLayout>
 

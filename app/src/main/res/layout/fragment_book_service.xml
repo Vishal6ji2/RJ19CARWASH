@@ -68,7 +68,8 @@
                 android:id="@+id/bookservice_slotsrecyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:itemCount="1"
+                android:visibility="visible"
+                tools:itemCount="3"
                 tools:listitem="@layout/slots_item_layout"/>
 
             <com.google.android.material.button.MaterialButton
