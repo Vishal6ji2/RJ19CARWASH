@@ -2,6 +2,7 @@ package com.example.rj19carwash.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -57,13 +58,14 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
             servicesItemLayoutBinding.setServices(service);
             servicesItemLayoutBinding.executePendingBindings();
 
-            servicesItemLayoutBinding.getRoot().setOnClickListener(view -> {
+            servicesItemLayoutBinding.servicesItemBtnrupees.setOnClickListener(view -> {
                 Bundle bundle = new Bundle();
                 bundle.putInt("id", service.getId());
                 bundle.putString("image", service.getServiceImage());
                 bundle.putString("name", service.getName());
                 bundle.putString("description", service.getLongDescription());
-                bundle.putString("employees", service.getEmplyee());
+                bundle.putSerializable("employees", service.getEmployee());
+                bundle.putString("inrrupees", service.getPrice());
 
                 Navigation.findNavController(view).navigate(R.id.tobookservice, bundle);
             });

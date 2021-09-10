@@ -10,4 +10,5 @@
     <color name="lightgrey">#08000000</color>
     <color name="slotcolor">#4BB543</color>
     <color name="pencilcolor">#91919F</color>
+    <color name="redcolor">#EC1919</color>
 </resources>

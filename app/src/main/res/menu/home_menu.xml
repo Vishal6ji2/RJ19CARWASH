@@ -9,7 +9,9 @@
     <item android:id="@+id/transactionFragment" android:title="Transaction" android:icon="@drawable/transactionicon"
         tools:ignore="HardcodedText" />
 
+<!--
     <item android:id="@+id/placeholder" android:title=""/>
+-->
 
     <item android:id="@+id/ordersFragment" android:title="Orders" android:icon="@drawable/ordersicon"
         tools:ignore="HardcodedText" />

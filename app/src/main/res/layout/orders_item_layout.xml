@@ -55,8 +55,6 @@
             android:layout_toStartOf="@id/order_item_time"
             android:layout_toEndOf="@id/order_item_card"
             android:padding="@dimen/_3sdp"
-            android:text="Pending"
-            android:textColor="@color/pencilcolor"
             android:textSize="@dimen/_12ssp"
             tools:ignore="HardcodedText" />
 

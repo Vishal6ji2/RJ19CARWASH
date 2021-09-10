@@ -41,8 +41,6 @@ public class SubCategoriesAdapter extends RecyclerView.Adapter<SubCategoriesAdap
 
         holder.bindCategories(arrCategoriesList.get(position));
 
-
-
         holder.itemView.setOnClickListener(view -> {
             // goto subcategories fragment
 

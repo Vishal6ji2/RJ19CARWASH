@@ -31,6 +31,7 @@ import retrofit2.Response;
 public class OrdersFragment extends Fragment {
 
     FragmentOrdersBinding ordersBinding;
+
     OrdersAdapter ordersAdapter;
 
     UserSession userSession;

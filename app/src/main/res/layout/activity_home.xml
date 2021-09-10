@@ -32,11 +32,13 @@
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 
+<!--
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_anchor="@id/home_bottom_appbar"
             tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+-->
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/navhostfragment"

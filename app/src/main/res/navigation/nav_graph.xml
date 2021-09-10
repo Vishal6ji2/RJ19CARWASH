@@ -109,8 +109,13 @@
 
     <fragment
         android:id="@+id/confirmOrderFragment"
-        android:name="com.example.rj19carwash.ConfirmOrderFragment"
+        android:name="com.example.rj19carwash.fragments.ConfirmOrderFragment"
         android:label="fragment_confirm_order"
         tools:layout="@layout/fragment_confirm_order" />
+    <fragment
+        android:id="@+id/confirmationOrderFragment"
+        android:name="com.example.rj19carwash.fragments.ConfirmationOrderFragment"
+        android:label="fragment_confirmation_order"
+        tools:layout="@layout/fragment_confirmation_order" />
 
 </navigation>

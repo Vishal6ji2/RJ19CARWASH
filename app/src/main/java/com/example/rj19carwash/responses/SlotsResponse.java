@@ -149,7 +149,6 @@ public class SlotsResponse implements Serializable
                 @SerializedName("9")
                 @Expose
                 private String _9;
-                private final static long serialVersionUID = -5582182968423411704L;
 
                 public String get0() {
                     return _0;

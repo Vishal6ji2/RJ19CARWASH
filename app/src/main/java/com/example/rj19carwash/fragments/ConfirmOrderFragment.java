@@ -1,4 +1,4 @@
-package com.example.rj19carwash;
+package com.example.rj19carwash.fragments;
 
 import android.os.Bundle;
 
@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rj19carwash.R;
 import com.example.rj19carwash.databinding.FragmentConfirmOrderBinding;
 
 public class ConfirmOrderFragment extends Fragment {

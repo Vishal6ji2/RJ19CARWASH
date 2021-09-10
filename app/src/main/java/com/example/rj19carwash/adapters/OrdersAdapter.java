@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,6 +53,24 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
 
         public void bindOrders(OrdersResponse.Datum ordersResponse){
             ordersItemLayoutBinding.setOrders(ordersResponse);
+
+            switch (ordersResponse.getStatus()) {
+                case "0":
+                    ordersItemLayoutBinding.orderItemStatus.setText("Pending");
+                    ordersItemLayoutBinding.orderItemStatus.setTextColor(ContextCompat.getColor(ordersItemLayoutBinding.getRoot().getContext(), R.color.quantum_yellow));
+
+                    break;
+                case "-1":
+                    ordersItemLayoutBinding.orderItemStatus.setText("Cancelled");
+                    ordersItemLayoutBinding.orderItemStatus.setTextColor(ContextCompat.getColor(ordersItemLayoutBinding.getRoot().getContext(), R.color.quantum_googred));
+
+                    break;
+                case "1":
+                    ordersItemLayoutBinding.orderItemStatus.setText("Completed");
+                    ordersItemLayoutBinding.orderItemStatus.setTextColor(ContextCompat.getColor(ordersItemLayoutBinding.getRoot().getContext(), R.color.quantum_googgreen));
+                    break;
+            }
+
             ordersItemLayoutBinding.executePendingBindings();
         }
     }

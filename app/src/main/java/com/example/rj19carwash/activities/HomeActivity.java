@@ -23,8 +23,8 @@ public class HomeActivity extends AppCompatActivity {
 
         homeBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
 
-        homeBinding.homeBnv.setBackground(null);
-        homeBinding.homeBnv.getMenu().getItem(2).setEnabled(false);
+//        homeBinding.homeBnv.setBackground(null);
+//        homeBinding.homeBnv.getMenu().getItem(2).setEnabled(false);
 
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.navhostfragment);
