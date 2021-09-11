@@ -1,66 +1,94 @@
 package com.example.rj19carwash.fragments;
 
+import static com.example.rj19carwash.Views.toast;
+import static com.example.rj19carwash.sessions.UserSession.KEY_CUSTOMER_ID;
+import static com.example.rj19carwash.sessions.UserSession.KEY_TOKEN;
+
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rj19carwash.R;
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TransactionFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.rj19carwash.R;
+import com.example.rj19carwash.adapters.TransactionsAdapter;
+import com.example.rj19carwash.databinding.FragmentTransactionBinding;
+import com.example.rj19carwash.networks.RetrofitClient;
+import com.example.rj19carwash.responses.OrdersResponse;
+import com.example.rj19carwash.sessions.UserSession;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
 public class TransactionFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    FragmentTransactionBinding transactionBinding;
+    ArrayList<OrdersResponse.Datum> arrTransactionList = new ArrayList<>();
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    TransactionsAdapter transactionsAdapter;
+    UserSession userSession;
 
-    public TransactionFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TransactionFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TransactionFragment newInstance(String param1, String param2) {
-        TransactionFragment fragment = new TransactionFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_transaction, container, false);
+        transactionBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_transaction, container, false);
+
+        initViews();
+
+        return transactionBinding.getRoot();
+    }
+
+    private void initViews() {
+
+        userSession = new UserSession(requireContext());
+        transactionBinding.transactionsRecyclerview.setHasFixedSize(true);
+
+        getTransactions(userSession.getKeyToken().get(KEY_TOKEN), userSession.getCustomerId().get(KEY_CUSTOMER_ID));
+
+    }
+
+    private void getTransactions(String token, Integer customer_id) {
+
+        RetrofitClient.getInstance().getapi().getOrders("Bearer "+token, customer_id)
+                .enqueue(new Callback<OrdersResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<OrdersResponse> call, @NonNull Response<OrdersResponse> response) {
+
+                        if (response.isSuccessful()){
+                            if (response.body() != null){
+                                if (response.body().getResponseCode() == 201){
+                                    arrTransactionList = response.body().getData();
+                                    transactionsAdapter = new TransactionsAdapter(requireActivity(), arrTransactionList);
+                                    transactionBinding.transactionsRecyclerview.setLayoutManager(new LinearLayoutManager(requireActivity()));
+                                    transactionBinding.transactionsRecyclerview.setAdapter(transactionsAdapter);
+
+                                }else {
+                                    // this is showing
+                                    toast(requireActivity(), response.body().getMessage());
+
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<OrdersResponse> call, @NonNull Throwable t) {
+
+                        arrTransactionList = null;
+                        Log.d("failtransactions",t.getMessage());
+                        toast(requireActivity(), "Server error! try again later");
+                    }
+                });
     }
 }

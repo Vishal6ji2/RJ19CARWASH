@@ -5,6 +5,7 @@ import com.example.rj19carwash.responses.ChangePasswordResponse;
 import com.example.rj19carwash.responses.EmployeesResponse;
 import com.example.rj19carwash.responses.ForgotResponse;
 import com.example.rj19carwash.responses.LoginResponse;
+import com.example.rj19carwash.responses.OrderStatusResponse;
 import com.example.rj19carwash.responses.OrdersResponse;
 import com.example.rj19carwash.responses.ProfileResponse;
 import com.example.rj19carwash.responses.RegisterResponse;
@@ -61,10 +62,12 @@ public interface MyApis {
             @Header("Authorization") String token
     );
 
+/*
     @GET("viewemployee")
     Call<EmployeesResponse> getEmployees(
             @Header("Authorization") String token
     );
+*/
 
 
     @FormUrlEncoded
@@ -105,6 +108,14 @@ public interface MyApis {
             @Header("Authorization") String token,
             @Path("customer_id") int customer_id
 
+    );
+
+    @FormUrlEncoded
+    @POST("order-confirm")
+    Call<OrderStatusResponse> setOrderStatus(
+            @Header("Authorization") String token,
+            @Field("order_id") int order_id,
+            @Field("status") String status
     );
 
 }

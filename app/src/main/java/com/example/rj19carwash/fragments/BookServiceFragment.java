@@ -36,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -94,13 +95,10 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
         bookServiceBinding.bookserviceBtnbook.setOnClickListener(view -> {
 
-            Bundle bundle = new Bundle();
-            bundle.putString("inrrupees", inrRupees);
-
-            Navigation.findNavController(view).navigate(R.id.tobookservice, bundle);
-//            bookService();
+            bookService();
 
         });
+
 
         bookServiceBinding.bookserviceSpinemployee.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -225,10 +223,14 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
                                 if (response.body().getResponseCode() == 201){
                                     arrSlotsList = response.body().getData().getSlotlist().getDate();
 
+                                    Log.d("slotslist", Arrays.toString(arrSlotsList.toArray()));
                                     setSlotsToRecyclerview(arrSlotsList);
                                 }else {
+                                    Log.d("slot", response.body().getMessage());
                                     toast(requireActivity(), "Something went wrong! try again later");
                                 }
+                            }else {
+                                Log.d("slotnull", response.message());
                             }
                         }
                     }
@@ -256,6 +258,12 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
     @Override
     public void onPaymentSuccess(String s) {
         toast(requireContext(), s);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("message", s);
+        bundle.putInt("result", 1);
+
+        Navigation.findNavController(requireView()).navigate(R.id.toconfirmationorder, bundle);
 //        textView.setText("Payment ID: " + s);
 //        textView.append("\nOrder ID: " + order.get("id"));
 //        textView.append("\n" + order_reference_no);
@@ -265,6 +273,11 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
     @Override
     public void onPaymentError(int i, String s) {
         toast(requireContext(), "Error: " + s);
+        Bundle bundle = new Bundle();
+        bundle.putString("message", s);
+        bundle.putInt("result", 2);
+
+        Navigation.findNavController(requireView()).navigate(R.id.toconfirmationorder, bundle);
 //        textView.setText("Error: " + s);
     }
 }

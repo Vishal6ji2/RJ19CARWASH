@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="orders"
+            name="transaction"
             type="com.example.rj19carwash.responses.OrdersResponse.Datum" />
 
     </data>
@@ -17,14 +17,14 @@
         android:layout_margin="@dimen/_5sdp">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/order_item_card"
+            android:id="@+id/transaction_item_card"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
             app:cardCornerRadius="@dimen/_50sdp"
             app:cardBackgroundColor="@color/design_default_color_primary">
 
             <ImageView
-                android:id="@+id/order_item_img"
+                android:id="@+id/transaction_item_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -34,49 +34,47 @@
 
 
         <TextView
-            android:id="@+id/order_item_name"
+            android:id="@+id/transaction_item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
-            android:layout_toStartOf="@id/order_item_price"
-            android:layout_toEndOf="@id/order_item_card"
+            android:layout_toStartOf="@id/transaction_item_price"
+            android:layout_toEndOf="@id/transaction_item_card"
             android:padding="@dimen/_3sdp"
-            android:text="@{orders.serviceId.name}"
+            android:text="@{transaction.serviceId.name}"
             android:textColor="@color/black"
             android:textSize="@dimen/_13ssp"
             tools:ignore="HardcodedText" />
 
         <TextView
-            android:id="@+id/order_item_status"
+            android:id="@+id/transaction_item_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/order_item_name"
+            android:layout_below="@id/transaction_item_name"
             android:layout_marginStart="@dimen/_10sdp"
-            android:layout_toStartOf="@id/order_item_time"
-            android:layout_toEndOf="@id/order_item_card"
+            android:layout_toStartOf="@id/transaction_item_time"
+            android:layout_toEndOf="@id/transaction_item_card"
             android:padding="@dimen/_3sdp"
-            android:text="Pending"
-            android:textColor="@color/quantum_yellow"
             android:textSize="@dimen/_12ssp"
             tools:ignore="HardcodedText" />
 
 
         <TextView
-            android:id="@+id/order_item_price"
+            android:id="@+id/transaction_item_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:padding="@dimen/_3sdp"
-            android:text="@{orders.price}"
+            android:text="@{transaction.price}"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="@dimen/_13ssp"
             tools:ignore="HardcodedText" />
 
         <TextView
-            android:id="@+id/order_item_time"
+            android:id="@+id/transaction_item_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/order_item_price"
+            android:layout_below="@id/transaction_item_price"
             android:layout_alignParentEnd="true"
             android:padding="@dimen/_3sdp"
             android:text="2021-09-02 12:00:00"

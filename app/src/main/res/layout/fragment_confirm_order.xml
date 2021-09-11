@@ -38,16 +38,6 @@
 
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Car Wash"
-            android:gravity="center"
-            android:textSize="@dimen/_13ssp"
-            android:textColor="@color/black"
-            android:padding="@dimen/_5sdp"
-            tools:ignore="HardcodedText" />
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -118,7 +118,14 @@
         android:id="@+id/confirmOrderFragment"
         android:name="com.example.rj19carwash.fragments.ConfirmOrderFragment"
         android:label="fragment_confirm_order"
-        tools:layout="@layout/fragment_confirm_order" />
+        tools:layout="@layout/fragment_confirm_order">
+
+        <action android:id="@+id/toOrders"
+            app:destination="@+id/ordersFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/confirmationOrderFragment"
