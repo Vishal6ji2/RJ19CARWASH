@@ -1,43 +1,74 @@
 package com.example.rj19carwash.adapters;
 
+import static com.example.rj19carwash.utilities.TimeUtils.getDayMonth;
+
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rj19carwash.R;
-import com.example.rj19carwash.databinding.SlotsItemLayoutBinding;
 import com.example.rj19carwash.responses.SlotsResponse;
 
 import java.util.ArrayList;
+
 
 public class SlotsAdapter extends RecyclerView.Adapter<SlotsAdapter.ViewHolder> {
 
     Context context;
     ArrayList<SlotsResponse.Data.Slotlist.Date> arrSlotList;
 
-    public SlotsAdapter(Context context, ArrayList<SlotsResponse.Data.Slotlist.Date> arrSlotList) {
+    public interface SlotsItemClickListener{
+       void onSlotClick(int position);
+    }
+
+    int selectedPosition = -1;
+
+    SlotsItemClickListener slotsItemClickListener;
+
+    public SlotsAdapter(Context context, ArrayList<SlotsResponse.Data.Slotlist.Date> arrSlotList, SlotsItemClickListener listener) {
         this.context = context;
         this.arrSlotList = arrSlotList;
+        this.slotsItemClickListener = listener;
     }
 
     @NonNull
     @Override
     public SlotsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        SlotsItemLayoutBinding slotsItemLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.slots_item_layout, parent, false);
-
-        return new ViewHolder(slotsItemLayoutBinding);
+        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.slots_item_layout,parent,false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull SlotsAdapter.ViewHolder holder, int position) {
 
-        holder.bindSlots(arrSlotList.get(position));
+        if (selectedPosition == position) {
+            holder.cardView.setSelected(true); //using selector drawable
+            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.design_default_color_primary));
+        } else {
+            holder.cardView.setSelected(false);
+            holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.pencilcolor));
+
+        }
+
+        holder.txtDate.setText(getDayMonth(arrSlotList.get(position).getName()));
+
+        holder.cardView.setOnClickListener(view -> {
+
+            if (selectedPosition >= 0)
+                notifyItemChanged(selectedPosition);
+            selectedPosition = holder.getAdapterPosition();
+            notifyItemChanged(selectedPosition);
+            slotsItemClickListener.onSlotClick(selectedPosition);
+
+        });
+
     }
 
     @Override
@@ -46,28 +77,16 @@ public class SlotsAdapter extends RecyclerView.Adapter<SlotsAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        SlotsItemLayoutBinding slotsItemLayoutBinding;
 
-        TimesAdapter timesAdapter;
-        ArrayList<String> arrTimesList = new ArrayList<>();
+        TextView txtDate;
 
-        public ViewHolder(@NonNull SlotsItemLayoutBinding slotsItemLayoutBinding) {
-            super(slotsItemLayoutBinding.getRoot());
-            this.slotsItemLayoutBinding = slotsItemLayoutBinding;
-        }
+        CardView cardView;
 
-        public void bindSlots(SlotsResponse.Data.Slotlist.Date slotList){
-            slotsItemLayoutBinding.setSlots(slotList);
-            
-            slotsItemLayoutBinding.slotsItemTimerecyclerview.setHasFixedSize(true);
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
 
-            arrTimesList = slotList.getTime();
-            timesAdapter = new TimesAdapter(itemView.getContext(), arrTimesList);
-
-            slotsItemLayoutBinding.slotsItemTimerecyclerview.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
-            slotsItemLayoutBinding.slotsItemTimerecyclerview.setAdapter(timesAdapter);
-
-            slotsItemLayoutBinding.executePendingBindings();
+            cardView = itemView.findViewById(R.id.slots_item_cardtime);
+            txtDate = itemView.findViewById(R.id.slots_item_txtdate);
 
         }
     }

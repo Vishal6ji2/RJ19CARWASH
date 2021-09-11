@@ -2,9 +2,9 @@ package com.example.rj19carwash.networks;
 
 import com.example.rj19carwash.responses.CategoriesResponse;
 import com.example.rj19carwash.responses.ChangePasswordResponse;
-import com.example.rj19carwash.responses.EmployeesResponse;
 import com.example.rj19carwash.responses.ForgotResponse;
 import com.example.rj19carwash.responses.LoginResponse;
+import com.example.rj19carwash.responses.OrderNowResponse;
 import com.example.rj19carwash.responses.OrderStatusResponse;
 import com.example.rj19carwash.responses.OrdersResponse;
 import com.example.rj19carwash.responses.ProfileResponse;
@@ -62,12 +62,17 @@ public interface MyApis {
             @Header("Authorization") String token
     );
 
-/*
-    @GET("viewemployee")
-    Call<EmployeesResponse> getEmployees(
-            @Header("Authorization") String token
+
+    @FormUrlEncoded
+    @POST("order-now")
+    Call<OrderNowResponse> bookOrderNow(
+            @Header("Authorization") String token,
+            @Field("service_id") int service_id,
+            @Field("employee_id") int employee_id,
+            @Field("slot") String slot,
+            @Field("price") String price,
+            @Field("customer_id") int customer_id
     );
-*/
 
 
     @FormUrlEncoded

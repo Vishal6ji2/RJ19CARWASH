@@ -12,78 +12,119 @@
         android:layout_height="match_parent"
         tools:context=".fragments.BookServiceFragment">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
+                android:id="@+id/bookservice_booklayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="@dimen/_10sdp"
-                android:layout_margin="@dimen/_10sdp">
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/bookservice_serimg"
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_150sdp"
-                    android:scaleType="centerCrop"
-                    android:adjustViewBounds="true"
-                    tools:ignore="ContentDescription" />
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/_10sdp"
+                    android:layout_margin="@dimen/_10sdp">
 
-            </androidx.cardview.widget.CardView>
+                    <ImageView
+                        android:id="@+id/bookservice_serimg"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_150sdp"
+                        android:scaleType="centerCrop"
+                        android:adjustViewBounds="true"
+                        tools:ignore="ContentDescription" />
 
-            <TextView
-                android:id="@+id/bookservice_txtname"
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/bookservice_txtname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:textSize="@dimen/_18ssp"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:padding="@dimen/_5sdp"
+                    tools:ignore="HardcodedText" />
+
+                <TextView
+                    android:id="@+id/bookservice_txtdesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, "
+                    android:gravity="center"
+                    android:justificationMode="inter_word"
+                    android:textColor="@color/black"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:padding="@dimen/_3sdp"
+                    android:textSize="@dimen/_12ssp"
+                    tools:ignore="HardcodedText,UnusedAttribute" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    app:cardElevation="@dimen/_2sdp">
+
+                    <Spinner
+                        android:id="@+id/bookservice_spinemployee"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/_10sdp"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/bookservice_slotsrecyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/slots_item_layout"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/bookservice_timesrecyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/time_item_layout"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bookservice_btnbook"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_8sdp"
+                    android:text="Book now"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:textAllCaps="false"
+                    tools:ignore="HardcodedText" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/bookservice_loadinglayout"
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Service Name"
-                android:textSize="@dimen/_18ssp"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:padding="@dimen/_5sdp"
-                tools:ignore="HardcodedText" />
+                android:visibility="gone">
 
-            <TextView
-                android:id="@+id/bookservice_txtdesc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, "
-                android:gravity="center"
-                android:justificationMode="inter_word"
-                android:textColor="@color/black"
-                android:layout_margin="@dimen/_10sdp"
-                android:padding="@dimen/_3sdp"
-                android:textSize="@dimen/_12ssp"
-                tools:ignore="HardcodedText,UnusedAttribute" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#6A000000"/>
 
-            <Spinner
-                android:id="@+id/bookservice_spinemployee"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
-                android:padding="@dimen/_10sdp"/>
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:progressTint="@color/design_default_color_primary"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/bookservice_slotsrecyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                tools:itemCount="3"
-                tools:listitem="@layout/slots_item_layout"/>
+            </RelativeLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/bookservice_btnbook"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_8sdp"
-                android:text="Book now"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:textAllCaps="false"
-                tools:ignore="HardcodedText" />
-
-        </LinearLayout>
+        </RelativeLayout>
 
     </ScrollView>
 

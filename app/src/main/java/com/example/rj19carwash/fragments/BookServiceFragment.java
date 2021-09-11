@@ -3,8 +3,11 @@ package com.example.rj19carwash.fragments;
 import static com.example.rj19carwash.Views.toast;
 import static com.example.rj19carwash.sessions.UserSession.KEY_CUSTOMER_ID;
 import static com.example.rj19carwash.sessions.UserSession.KEY_TOKEN;
+import static com.example.rj19carwash.utilities.ViewUtils.setViewGroupEnabled;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +23,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.rj19carwash.R;
 import com.example.rj19carwash.adapters.SlotsAdapter;
+import com.example.rj19carwash.adapters.TimesAdapter;
 import com.example.rj19carwash.databinding.FragmentBookServiceBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
+import com.example.rj19carwash.responses.OrderNowResponse;
 import com.example.rj19carwash.responses.ServicesResponse;
 import com.example.rj19carwash.responses.SlotsResponse;
 import com.example.rj19carwash.sessions.UserSession;
@@ -44,7 +49,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class BookServiceFragment extends Fragment implements PaymentResultListener {
+public class BookServiceFragment extends Fragment implements PaymentResultListener, SlotsAdapter.SlotsItemClickListener, TimesAdapter.TimesItemClickListener {
 
     FragmentBookServiceBinding bookServiceBinding;
 
@@ -52,11 +57,16 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
     Bundle bundle;
 
-    int service_id;
+    int service_id, employee_id;
+    String date, time;
 
     SlotsAdapter slotsAdapter;
+    TimesAdapter timesAdapter;
+
+    ProgressDialog progressDialog;
 
     ArrayList<SlotsResponse.Data.Slotlist.Date> arrSlotsList = new ArrayList<>();
+    ArrayList<String> arrTimesList = new ArrayList<>();
 
     ArrayList<ServicesResponse.Service.Employee> arrEmployeesList = new ArrayList<>();
 
@@ -81,6 +91,13 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
         userSession = new UserSession(requireActivity());
 
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        progressDialog = new ProgressDialog(requireContext());
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
 
         bundle = getArguments();
         if (bundle != null){
@@ -93,17 +110,13 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
             setToSpinner(arrEmployeesList);
         }
 
-        bookServiceBinding.bookserviceBtnbook.setOnClickListener(view -> {
-
-            bookService();
-
-        });
+        bookServiceBinding.bookserviceBtnbook.setOnClickListener(view -> makeOrderToServer());
 
 
         bookServiceBinding.bookserviceSpinemployee.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                int employee_id = arrEmployeesList.get(position).getId();
+                employee_id = arrEmployeesList.get(position).getId();
 
                 Log.d("employee", String.valueOf(employee_id));
                 getSlots(employee_id);
@@ -121,6 +134,8 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
     private void bookService() {
 
+        progressDialog.setMessage("Please do not press any button");
+        progressDialog.show();
         try {
             razorpayClient = new RazorpayClient(getResources().getString(R.string.razorpay_key_id), getResources().getString(R.string.razorpay_secret_key));
             Checkout.preload(requireActivity());
@@ -221,6 +236,7 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
                         if (response.isSuccessful()){
                             if (response.body() != null){
                                 if (response.body().getResponseCode() == 201){
+                                    arrSlotsList.clear();
                                     arrSlotsList = response.body().getData().getSlotlist().getDate();
 
                                     Log.d("slotslist", Arrays.toString(arrSlotsList.toArray()));
@@ -247,9 +263,9 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
     private void setSlotsToRecyclerview(ArrayList<SlotsResponse.Data.Slotlist.Date> arrSlotsList) {
 
-        bookServiceBinding.bookserviceSlotsrecyclerview.setHasFixedSize(true);
+//        bookServiceBinding.bookserviceSlotsrecyclerview.setHasFixedSize(true);
 
-        slotsAdapter = new SlotsAdapter(requireActivity(), arrSlotsList);
+        slotsAdapter = new SlotsAdapter(requireActivity(), arrSlotsList, this);
         bookServiceBinding.bookserviceSlotsrecyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 4));
         bookServiceBinding.bookserviceSlotsrecyclerview.setAdapter(slotsAdapter);
 
@@ -257,11 +273,14 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
     @Override
     public void onPaymentSuccess(String s) {
+        progressDialog.dismiss();
         toast(requireContext(), s);
 
         Bundle bundle = new Bundle();
         bundle.putString("message", s);
         bundle.putInt("result", 1);
+
+        makeOrderToServer();
 
         Navigation.findNavController(requireView()).navigate(R.id.toconfirmationorder, bundle);
 //        textView.setText("Payment ID: " + s);
@@ -270,8 +289,57 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
     }
 
+    private void makeOrderToServer() {
+
+        progressDialog.setMessage("Please wait");
+        progressDialog.show();
+//        setViewGroupEnabled(bookServiceBinding.bookserviceBooklayout, false);
+//        bookServiceBinding.bookserviceLoadinglayout.setVisibility(View.VISIBLE);
+
+        RetrofitClient.getInstance().getapi().bookOrderNow("Bearer "+userSession.getKeyToken().get(KEY_TOKEN), service_id, employee_id, date+" "+time, inrRupees, userSession.getCustomerId().get(KEY_CUSTOMER_ID))
+                .enqueue(new Callback<OrderNowResponse>() {
+                    @Override
+                    public void onResponse(@NonNull Call<OrderNowResponse> call, @NonNull Response<OrderNowResponse> response) {
+
+                        if (response.isSuccessful()){
+                            if (response.body() != null){
+                                if (response.body().getResponseCode() == 201){
+                                    progressDialog.dismiss();
+                                    toast(requireContext(), "please do not press any button ");
+
+//                                    bookService();
+                                }else if (response.body().getResponseCode() == 422){
+                                    toast(requireContext(), response.body().getMessage());
+                                    progressDialog.dismiss();
+                                }else {
+                                    toast(requireContext(), response.body().getMessage());
+                                    progressDialog.dismiss();
+                                }
+                            }
+                        }/*
+                        bookServiceBinding.bookserviceLoadinglayout.setVisibility(View.GONE);
+                        setViewGroupEnabled(bookServiceBinding.bookserviceBooklayout, true);*/
+
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<OrderNowResponse> call, @NonNull Throwable t) {
+
+                        progressDialog.dismiss();
+/*
+                        bookServiceBinding.bookserviceLoadinglayout.setVisibility(View.GONE);
+                        setViewGroupEnabled(bookServiceBinding.bookserviceBooklayout, true);
+*/
+
+                        Log.d("orderbookerror", t.getMessage());
+                        toast(requireContext(), "Server error! try again later");
+                    }
+                });
+    }
+
     @Override
     public void onPaymentError(int i, String s) {
+        progressDialog.dismiss();
         toast(requireContext(), "Error: " + s);
         Bundle bundle = new Bundle();
         bundle.putString("message", s);
@@ -280,4 +348,29 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
         Navigation.findNavController(requireView()).navigate(R.id.toconfirmationorder, bundle);
 //        textView.setText("Error: " + s);
     }
+
+    @Override
+    public void onSlotClick(int position) {
+
+
+        arrTimesList.clear();
+
+        date = arrSlotsList.get(position).getName();
+
+//        bookServiceBinding.bookserviceTimesrecyclerview.setHasFixedSize(true);
+        arrTimesList = arrSlotsList.get(position).getTime();
+
+        timesAdapter = new TimesAdapter(requireContext(), arrTimesList, this);
+        bookServiceBinding.bookserviceTimesrecyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 4));
+        bookServiceBinding.bookserviceTimesrecyclerview.setAdapter(timesAdapter);
+    }
+
+    @Override
+    public void onTimeClick(int position) {
+
+        time = arrTimesList.get(position);
+
+    }
+
+
 }

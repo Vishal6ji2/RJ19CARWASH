@@ -1,52 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="@dimen/_3sdp"
+    android:gravity="center"
+    android:background="@android:color/transparent">
 
-    <data>
 
-        <variable
-            name="slots"
-            type="com.example.rj19carwash.responses.SlotsResponse.Data.Slotlist.Date" />
-
-    </data>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/slots_item_cardtime"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="@dimen/_2sdp"
+        android:background="@drawable/selecttimedrawable">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="@dimen/_10sdp"
-            app:cardBackgroundColor="@color/slotcolor">
-
-            <TextView
-                android:id="@+id/slots_item_txtdate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@{slots.name}"
-                android:textSize="@dimen/_12ssp"
-                tools:ignore="HardcodedText"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:paddingStart="@dimen/_7sdp"
-                android:paddingEnd="@dimen/_7sdp"
-                android:paddingBottom="@dimen/_3sdp"
-                android:paddingTop="@dimen/_3sdp"
-                android:layout_margin="@dimen/_5sdp"/>
-
-        </androidx.cardview.widget.CardView>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/slots_item_timerecyclerview"
+        <TextView
+            android:id="@+id/slots_item_txtdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/time_item_layout"
-            tools:itemCount="5"/>
+            android:text="12 Sep"
+            android:textSize="@dimen/_12ssp"
+            tools:ignore="HardcodedText"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:padding="@dimen/_4sdp"
+            android:layout_margin="@dimen/_5sdp"/>
 
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-</layout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/slots_item_timerecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/time_item_layout"
+        tools:itemCount="5"
+        android:visibility="gone"
+        android:layout_gravity="center"/>
+
+</LinearLayout>
