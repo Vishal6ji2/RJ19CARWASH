@@ -22,6 +22,19 @@
             android:textColor="@color/black"
             tools:ignore="HardcodedText" />
 
+
+        <TextView
+            android:id="@+id/subcategories_txtempty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Sub-Categories are not available"
+            android:textSize="@dimen/_14ssp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:padding="@dimen/_10sdp"
+            android:textColor="@color/quantum_grey"
+            tools:ignore="HardcodedText" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/subcategories_recyclerview"
             android:layout_width="match_parent"

@@ -7,7 +7,7 @@
 
         <variable
             name="transaction"
-            type="com.example.rj19carwash.responses.OrdersResponse.Datum" />
+            type="com.example.rj19carwash.responses.TransactionResponse.Datum" />
 
     </data>
 
@@ -21,6 +21,7 @@
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
             app:cardCornerRadius="@dimen/_50sdp"
+            android:background="@color/design_default_color_primary"
             app:cardBackgroundColor="@color/design_default_color_primary">
 
             <ImageView
@@ -65,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:padding="@dimen/_3sdp"
-            android:text="@{transaction.price}"
+            android:text="@{` ₹ `+transaction.price}"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="@dimen/_13ssp"
             tools:ignore="HardcodedText" />

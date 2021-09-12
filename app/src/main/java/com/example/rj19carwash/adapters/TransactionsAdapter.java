@@ -1,5 +1,7 @@
 package com.example.rj19carwash.adapters;
 
+import static com.example.rj19carwash.utilities.TimeUtils.getDayMonth;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -11,16 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rj19carwash.R;
 import com.example.rj19carwash.databinding.TransactionItemLayoutBinding;
-import com.example.rj19carwash.responses.OrdersResponse;
+import com.example.rj19carwash.responses.TransactionResponse;
 
 import java.util.ArrayList;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<OrdersResponse.Datum> arrTransactionList;
+    ArrayList<TransactionResponse.Datum> arrTransactionList;
 
-    public TransactionsAdapter(Context context, ArrayList<OrdersResponse.Datum> arrTransactionList) {
+    public TransactionsAdapter(Context context, ArrayList<TransactionResponse.Datum> arrTransactionList) {
         this.context = context;
         this.arrTransactionList = arrTransactionList;
     }
@@ -50,14 +52,17 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
             this.transactionItemLayoutBinding = itemView;
         }
 
-        public void bindTransactions(OrdersResponse.Datum transactionResponse){
+        public void bindTransactions(TransactionResponse.Datum transactionResponse){
 
             if (transactionResponse.getStatus().equals("1")){
                 transactionItemLayoutBinding.transactionItemStatus.setText("Completed");
                 transactionItemLayoutBinding.transactionItemStatus.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.quantum_googgreen));
+
+                transactionItemLayoutBinding.transactionItemTime.setText(getDayMonth(transactionResponse.getSlot()));
                 transactionItemLayoutBinding.setTransaction(transactionResponse);
             }else if (transactionResponse.getStatus().equals("-1")){
                 transactionItemLayoutBinding.transactionItemStatus.setText("Cancelled");
+                transactionItemLayoutBinding.transactionItemTime.setText(getDayMonth(transactionResponse.getSlot()));
                 transactionItemLayoutBinding.transactionItemStatus.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.quantum_googred));
                 transactionItemLayoutBinding.setTransaction(transactionResponse);
             }

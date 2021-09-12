@@ -1,5 +1,7 @@
 package com.example.rj19carwash.adapters;
 
+import static com.example.rj19carwash.utilities.TimeUtils.getDayMonth;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +10,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rj19carwash.R;
@@ -56,7 +57,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         public void bindOrders(OrdersResponse.Datum ordersResponse){
 
             if (ordersResponse.getStatus().equals("0")) {
+                ordersItemLayoutBinding.orderItemTime.setText(getDayMonth(ordersResponse.getSlot()));
                 ordersItemLayoutBinding.setOrders(ordersResponse);
+
             }
 
             ordersItemLayoutBinding.getRoot().setOnClickListener(view -> {

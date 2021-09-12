@@ -84,9 +84,18 @@ public class ServicesFragment extends Fragment {
                         if (response.isSuccessful()){
                             if (response.body() != null){
                                 arrServicesList = response.body().getServices();
-                                servicesAdapter = new ServicesAdapter(requireActivity(), arrServicesList);
-                                servicesBinding.servicesRecyclerview.setLayoutManager(new LinearLayoutManager(requireActivity()));
-                                servicesBinding.servicesRecyclerview.setAdapter(servicesAdapter);
+                                if (arrServicesList.size() != 0) {
+
+                                    servicesBinding.servicesRecyclerview.setVisibility(View.VISIBLE);
+                                    servicesBinding.servicesTxtempty.setVisibility(View.GONE);
+
+                                    servicesAdapter = new ServicesAdapter(requireActivity(), arrServicesList);
+                                    servicesBinding.servicesRecyclerview.setLayoutManager(new LinearLayoutManager(requireActivity()));
+                                    servicesBinding.servicesRecyclerview.setAdapter(servicesAdapter);
+                                }else {
+                                    servicesBinding.servicesRecyclerview.setVisibility(View.GONE);
+                                    servicesBinding.servicesTxtempty.setVisibility(View.VISIBLE);
+                                }
                             }else {
                                 arrServicesList = null;
                                 toast(requireActivity(), "Server error! try again later");

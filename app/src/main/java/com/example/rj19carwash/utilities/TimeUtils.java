@@ -36,7 +36,7 @@ public class TimeUtils {
 
         String ampmTime = null;
         SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
-        Date dt = null;
+        Date dt;
         try {
             dt = sdf.parse(time);
             SimpleDateFormat sdfs = new SimpleDateFormat("hh:mm a");

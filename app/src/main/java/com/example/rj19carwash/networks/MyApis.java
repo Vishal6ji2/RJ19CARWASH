@@ -12,6 +12,7 @@ import com.example.rj19carwash.responses.RegisterResponse;
 import com.example.rj19carwash.responses.ServicesResponse;
 import com.example.rj19carwash.responses.SlotsResponse;
 import com.example.rj19carwash.responses.SubCategoriesResponse;
+import com.example.rj19carwash.responses.TransactionResponse;
 import com.example.rj19carwash.responses.UpdateProfileResponse;
 
 import retrofit2.Call;
@@ -60,6 +61,12 @@ public interface MyApis {
     @GET("viewservice")
     Call<ServicesResponse> getServices(
             @Header("Authorization") String token
+    );
+
+    @GET("transaction")
+    Call<TransactionResponse> getTransactions(
+            @Header("Authorization") String token,
+            @Path("id") int customer_id
     );
 
 

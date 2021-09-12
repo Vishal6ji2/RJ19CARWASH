@@ -1,22 +1,21 @@
-package com.example.rj19carwash.fragments;
+package com.example.rj19carwash.activities;
 
 import static com.example.rj19carwash.Views.toast;
 import static com.example.rj19carwash.sessions.UserSession.KEY_TOKEN;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.navigation.Navigation;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import com.example.rj19carwash.R;
-import com.example.rj19carwash.databinding.FragmentConfirmationOrderBinding;
+import com.example.rj19carwash.databinding.ActivityConfirmBookBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.OrderStatusResponse;
 import com.example.rj19carwash.sessions.UserSession;
@@ -35,15 +34,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+public class ConfirmBookActivity extends AppCompatActivity implements PaymentResultListener {
 
-public class ConfirmationOrderFragment extends Fragment implements PaymentResultListener {
-
-
-    FragmentConfirmationOrderBinding confirmationOrderBinding;
+    ActivityConfirmBookBinding confirmBookBinding;
 
     int order_id;
 
-    Bundle bundle;
+    Intent bundle;
 
     UserSession userSession;
 
@@ -56,42 +53,45 @@ public class ConfirmationOrderFragment extends Fragment implements PaymentResult
 
     String price;
 
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        confirmationOrderBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_confirmation_order, container, false);
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        confirmBookBinding = DataBindingUtil.setContentView(this, R.layout.activity_confirm_book);
 
         StrictMode.ThreadPolicy policy = new
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        bundle = getArguments();
+        userSession = new UserSession(this);
 
-        userSession = new UserSession(requireContext());
-
+        bundle = getIntent();
         // get bundle values
         if (bundle != null){
-            order_id = bundle.getInt("order_id");
-            price = bundle.getString("price");
+            order_id = bundle.getIntExtra("order_id",-1);
+            price = bundle.getStringExtra("price");
             bookService();
+        }else {
+            toast(this, "Booking error ! try again");
         }
 
-        confirmationOrderBinding.confirmationBtnback.setOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.gobackhome));
+        confirmBookBinding.confirmbookBtnback.setOnClickListener(view -> {
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+        });
 
-        return confirmationOrderBinding.getRoot();
     }
-
 
     private void bookService() {
 
         try {
             razorpayClient = new RazorpayClient(getResources().getString(R.string.razorpay_key_id), getResources().getString(R.string.razorpay_secret_key));
-            Checkout.preload(requireActivity());
+            Checkout.preload(this);
             checkout = new Checkout();
+            Log.d("checkout", "first");
         } catch (RazorpayException e) {
             e.printStackTrace();
+            Log.d("checkout", e.getMessage());
         }
 
         HashMap<String, String> headers = new HashMap<>();
@@ -100,21 +100,22 @@ public class ConfirmationOrderFragment extends Fragment implements PaymentResult
 
         try {
             JSONObject orderRequest = new JSONObject();
-            orderRequest.put("amount",price ); // amount in the smallest currency unit
+            orderRequest.put("amount",price+"00" ); // amount in the smallest currency unit
             orderRequest.put("currency", "INR");
             orderRequest.put("receipt", order_receipt_no);
             orderRequest.put("payment_capture", true);
 
             order = razorpayClient.Orders.create(orderRequest);
-
+            Log.d("checkout", "second");
             startPayment(order);
-
 
         } catch (RazorpayException e) {
             // Handle Exception
             System.out.println(e.getMessage());
+            Log.d("checkout1",e.getMessage());
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.d("checkout2",e.getMessage());
         }
 
     }
@@ -164,7 +165,7 @@ public class ConfirmationOrderFragment extends Fragment implements PaymentResult
              */
             options.put("amount", price+"00");
 
-            checkout.open(requireActivity(), options);
+            checkout.open(this, options);
         } catch(Exception e) {
             Log.e("checkouterror", "Error in starting Razorpay Checkout", e);
         }
@@ -173,10 +174,10 @@ public class ConfirmationOrderFragment extends Fragment implements PaymentResult
     @Override
     public void onPaymentSuccess(String s) {
 
-        toast(requireContext(), s);
+        toast(this, s);
 
-        confirmationOrderBinding.confirmationFailurecard.setVisibility(View.GONE);
-        confirmationOrderBinding.confirmationSuccesscard.setVisibility(View.VISIBLE);
+        confirmBookBinding.confirmbookFailurecard.setVisibility(View.GONE);
+        confirmBookBinding.confirmbookSuccesscard.setVisibility(View.VISIBLE);
 
 //        textView.setText("Payment ID: " + s);
 //        textView.append("\nOrder ID: " + order.get("id"));
@@ -188,10 +189,10 @@ public class ConfirmationOrderFragment extends Fragment implements PaymentResult
     public void onPaymentError(int i, String s) {
 
         cancelOrder(order_id);
-        toast(requireContext(), "Error: " + s);
+        toast(this, "Error: " + s);
 
-        confirmationOrderBinding.confirmationFailurecard.setVisibility(View.VISIBLE);
-        confirmationOrderBinding.confirmationSuccesscard.setVisibility(View.GONE);
+        confirmBookBinding.confirmbookFailurecard.setVisibility(View.VISIBLE);
+        confirmBookBinding.confirmbookSuccesscard.setVisibility(View.GONE);
 
 //        textView.setText("Error: " + s);
     }
@@ -206,13 +207,13 @@ public class ConfirmationOrderFragment extends Fragment implements PaymentResult
                         if (response.isSuccessful()){
                             if (response.body() != null){
                                 if (response.body().getResponseCode() == 201){
-                                    toast(requireContext(), response.body().getMessage());
-                                    Navigation.findNavController(requireView()).navigate(R.id.gobackbook);
+                                    toast(ConfirmBookActivity.this, response.body().getMessage());
+//                                    Navigation.findNavController(requireView()).navigate(R.id.gobackbook);
                                 }else {
-                                    toast(requireContext(), response.body().getMessage());
+                                    toast(ConfirmBookActivity.this, response.body().getMessage());
                                 }
                             }
-                            Navigation.findNavController(requireView()).navigate(R.id.toOrders);
+//                            Navigation.findNavController(requireView()).navigate(R.id.toOrders);
                         }
                     }
 
@@ -220,7 +221,7 @@ public class ConfirmationOrderFragment extends Fragment implements PaymentResult
                     public void onFailure(@NonNull Call<OrderStatusResponse> call, @NonNull Throwable t) {
 
                         Log.d("statuserror", t.getMessage());
-                        toast(requireContext(), "Server error! try again later");
+                        toast(ConfirmBookActivity.this, "Server error! try again later");
                     }
                 });
     }

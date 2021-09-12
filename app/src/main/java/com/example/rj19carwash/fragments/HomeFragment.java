@@ -68,10 +68,17 @@ public class HomeFragment extends Fragment {
 
                     arrCategoriesList = response.body().getCategories();
 
-                    categoriesAdapter = new CategoriesAdapter(requireActivity(), requireActivity().getSupportFragmentManager(), arrCategoriesList);
-                    fragmentHomeBinding.categoriesRecyclerview.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
-                    fragmentHomeBinding.categoriesRecyclerview.setAdapter(categoriesAdapter);
+                    if (arrCategoriesList.size() != 0) {
+                        fragmentHomeBinding.categoriesTxtempty.setVisibility(View.GONE);
+                        fragmentHomeBinding.categoriesRecyclerview.setVisibility(View.VISIBLE);
 
+                        categoriesAdapter = new CategoriesAdapter(requireActivity(), requireActivity().getSupportFragmentManager(), arrCategoriesList);
+                        fragmentHomeBinding.categoriesRecyclerview.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
+                        fragmentHomeBinding.categoriesRecyclerview.setAdapter(categoriesAdapter);
+                    }else {
+                        fragmentHomeBinding.categoriesRecyclerview.setVisibility(View.GONE);
+                        fragmentHomeBinding.categoriesTxtempty.setVisibility(View.VISIBLE);
+                    }
                 }else {
                     // this is showing
                     toast(requireActivity(), response.message());

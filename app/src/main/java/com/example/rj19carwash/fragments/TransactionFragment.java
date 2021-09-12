@@ -20,6 +20,7 @@ import com.example.rj19carwash.adapters.TransactionsAdapter;
 import com.example.rj19carwash.databinding.FragmentTransactionBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.OrdersResponse;
+import com.example.rj19carwash.responses.TransactionResponse;
 import com.example.rj19carwash.sessions.UserSession;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ import retrofit2.Response;
 public class TransactionFragment extends Fragment {
 
     FragmentTransactionBinding transactionBinding;
-    ArrayList<OrdersResponse.Datum> arrTransactionList = new ArrayList<>();
+    ArrayList<TransactionResponse.Datum> arrTransactionList = new ArrayList<>();
 
     TransactionsAdapter transactionsAdapter;
     UserSession userSession;
@@ -60,10 +61,10 @@ public class TransactionFragment extends Fragment {
 
     private void getTransactions(String token, Integer customer_id) {
 
-        RetrofitClient.getInstance().getapi().getOrders("Bearer "+token, customer_id)
-                .enqueue(new Callback<OrdersResponse>() {
+        RetrofitClient.getInstance().getapi().getTransactions("Bearer "+token, customer_id)
+                .enqueue(new Callback<TransactionResponse>() {
                     @Override
-                    public void onResponse(@NonNull Call<OrdersResponse> call, @NonNull Response<OrdersResponse> response) {
+                    public void onResponse(@NonNull Call<TransactionResponse> call, @NonNull Response<TransactionResponse> response) {
 
                         if (response.isSuccessful()){
                             if (response.body() != null){
@@ -83,7 +84,7 @@ public class TransactionFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<OrdersResponse> call, @NonNull Throwable t) {
+                    public void onFailure(@NonNull Call<TransactionResponse> call, @NonNull Throwable t) {
 
                         arrTransactionList = null;
                         Log.d("failtransactions",t.getMessage());

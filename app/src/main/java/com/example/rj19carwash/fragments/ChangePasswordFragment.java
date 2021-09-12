@@ -19,6 +19,7 @@ import com.example.rj19carwash.databinding.FragmentChangePasswordBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.ChangePasswordResponse;
 import com.example.rj19carwash.sessions.UserSession;
+import com.example.rj19carwash.utilities.CustomLoading;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +31,9 @@ public class ChangePasswordFragment extends Fragment {
 
     UserSession userSession;
 
+    CustomLoading customLoading;
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -37,9 +41,11 @@ public class ChangePasswordFragment extends Fragment {
 
         userSession = new UserSession(requireContext());
 
+        customLoading = new CustomLoading(requireContext());
+
         changePasswordBinding.changepwdBtnsave.setOnClickListener(view -> {
 
-            if (!(changePasswordBinding.changepwdNewpwd.getText().toString().equals(""))){
+            if (changePasswordBinding.changepwdNewpwd.getText().toString().equals("")){
                 toast(requireActivity(), "Enter New Password");
             }else if (!(changePasswordBinding.changepwdConfirmpwd.getText().toString().equals(changePasswordBinding.changepwdNewpwd.getText().toString()))){
                 toast(requireActivity(), "Password doesn't match!");
@@ -55,10 +61,13 @@ public class ChangePasswordFragment extends Fragment {
 
     private void changePassword() {
 
+        customLoading.startLoading(getLayoutInflater());
+
         RetrofitClient.getInstance().getapi().changePassword("Bearer "+userSession.getKeyToken().get(KEY_TOKEN), userSession.getCustomerData().get(KEY_PHONE), changePasswordBinding.changepwdNewpwd.getText().toString())
                 .enqueue(new Callback<ChangePasswordResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ChangePasswordResponse> call, @NonNull Response<ChangePasswordResponse> response) {
+                       customLoading.dismissLoading();
                         if (response.isSuccessful()){
                             if (response.body() != null){
                                 if (response.body().getResponseCode() == 201){
@@ -73,6 +82,7 @@ public class ChangePasswordFragment extends Fragment {
                     @Override
                     public void onFailure(@NonNull Call<ChangePasswordResponse> call, @NonNull Throwable t) {
 
+                        customLoading.dismissLoading();
                         toast(requireActivity(), "server error! try again later");
                         Log.d("changepwderror",t.getLocalizedMessage());
                     }

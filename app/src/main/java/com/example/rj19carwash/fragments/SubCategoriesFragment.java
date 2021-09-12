@@ -62,6 +62,8 @@ public class SubCategoriesFragment extends Fragment {
 
         initViews();
 
+
+
         return subCategoriesBinding.getRoot();
 
     }
@@ -89,10 +91,17 @@ public class SubCategoriesFragment extends Fragment {
 
                 if (response.isSuccessful() && response.body() != null){
                     arrSubCategoriesList = response.body().getSubcategories();
-                    subCategoriesAdapter = new SubCategoriesAdapter(requireActivity(), arrSubCategoriesList);
-                    subCategoriesBinding.subcategoriesRecyclerview.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
-                    subCategoriesBinding.subcategoriesRecyclerview.setAdapter(subCategoriesAdapter);
+                    if (arrSubCategoriesList.size() != 0) {
+                        subCategoriesBinding.subcategoriesRecyclerview.setVisibility(View.VISIBLE);
+                        subCategoriesBinding.subcategoriesTxtempty.setVisibility(View.GONE);
 
+                        subCategoriesAdapter = new SubCategoriesAdapter(requireActivity(), arrSubCategoriesList);
+                        subCategoriesBinding.subcategoriesRecyclerview.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
+                        subCategoriesBinding.subcategoriesRecyclerview.setAdapter(subCategoriesAdapter);
+                    }else {
+                        subCategoriesBinding.subcategoriesRecyclerview.setVisibility(View.GONE);
+                        subCategoriesBinding.subcategoriesTxtempty.setVisibility(View.VISIBLE);
+                    }
                 }else {
                     arrSubCategoriesList = null;
                     toast(requireActivity(), "Server error! try again later");

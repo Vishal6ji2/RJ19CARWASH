@@ -136,6 +136,9 @@
         <action android:id="@+id/gobackhome"
             app:destination="@+id/homeFragment"/>
 
+        <action android:id="@+id/gobackbook"
+            app:destination="@+id/bookServiceFragment"/>
+
     </fragment>
 
 </navigation>

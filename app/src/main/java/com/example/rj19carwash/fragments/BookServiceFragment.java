@@ -3,11 +3,9 @@ package com.example.rj19carwash.fragments;
 import static com.example.rj19carwash.Views.toast;
 import static com.example.rj19carwash.sessions.UserSession.KEY_CUSTOMER_ID;
 import static com.example.rj19carwash.sessions.UserSession.KEY_TOKEN;
-import static com.example.rj19carwash.utilities.ViewUtils.setViewGroupEnabled;
 
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +16,10 @@ import android.widget.ArrayAdapter;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.rj19carwash.R;
+import com.example.rj19carwash.activities.ConfirmBookActivity;
 import com.example.rj19carwash.adapters.SlotsAdapter;
 import com.example.rj19carwash.adapters.TimesAdapter;
 import com.example.rj19carwash.databinding.FragmentBookServiceBinding;
@@ -30,26 +28,18 @@ import com.example.rj19carwash.responses.OrderNowResponse;
 import com.example.rj19carwash.responses.ServicesResponse;
 import com.example.rj19carwash.responses.SlotsResponse;
 import com.example.rj19carwash.sessions.UserSession;
-import com.razorpay.Checkout;
-import com.razorpay.Order;
-import com.razorpay.PaymentResultListener;
-import com.razorpay.RazorpayClient;
-import com.razorpay.RazorpayException;
+import com.example.rj19carwash.utilities.CustomLoading;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class BookServiceFragment extends Fragment implements PaymentResultListener, SlotsAdapter.SlotsItemClickListener, TimesAdapter.TimesItemClickListener {
+public class BookServiceFragment extends Fragment implements SlotsAdapter.SlotsItemClickListener, TimesAdapter.TimesItemClickListener {
 
     FragmentBookServiceBinding bookServiceBinding;
 
@@ -57,30 +47,20 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
     Bundle bundle;
 
-    int service_id, employee_id;
+    int service_id, employee_id, order_id;
     String date, time;
 
     SlotsAdapter slotsAdapter;
     TimesAdapter timesAdapter;
 
-    ProgressDialog progressDialog;
+    CustomLoading customLoading;
 
     ArrayList<SlotsResponse.Data.Slotlist.Date> arrSlotsList = new ArrayList<>();
     ArrayList<String> arrTimesList = new ArrayList<>();
 
     ArrayList<ServicesResponse.Service.Employee> arrEmployeesList = new ArrayList<>();
 
-
-    // razorpay variables
-
-    RazorpayClient razorpayClient;
-    Order order;
-    Checkout checkout;
-
-    private final String order_receipt_no = "Receipt No. " +  System.currentTimeMillis()/1000;
-    private final String order_reference_no = "Reference No. #" +  System.currentTimeMillis()/1000;
-
-    String inrRupees;
+    String price;
 
 
     @Override
@@ -91,27 +71,24 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
         userSession = new UserSession(requireActivity());
 
-        StrictMode.ThreadPolicy policy = new
-                StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        progressDialog = new ProgressDialog(requireContext());
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
+        customLoading = new CustomLoading(requireContext());
 
         bundle = getArguments();
         if (bundle != null){
             service_id = bundle.getInt("id");
+
             Picasso.get().load("https://www.rj19carwash.com/"+bundle.getString("image")).into(bookServiceBinding.bookserviceSerimg);
+
             bookServiceBinding.bookserviceTxtname.setText(bundle.getString("name"));
             bookServiceBinding.bookserviceTxtdesc.setText(bundle.getString("description"));
+
+            price = bundle.getString("inrrupees");
+
             arrEmployeesList = (ArrayList<ServicesResponse.Service.Employee>) bundle.getSerializable("employees");
-            inrRupees = bundle.getString("inrrupees");
             setToSpinner(arrEmployeesList);
         }
 
         bookServiceBinding.bookserviceBtnbook.setOnClickListener(view -> makeOrderToServer());
-
 
         bookServiceBinding.bookserviceSpinemployee.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -132,99 +109,30 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
         return bookServiceBinding.getRoot();
     }
 
-    private void bookService() {
-
-        progressDialog.setMessage("Please do not press any button");
-        progressDialog.show();
-        try {
-            razorpayClient = new RazorpayClient(getResources().getString(R.string.razorpay_key_id), getResources().getString(R.string.razorpay_secret_key));
-            Checkout.preload(requireActivity());
-            checkout = new Checkout();
-        } catch (RazorpayException e) {
-            e.printStackTrace();
-        }
-
-        HashMap<String, String> headers = new HashMap<>();
-        razorpayClient.addHeaders(headers);
-
-
-        try {
-            JSONObject orderRequest = new JSONObject();
-            orderRequest.put("amount",inrRupees ); // amount in the smallest currency unit
-            orderRequest.put("currency", "INR");
-            orderRequest.put("receipt", order_receipt_no);
-            orderRequest.put("payment_capture", true);
-
-            order = razorpayClient.Orders.create(orderRequest);
-
-            startPayment(order);
-
-
-        } catch (RazorpayException e) {
-            // Handle Exception
-            System.out.println(e.getMessage());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void startPayment(Order order) {
-        checkout.setKeyID(getResources().getString(R.string.razorpay_key_id));
-        /**
-         * Instantiate Checkout
-         */
-        Checkout checkout = new Checkout();
-
-        /**
-         * Set your logo here
-         */
-        checkout.setImage(R.drawable.ic_launcher_foreground);
-
-        /**
-         * Reference to current activity
-         */
-
-        /**
-         * Pass your payment options to the Razorpay Checkout as a JSONObject
-         */
-        try {
-            JSONObject options = new JSONObject();
-
-            /**
-             * Merchant Name
-             * eg: ACME Corp || HasGeek etc.
-             */
-            options.put("name", "RJ19 CAR WASH");
-
-            /**
-             * Description can be anything
-             * eg: Reference No. #123123 - This order number is passed by you for your internal reference. This is not the `razorpay_order_id`.
-             *     Invoice Payment
-             *     etc.
-             */
-            options.put("description", order_reference_no);
-            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
-            options.put("order_id", order.get("id"));
-            options.put("currency", "INR");
-
-            /**
-             * Amount is always passed in currency subunits
-             * Eg: "500" = INR 5.00
-             */
-            options.put("amount", inrRupees+"00");
-
-            checkout.open(requireActivity(), options);
-        } catch(Exception e) {
-            Log.e("checkouterror", "Error in starting Razorpay Checkout", e);
-        }
-    }
-
     private void setToSpinner(ArrayList<ServicesResponse.Service.Employee> arrEmployeesList) {
 
-        ArrayAdapter<ServicesResponse.Service.Employee> arrayAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, arrEmployeesList);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        bookServiceBinding.bookserviceSpinemployee.setAdapter(arrayAdapter);
+        if (arrEmployeesList.size() != 0) {
+
+            bookServiceBinding.bookserviceSpinemployee.setVisibility(View.VISIBLE);
+            bookServiceBinding.bookserviceTxtemployee.setVisibility(View.GONE);
+
+            ArrayAdapter<ServicesResponse.Service.Employee> arrayAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_spinner_item, arrEmployeesList);
+            arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            bookServiceBinding.bookserviceSpinemployee.setAdapter(arrayAdapter);
+
+        }else {
+            bookServiceBinding.bookserviceSpinemployee.setVisibility(View.GONE);
+            bookServiceBinding.bookserviceTxtemployee.setVisibility(View.VISIBLE);
+            bookServiceBinding.bookserviceTimesrecyclerview.setVisibility(View.GONE);
+            bookServiceBinding.bookserviceSlotsrecyclerview.setVisibility(View.GONE);
+
+            bookServiceBinding.bookserviceSlotsrecyclerview.setVisibility(View.GONE);
+            bookServiceBinding.bookserviceTxtslots.setVisibility(View.VISIBLE);
+            bookServiceBinding.bookserviceTimesrecyclerview.setVisibility(View.GONE);
+            bookServiceBinding.bookserviceTxttimes.setVisibility(View.GONE);
+
+            bookServiceBinding.bookserviceBtnbook.setEnabled(false);
+        }
     }
 
     public void getSlots(int employee_id){
@@ -241,12 +149,13 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
                                     Log.d("slotslist", Arrays.toString(arrSlotsList.toArray()));
                                     setSlotsToRecyclerview(arrSlotsList);
+
                                 }else {
                                     Log.d("slot", response.body().getMessage());
                                     toast(requireActivity(), "Something went wrong! try again later");
                                 }
                             }else {
-                                Log.d("slotnull", response.message());
+                                Log.d("slotnull", "Something went wrong! try again later");
                             }
                         }
                     }
@@ -263,91 +172,69 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
     private void setSlotsToRecyclerview(ArrayList<SlotsResponse.Data.Slotlist.Date> arrSlotsList) {
 
-//        bookServiceBinding.bookserviceSlotsrecyclerview.setHasFixedSize(true);
+        if (arrSlotsList.size() != 0){
+            bookServiceBinding.bookserviceSlotsrecyclerview.setVisibility(View.VISIBLE);
+            bookServiceBinding.bookserviceTxtslots.setVisibility(View.GONE);
 
-        slotsAdapter = new SlotsAdapter(requireActivity(), arrSlotsList, this);
-        bookServiceBinding.bookserviceSlotsrecyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 4));
-        bookServiceBinding.bookserviceSlotsrecyclerview.setAdapter(slotsAdapter);
+            slotsAdapter = new SlotsAdapter(requireActivity(), arrSlotsList, this);
 
-    }
+            bookServiceBinding.bookserviceSlotsrecyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 4));
+            bookServiceBinding.bookserviceSlotsrecyclerview.setAdapter(slotsAdapter);
 
-    @Override
-    public void onPaymentSuccess(String s) {
-        progressDialog.dismiss();
-        toast(requireContext(), s);
+        }else {
+            bookServiceBinding.bookserviceSlotsrecyclerview.setVisibility(View.GONE);
+            bookServiceBinding.bookserviceTxtslots.setVisibility(View.VISIBLE);
+            bookServiceBinding.bookserviceTimesrecyclerview.setVisibility(View.GONE);
+            bookServiceBinding.bookserviceTxttimes.setVisibility(View.GONE);
 
-        Bundle bundle = new Bundle();
-        bundle.putString("message", s);
-        bundle.putInt("result", 1);
-
-        makeOrderToServer();
-
-        Navigation.findNavController(requireView()).navigate(R.id.toconfirmationorder, bundle);
-//        textView.setText("Payment ID: " + s);
-//        textView.append("\nOrder ID: " + order.get("id"));
-//        textView.append("\n" + order_reference_no);
-
+            bookServiceBinding.bookserviceBtnbook.setEnabled(false);
+        }
     }
 
     private void makeOrderToServer() {
 
-        progressDialog.setMessage("Please wait");
-        progressDialog.show();
-//        setViewGroupEnabled(bookServiceBinding.bookserviceBooklayout, false);
-//        bookServiceBinding.bookserviceLoadinglayout.setVisibility(View.VISIBLE);
+        customLoading.startLoading(getLayoutInflater());
 
-        RetrofitClient.getInstance().getapi().bookOrderNow("Bearer "+userSession.getKeyToken().get(KEY_TOKEN), service_id, employee_id, date+" "+time, inrRupees, userSession.getCustomerId().get(KEY_CUSTOMER_ID))
+        RetrofitClient.getInstance().getapi().bookOrderNow("Bearer "+userSession.getKeyToken().get(KEY_TOKEN), service_id, employee_id,date+" "+time, price, userSession.getCustomerId().get(KEY_CUSTOMER_ID))
                 .enqueue(new Callback<OrderNowResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<OrderNowResponse> call, @NonNull Response<OrderNowResponse> response) {
-
+                        customLoading.dismissLoading();
                         if (response.isSuccessful()){
                             if (response.body() != null){
                                 if (response.body().getResponseCode() == 201){
-                                    progressDialog.dismiss();
-                                    toast(requireContext(), "please do not press any button ");
+                                    toast(requireContext(), response.body().getMessage());
+                                    order_id = response.body().getData().getId();
 
-//                                    bookService();
+                                    Intent bundle = new Intent(requireActivity(), ConfirmBookActivity.class);
+                                    bundle.putExtra("order_id", order_id);
+
+                                    bundle.putExtra("price", price);
+                                    startActivity(bundle);
                                 }else if (response.body().getResponseCode() == 422){
                                     toast(requireContext(), response.body().getMessage());
-                                    progressDialog.dismiss();
                                 }else {
                                     toast(requireContext(), response.body().getMessage());
-                                    progressDialog.dismiss();
                                 }
+                            }else {
+                                toast(requireContext(), "Something went wrong! try again later");
                             }
-                        }/*
-                        bookServiceBinding.bookserviceLoadinglayout.setVisibility(View.GONE);
-                        setViewGroupEnabled(bookServiceBinding.bookserviceBooklayout, true);*/
-
+                        }else {
+                            toast(requireContext(), "Something went wrong! try again later");
+                        }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<OrderNowResponse> call, @NonNull Throwable t) {
 
-                        progressDialog.dismiss();
-/*
-                        bookServiceBinding.bookserviceLoadinglayout.setVisibility(View.GONE);
-                        setViewGroupEnabled(bookServiceBinding.bookserviceBooklayout, true);
-*/
-
-                        Log.d("orderbookerror", t.getMessage());
+                        customLoading.dismissLoading();
                         toast(requireContext(), "Server error! try again later");
+                        Log.d("bookerror", t.getMessage());
                     }
                 });
+
     }
 
-    @Override
-    public void onPaymentError(int i, String s) {
-        progressDialog.dismiss();
-        toast(requireContext(), "Error: " + s);
-        Bundle bundle = new Bundle();
-        bundle.putString("message", s);
-        bundle.putInt("result", 2);
-
-        Navigation.findNavController(requireView()).navigate(R.id.toconfirmationorder, bundle);
-//        textView.setText("Error: " + s);
-    }
 
     @Override
     public void onSlotClick(int position) {
@@ -357,20 +244,30 @@ public class BookServiceFragment extends Fragment implements PaymentResultListen
 
         date = arrSlotsList.get(position).getName();
 
-//        bookServiceBinding.bookserviceTimesrecyclerview.setHasFixedSize(true);
+        arrTimesList.clear();
         arrTimesList = arrSlotsList.get(position).getTime();
 
-        timesAdapter = new TimesAdapter(requireContext(), arrTimesList, this);
-        bookServiceBinding.bookserviceTimesrecyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 4));
-        bookServiceBinding.bookserviceTimesrecyclerview.setAdapter(timesAdapter);
+        if (arrTimesList.size() != 0) {
+            bookServiceBinding.bookserviceTimesrecyclerview.setVisibility(View.VISIBLE);
+            bookServiceBinding.bookserviceTxttimes.setVisibility(View.GONE);
+
+            timesAdapter = new TimesAdapter(requireContext(), arrTimesList, this);
+            bookServiceBinding.bookserviceTimesrecyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 4));
+            bookServiceBinding.bookserviceTimesrecyclerview.setAdapter(timesAdapter);
+        }else {
+            bookServiceBinding.bookserviceTimesrecyclerview.setVisibility(View.GONE);
+            bookServiceBinding.bookserviceTxttimes.setVisibility(View.VISIBLE);
+
+            bookServiceBinding.bookserviceBtnbook.setEnabled(false);
+        }
     }
 
     @Override
     public void onTimeClick(int position) {
 
         time = arrTimesList.get(position);
+        bookServiceBinding.bookserviceBtnbook.setEnabled(true);
 
     }
-
 
 }
