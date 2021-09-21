@@ -2,6 +2,7 @@ package com.example.rj19carwash.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +28,11 @@ import java.util.ArrayList;
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
     Context context;
     ArrayList<CategoriesResponse.Category> arrCategoriesList;
-    FragmentManager fragmentManager;
 
-    public CategoriesAdapter(Context context, FragmentManager fragmentManager, ArrayList<CategoriesResponse.Category> arrCategoriesList) {
+
+    public CategoriesAdapter(Context context, ArrayList<CategoriesResponse.Category> arrCategoriesList) {
         this.context = context;
-        this.fragmentManager = fragmentManager;
+
         this.arrCategoriesList = arrCategoriesList;
     }
 
@@ -45,8 +46,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.catName.setText(arrCategoriesList.get(position).getCategoryName());
-        Picasso.get().load("https://www.rj19carwash.com/"+arrCategoriesList.get(position).getCategoryImage()).into(holder.catImg);
+        Picasso.get().load("https://www.rj19carwash.com/"+arrCategoriesList.get(position).getCategoryImage()).placeholder(R.mipmap.ic_launcher_foreground).into(holder.catImg);
 
+        Log.d("catimage", "https://www.rj19carwash.com/"+arrCategoriesList.get(position).getCategoryImage());
 
         holder.itemView.setOnClickListener(view -> {
             // goto subcategories fragment
@@ -64,6 +66,15 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         return arrCategoriesList.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 

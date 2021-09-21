@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 public class ViewUtils {
 
-    public static String phonePattern = "[7-9][0-9]{9}";
+    public static String phonePattern = "[6-9][0-9]{9}";
 
     public static String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 

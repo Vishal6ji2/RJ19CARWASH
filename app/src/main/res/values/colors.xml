@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="lightgrey">#08000000</color>
+    <color name="darkgrey">#65918E8E</color>
     <color name="slotcolor">#4BB543</color>
     <color name="pencilcolor">#91919F</color>
     <color name="redcolor">#EC1919</color>

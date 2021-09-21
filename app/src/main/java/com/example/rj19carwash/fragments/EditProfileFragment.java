@@ -1,19 +1,15 @@
 package com.example.rj19carwash.fragments;
 
-import static android.app.Activity.RESULT_OK;
 import static com.example.rj19carwash.Views.toast;
 import static com.example.rj19carwash.sessions.UserSession.KEY_ADDRESS;
 import static com.example.rj19carwash.sessions.UserSession.KEY_CUSTOMER_ID;
 import static com.example.rj19carwash.sessions.UserSession.KEY_EMAIL;
 import static com.example.rj19carwash.sessions.UserSession.KEY_NAME;
 import static com.example.rj19carwash.sessions.UserSession.KEY_PHONE;
-import static com.example.rj19carwash.sessions.UserSession.KEY_PROFILE;
 import static com.example.rj19carwash.sessions.UserSession.KEY_TOKEN;
 import static com.example.rj19carwash.utilities.ViewUtils.emailPattern;
-import static com.google.android.libraries.places.widget.AutocompleteActivity.RESULT_ERROR;
+import static com.example.rj19carwash.utilities.ViewUtils.phonePattern;
 
-import android.app.Dialog;
-import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -22,8 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -31,27 +26,19 @@ import androidx.navigation.Navigation;
 
 import com.example.rj19carwash.R;
 import com.example.rj19carwash.databinding.FragmentEditProfileBinding;
-import com.example.rj19carwash.databinding.ProfileUpdateLayoutBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.UpdateProfileResponse;
 import com.example.rj19carwash.sessions.UserSession;
-import com.google.android.gms.common.api.Status;
+import com.example.rj19carwash.utilities.CustomLoading;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.widget.Autocomplete;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,16 +46,16 @@ import retrofit2.Response;
 
 public class EditProfileFragment extends Fragment implements OnMapReadyCallback {
 
-    Place place;
+//    Place place;
 
     GoogleMap mMap;
 
-    Dialog dialog;
-
     FragmentEditProfileBinding editProfileBinding;
-    ProfileUpdateLayoutBinding updateLayoutBinding;
+
+    CustomLoading customLoading;
 
     UserSession userSession;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -78,6 +65,10 @@ public class EditProfileFragment extends Fragment implements OnMapReadyCallback 
 
         userSession = new UserSession(requireContext());
 
+        customLoading = new CustomLoading(requireContext());
+
+        customLoading.startLoading(getLayoutInflater());
+        editProfileBinding.editprofileEtPhone.setVisibility(View.GONE);
         setCustomerData();
 
         editProfileBinding.editprofileBtnSave.setOnClickListener(view -> showProfileDialog());
@@ -87,7 +78,18 @@ public class EditProfileFragment extends Fragment implements OnMapReadyCallback 
 
         MapsInitializer.initialize(requireContext());
 
-        ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Navigation.findNavController(requireView()).popBackStack();
+            }
+        };
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), callback);
+
+
+       /* ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     Intent data = result.getData();
@@ -109,19 +111,15 @@ public class EditProfileFragment extends Fragment implements OnMapReadyCallback 
                             status = Autocomplete.getStatusFromIntent(data);
                             Log.d("status", status.getStatusMessage());
                         }
-
                     }
                 }
         );
 
-        editProfileBinding.editprofileTvGps.setOnClickListener(view -> {
-
-        });
 
         if (!Places.isInitialized()){
-            Places.initialize(requireContext(), "AIzaSyC3ieLt6-W0prGl727aiPUQR6fBtqpybTY");
+            Places.initialize(requireContext(), "AIzaSyBVouc8BYsxVDP2u3575z2RtgAFQtsiVks");
         }
-        Places.initialize(requireContext(), "AIzaSyC3ieLt6-W0prGl727aiPUQR6fBtqpybTY");
+        Places.initialize(requireContext(), "AIzaSyBVouc8BYsxVDP2u3575z2RtgAFQtsiVks");
         editProfileBinding.editprofileEtAddress.setFocusable(false);
         editProfileBinding.editprofileEtAddress.setOnClickListener(view -> {
             List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS,Place.Field.LAT_LNG, Place.Field.NAME);
@@ -131,102 +129,86 @@ public class EditProfileFragment extends Fragment implements OnMapReadyCallback 
             resultLauncher.launch(intent);
 
         });
-
+*/
         return editProfileBinding.getRoot();
     }
 
 
     private void showProfileDialog() {
-        dialog = new Dialog(requireContext());
-        updateLayoutBinding = DataBindingUtil.inflate(LayoutInflater.from(requireContext()), R.layout.profile_update_layout, requireActivity().findViewById(R.id.profile_update), false);
-        dialog.setContentView(updateLayoutBinding.getRoot());
 
         if (editProfileBinding.editprofileEtName.getText().toString().isEmpty()){
-            updateLayoutBinding.profileUpdateIcon.setImageResource(R.drawable.invalidicon);
-            updateLayoutBinding.profileUpdateName.setText("Invalid Name");
-
-            dialog.show();
+            toast(requireContext(), "Enter Name");
 
         }else if (!editProfileBinding.editprofileEtEmail.getText().toString().matches(emailPattern) && editProfileBinding.editprofileEtEmail.getText().toString().isEmpty()) {
-            updateLayoutBinding.profileUpdateIcon.setImageResource(R.drawable.invalidicon);
-            updateLayoutBinding.profileUpdateName.setText("Invalid Email id");
+            toast(requireContext(), "Invalid Email-id");
 
-            dialog.show();
+        }else if (!editProfileBinding.editprofileEtPhone.getText().toString().matches(phonePattern) && editProfileBinding.editprofileEtPhone.getText().toString().isEmpty()){
+            toast(requireContext(), "Invalid Phone number");
 
-        }else if (!editProfileBinding.editprofileEtAddress.getText().toString().isEmpty()) {
-            updateLayoutBinding.profileUpdateIcon.setImageResource(R.drawable.invalidicon);
-            updateLayoutBinding.profileUpdateName.setText("Invalid Address");
-
-            dialog.show();
+        } else if (getLocationFromAddress(editProfileBinding.editprofileEtAddress.getText().toString()) == null) {
+            toast(requireContext(), "enter your complete address");
 
         }else {
             updateProfile();
         }
-    }
+  }
 
     private void updateProfile() {
+        customLoading.startLoading(getLayoutInflater());
 
-        RetrofitClient.getInstance().getapi().updateProfile(userSession.getKeyToken().get(KEY_TOKEN), userSession.getCustomerId().get(KEY_CUSTOMER_ID), editProfileBinding.editprofileEtName.getText().toString(), editProfileBinding.editprofileEtEmail.getText().toString(),editProfileBinding.editprofileEtAddress.getText().toString())
+        RetrofitClient.getInstance().getapi().updateProfile("Bearer "+userSession.getKeyToken().get(KEY_TOKEN), userSession.getCustomerId().get(KEY_CUSTOMER_ID), editProfileBinding.editprofileEtName.getText().toString(), editProfileBinding.editprofileEtEmail.getText().toString(),editProfileBinding.editprofileEtAddress.getText().toString())
                 .enqueue(new Callback<UpdateProfileResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<UpdateProfileResponse> call, @NonNull Response<UpdateProfileResponse> response) {
 
-                        if (response.isSuccessful()){
-                            if (response.body() != null){
-                                if (response.body().getResponseCode() == 201){
-                                    UpdateProfileResponse.Data profile = response.body().getData();
+                        customLoading.dismissLoading();
+                        if (response.isSuccessful()) {
+                            if (response.body() != null) {
+                                if (response.body().getResponseCode() == 201) {
+                                    UpdateProfileResponse.Data.Profile profile = response.body().getData().getProfile();
 
-                                    userSession.setUserSession(profile.getName(),profile.getEmail(),profile.getPhone(),"",profile.getAddress(),profile.getProfile(),profile.getCustomerStatus());
-
-                                    updateLayoutBinding.profileUpdateIcon.setImageResource(R.drawable.updateicon);
-                                    updateLayoutBinding.profileUpdateName.setText("Update Successfully");
-
-                                    dialog.show();
+                                    userSession.setUserSession(profile.getName(), profile.getEmail(), profile.getPhone(), "", profile.getAddress(), profile.getProfile(), profile.getCustomerStatus());
+                                    toast(requireContext(), response.body().getMessage());
 
                                     Navigation.findNavController(requireView()).navigate(R.id.saveprofile);
-                                    
+                                } else {
+                                    toast(requireActivity(), response.body().getMessage());
                                 }
+                            } else {
+                                toast(requireContext(), "Something went wrong! try again ");
                             }
-                            else {
-                                toast(requireActivity(), response.body().getMessage());
-                                updateLayoutBinding.profileUpdateIcon.setImageResource(R.drawable.invalidicon);
-                                updateLayoutBinding.profileUpdateName.setText("Error occurred!");
-
-                                dialog.show();
-
-                            }
+                        } else {
+                            toast(requireContext(), "Something went wrong! try again ");
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<UpdateProfileResponse> call, @NonNull Throwable t) {
 
+                        customLoading.dismissLoading();
                         Log.d("updateerror", t.getLocalizedMessage());
                         toast(requireContext(), "server error! try again later");
-
-                        updateLayoutBinding.profileUpdateIcon.setImageResource(R.drawable.invalidicon);
-                        updateLayoutBinding.profileUpdateName.setText("Error Occurred! try again later");
-
-                        dialog.show();
 
                     }
                 });
     }
 
-
     private void setCustomerData() {
+        editProfileBinding.editprofileEtPhone.setVisibility(View.GONE);
 
+        customLoading.dismissLoading();
         editProfileBinding.editprofileEtAddress.setText(userSession.getCustomerData().get(KEY_ADDRESS));
         editProfileBinding.editprofileEtEmail.setText(userSession.getCustomerData().get(KEY_EMAIL));
         editProfileBinding.editprofileEtName.setText(userSession.getCustomerData().get(KEY_NAME));
-        editProfileBinding.editprofileEtPhone.setText(String.format("+91 %s", userSession.getCustomerData().get(KEY_PHONE)));
+        editProfileBinding.editprofileEtPhone.setText(userSession.getCustomerData().get(KEY_PHONE));
 
+        editProfileBinding.editprofileEtPhone.setVisibility(View.GONE);
 
-        if (userSession.getCustomerData().get(KEY_PROFILE) != null && Objects.requireNonNull(userSession.getCustomerData().get(KEY_PROFILE)).equals("")) {
+       /* if (userSession.getCustomerData().get(KEY_PROFILE) != null && Objects.requireNonNull(userSession.getCustomerData().get(KEY_PROFILE)).equals("")) {
             Picasso.get().load("https://www.rj19carwash.com/" + userSession.getCustomerData().get(KEY_PROFILE)).placeholder(R.drawable.profileicon).into(editProfileBinding.editprofileImage);
         }else {
             editProfileBinding.editprofileImage.setImageResource(R.drawable.profileicon);
-        }
+        }*/
     }
 
     public LatLng getLocationFromAddress(String strAddress) {
@@ -242,11 +224,12 @@ public class EditProfileFragment extends Fragment implements OnMapReadyCallback 
                 return null;
             }
 
-            Address location = address.get(0);
-            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
-
+            if (address.size() > 0) {
+                Address location = address.get(0);
+                p1 = new LatLng(location.getLatitude(), location.getLongitude());
+            }
         } catch (IOException ex) {
-
+            toast(requireContext(), "Location not found! enter your Complete address");
             ex.printStackTrace();
         }
 
@@ -258,9 +241,10 @@ public class EditProfileFragment extends Fragment implements OnMapReadyCallback 
 
         mMap = googleMap;
         LatLng latLng = getLocationFromAddress(userSession.getCustomerData().get(KEY_ADDRESS));
-        mMap.addMarker(new MarkerOptions().position(latLng).title(userSession.getCustomerData().get(KEY_ADDRESS)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-
+        if (latLng != null) {
+            mMap.addMarker(new MarkerOptions().position(latLng).title(userSession.getCustomerData().get(KEY_ADDRESS)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+        }
     }
 
 

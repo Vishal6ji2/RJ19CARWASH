@@ -63,10 +63,10 @@ public interface MyApis {
             @Header("Authorization") String token
     );
 
-    @GET("transaction")
+    @GET("transaction/{customer_id}")
     Call<TransactionResponse> getTransactions(
             @Header("Authorization") String token,
-            @Path("id") int customer_id
+            @Path("customer_id") int customer_id
     );
 
 
@@ -90,6 +90,8 @@ public interface MyApis {
             @Field("name") String name,
             @Field("email") String email,
             @Field("address") String address
+
+
     );
 
     @FormUrlEncoded

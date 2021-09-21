@@ -40,6 +40,7 @@
                 tools:ignore="ContentDescription"
                 android:layout_gravity="center"
                 android:padding="@dimen/_2sdp"
+                android:src="@mipmap/ic_launcher_foreground"
                 android:scaleType="fitCenter"/>
 
             <TextView

@@ -1,6 +1,7 @@
 package com.example.rj19carwash.fragments;
 
 import static com.example.rj19carwash.Views.toast;
+import static com.example.rj19carwash.sessions.UserSession.KEY_ADDRESS;
 import static com.example.rj19carwash.sessions.UserSession.KEY_CUSTOMER_ID;
 import static com.example.rj19carwash.sessions.UserSession.KEY_TOKEN;
 
@@ -13,9 +14,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.rj19carwash.R;
@@ -73,11 +76,12 @@ public class BookServiceFragment extends Fragment implements SlotsAdapter.SlotsI
 
         customLoading = new CustomLoading(requireContext());
 
+
         bundle = getArguments();
         if (bundle != null){
             service_id = bundle.getInt("id");
 
-            Picasso.get().load("https://www.rj19carwash.com/"+bundle.getString("image")).into(bookServiceBinding.bookserviceSerimg);
+            Picasso.get().load("https://www.rj19carwash.com/"+bundle.getString("image")).placeholder(R.mipmap.ic_launcher_foreground).into(bookServiceBinding.bookserviceSerimg);
 
             bookServiceBinding.bookserviceTxtname.setText(bundle.getString("name"));
             bookServiceBinding.bookserviceTxtdesc.setText(bundle.getString("description"));
@@ -85,8 +89,21 @@ public class BookServiceFragment extends Fragment implements SlotsAdapter.SlotsI
             price = bundle.getString("inrrupees");
 
             arrEmployeesList = (ArrayList<ServicesResponse.Service.Employee>) bundle.getSerializable("employees");
+
             setToSpinner(arrEmployeesList);
+
         }
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Navigation.findNavController(requireView()).popBackStack();
+            }
+        };
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), callback);
+
 
         bookServiceBinding.bookserviceBtnbook.setOnClickListener(view -> makeOrderToServer());
 
@@ -111,7 +128,7 @@ public class BookServiceFragment extends Fragment implements SlotsAdapter.SlotsI
 
     private void setToSpinner(ArrayList<ServicesResponse.Service.Employee> arrEmployeesList) {
 
-        if (arrEmployeesList.size() != 0) {
+        if (arrEmployeesList != null) {
 
             bookServiceBinding.bookserviceSpinemployee.setVisibility(View.VISIBLE);
             bookServiceBinding.bookserviceTxtemployee.setVisibility(View.GONE);
@@ -172,7 +189,7 @@ public class BookServiceFragment extends Fragment implements SlotsAdapter.SlotsI
 
     private void setSlotsToRecyclerview(ArrayList<SlotsResponse.Data.Slotlist.Date> arrSlotsList) {
 
-        if (arrSlotsList.size() != 0){
+        if (arrSlotsList != null){
             bookServiceBinding.bookserviceSlotsrecyclerview.setVisibility(View.VISIBLE);
             bookServiceBinding.bookserviceTxtslots.setVisibility(View.GONE);
 
@@ -193,63 +210,70 @@ public class BookServiceFragment extends Fragment implements SlotsAdapter.SlotsI
 
     private void makeOrderToServer() {
 
-        customLoading.startLoading(getLayoutInflater());
+        if (time.isEmpty()){
+            toast(requireContext(), "select a time slot");
+        }/*else if (userSession.getCustomerData().get(KEY_ADDRESS).isEmpty()) {
+            toast(requireContext(), "please complete your address");
+        }*/else {
 
-        RetrofitClient.getInstance().getapi().bookOrderNow("Bearer "+userSession.getKeyToken().get(KEY_TOKEN), service_id, employee_id,date+" "+time, price, userSession.getCustomerId().get(KEY_CUSTOMER_ID))
-                .enqueue(new Callback<OrderNowResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<OrderNowResponse> call, @NonNull Response<OrderNowResponse> response) {
-                        customLoading.dismissLoading();
-                        if (response.isSuccessful()){
-                            if (response.body() != null){
-                                if (response.body().getResponseCode() == 201){
-                                    toast(requireContext(), response.body().getMessage());
-                                    order_id = response.body().getData().getId();
+            customLoading.startLoading(getLayoutInflater());
+            Log.d("customerid", userSession.getCustomerId().get(KEY_CUSTOMER_ID).toString());
+            RetrofitClient.getInstance().getapi().bookOrderNow("Bearer " + userSession.getKeyToken().get(KEY_TOKEN), service_id, employee_id, date + " " + time, price, userSession.getCustomerId().get(KEY_CUSTOMER_ID))
+                    .enqueue(new Callback<OrderNowResponse>() {
+                        @Override
+                        public void onResponse(@NonNull Call<OrderNowResponse> call, @NonNull Response<OrderNowResponse> response) {
+                            customLoading.dismissLoading();
+                            if (response.isSuccessful()) {
+                                if (response.body() != null) {
+                                    if (response.body().getResponseCode() == 201) {
+                                        toast(requireContext(), response.body().getMessage());
+                                        order_id = response.body().getData().getId();
+                                        Log.d("customeridsecond", String.valueOf(response.body().getData().getCustomerId().getId()));
 
-                                    Intent bundle = new Intent(requireActivity(), ConfirmBookActivity.class);
-                                    bundle.putExtra("order_id", order_id);
+                                        Intent bundle = new Intent(requireActivity(), ConfirmBookActivity.class);
+                                        bundle.putExtra("order_id", order_id);
 
-                                    bundle.putExtra("price", price);
-                                    startActivity(bundle);
-                                }else if (response.body().getResponseCode() == 422){
-                                    toast(requireContext(), response.body().getMessage());
-                                }else {
-                                    toast(requireContext(), response.body().getMessage());
+                                        bundle.putExtra("price", price);
+                                        startActivity(bundle);
+                                    } else if (response.body().getResponseCode() == 422) {
+                                        toast(requireContext(), response.body().getMessage());
+                                    } else {
+                                        toast(requireContext(), response.body().getMessage());
+                                    }
+                                } else {
+                                    toast(requireContext(), "Something went wrong! try again later");
                                 }
-                            }else {
+                            } else {
                                 toast(requireContext(), "Something went wrong! try again later");
                             }
-                        }else {
-                            toast(requireContext(), "Something went wrong! try again later");
                         }
-                    }
 
-                    @Override
-                    public void onFailure(@NonNull Call<OrderNowResponse> call, @NonNull Throwable t) {
+                        @Override
+                        public void onFailure(@NonNull Call<OrderNowResponse> call, @NonNull Throwable t) {
 
-                        customLoading.dismissLoading();
-                        toast(requireContext(), "Server error! try again later");
-                        Log.d("bookerror", t.getMessage());
-                    }
-                });
+                            customLoading.dismissLoading();
+                            toast(requireContext(), "Server error! try again later");
+                            Log.d("bookerror", t.getMessage());
+                        }
+                    });
 
+        }
     }
 
 
     @Override
     public void onSlotClick(int position) {
 
-
-        arrTimesList.clear();
-
         date = arrSlotsList.get(position).getName();
 
-        arrTimesList.clear();
+        time = "";
+        bookServiceBinding.bookserviceTimesrecyclerview.removeAllViews();
         arrTimesList = arrSlotsList.get(position).getTime();
+        Log.d("times", String.valueOf(arrTimesList.size()));
 
         if (arrTimesList.size() != 0) {
-            bookServiceBinding.bookserviceTimesrecyclerview.setVisibility(View.VISIBLE);
             bookServiceBinding.bookserviceTxttimes.setVisibility(View.GONE);
+            bookServiceBinding.bookserviceTimesrecyclerview.setVisibility(View.VISIBLE);
 
             timesAdapter = new TimesAdapter(requireContext(), arrTimesList, this);
             bookServiceBinding.bookserviceTimesrecyclerview.setLayoutManager(new GridLayoutManager(requireContext(), 4));
@@ -265,6 +289,7 @@ public class BookServiceFragment extends Fragment implements SlotsAdapter.SlotsI
     @Override
     public void onTimeClick(int position) {
 
+        time = "";
         time = arrTimesList.get(position);
         bookServiceBinding.bookserviceBtnbook.setEnabled(true);
 

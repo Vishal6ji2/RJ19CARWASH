@@ -17,6 +17,9 @@
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"/>
 
+        <action android:id="@+id/cat_to_editprofile"
+            app:destination="@+id/editProfileFragment"/>
+
     </fragment>
 
     <fragment
@@ -67,13 +70,25 @@
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"/>
 
+        <action android:id="@+id/backtocat"
+            app:destination="@+id/homeFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"/>
+
     </fragment>
 
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="com.example.rj19carwash.fragments.ChangePasswordFragment"
         android:label="fragment_change_password"
-        tools:layout="@layout/fragment_change_password" />
+        tools:layout="@layout/fragment_change_password" >
+
+        <action android:id="@+id/goto_profile"
+            app:destination="@+id/profileFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/editProfileFragment"
@@ -99,6 +114,11 @@
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"/>
 
+        <action android:id="@+id/backtosubcat"
+            app:destination="@+id/subCategoriesFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"/>
+
     </fragment>
 
     <fragment
@@ -109,6 +129,11 @@
 
         <action android:id="@+id/toconfirmationorder"
             app:destination="@+id/confirmationOrderFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"/>
+
+        <action android:id="@+id/backtoservice"
+            app:destination="@+id/servicesFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"/>
 

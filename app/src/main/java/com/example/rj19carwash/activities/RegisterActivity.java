@@ -3,22 +3,21 @@ package com.example.rj19carwash.activities;
 import static com.example.rj19carwash.Views.toast;
 import static com.example.rj19carwash.networks.CheckInternet.isConnected;
 import static com.example.rj19carwash.utilities.ViewUtils.phonePattern;
-import static com.example.rj19carwash.utilities.ViewUtils.setViewGroupEnabled;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.example.rj19carwash.R;
 import com.example.rj19carwash.databinding.ActivityRegisterBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.RegisterResponse;
+import com.example.rj19carwash.utilities.CustomLoading;
 
 import java.util.Objects;
 
@@ -30,6 +29,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     ActivityRegisterBinding registerBinding;
 
+    CustomLoading customLoading;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
         
         registerBinding.tvSignin.setPaintFlags(registerBinding.tvSignin.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
 
+        customLoading = new CustomLoading(this);
 
         registerBinding.btnRegister.setOnClickListener(view -> {
             if (isConnected(this)) {
@@ -61,51 +63,39 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    static boolean checkAllSameDigits(String toString) {
-        int count = toString.length();
-        boolean check = false;
-        for (int i = 1; i<count; i++){
-            check = toString.charAt(i) == toString.charAt(0);
-        }
-        return check;
-    }
-
     public void onSendOtpClick(String phone){
 
-        setViewGroupEnabled(Objects.requireNonNull(registerBinding.registerPhoneLayout), false);
-        registerBinding.regLoadinglayout.setVisibility(View.VISIBLE);
+        customLoading.startLoading(getLayoutInflater());
 
         RetrofitClient.getInstance().getapi().registerResponse(phone).enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(@NonNull Call<RegisterResponse> call, @NonNull Response<RegisterResponse> response) {
-                if (response.isSuccessful() && response.body() != null){
 
-                    if (response.body().getResponseCode() == 201) {
-                        toast(RegisterActivity.this, response.body().getMessage());
-                        registerBinding.regLoadinglayout.setVisibility(View.GONE);
-                        setViewGroupEnabled(registerBinding.registerPhoneLayout, true);
-                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                        finish();
+                customLoading.dismissLoading();
+                if (response.isSuccessful() ){
+                    if (response.body() != null) {
 
+                        if (response.body().getResponseCode() == 201) {
+                            toast(RegisterActivity.this, response.body().getMessage());
+                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                            finish();
+
+                        } else {
+                            toast(RegisterActivity.this, response.body().getMessage());
+                        }
                     }else {
-                        registerBinding.regLoadinglayout.setVisibility(View.GONE);
-                        setViewGroupEnabled(registerBinding.registerPhoneLayout, true);
-                        toast(RegisterActivity.this, "This phone is already registered");
+                        toast(RegisterActivity.this, "Something went wrong! try again");
                     }
-
                 }else {
-                    registerBinding.regLoadinglayout.setVisibility(View.GONE);
-                    setViewGroupEnabled(registerBinding.registerPhoneLayout, true);
-                    toast(RegisterActivity.this, "This phone is already registered");
+                    toast(RegisterActivity.this, "Something went wrong! try again");
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<RegisterResponse> call, @NonNull Throwable t) {
 
-                registerBinding.regLoadinglayout.setVisibility(View.GONE);
-                setViewGroupEnabled(registerBinding.registerPhoneLayout, true);
-                Log.d("LoginViewModel",t.getMessage());
+                customLoading.dismissLoading();
+                Log.d("RegisterViewModel",t.getMessage());
                 toast(RegisterActivity.this, "Server error! try again later");
             }
         });

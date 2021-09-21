@@ -5,16 +5,17 @@ import static com.example.rj19carwash.networks.CheckInternet.isConnected;
 import static com.example.rj19carwash.sessions.UserSession.KEY_TOKEN;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.rj19carwash.R;
 import com.example.rj19carwash.adapters.ServicesAdapter;
@@ -22,6 +23,7 @@ import com.example.rj19carwash.databinding.FragmentServicesBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.ServicesResponse;
 import com.example.rj19carwash.sessions.UserSession;
+import com.example.rj19carwash.utilities.CustomLoading;
 
 import java.util.ArrayList;
 
@@ -39,6 +41,8 @@ public class ServicesFragment extends Fragment {
 
     UserSession userSession;
 
+    CustomLoading customLoading;
+
     Bundle bundle;
 
 
@@ -50,6 +54,7 @@ public class ServicesFragment extends Fragment {
         servicesBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_services, container, false);
 
         bundle = getArguments();
+        customLoading = new CustomLoading(requireContext());
 
         if (isConnected(requireActivity())){
             if (bundle != null) {
@@ -63,6 +68,23 @@ public class ServicesFragment extends Fragment {
         }else {
             toast(requireActivity(), "Check Your Internet Connection");
         }
+
+        servicesBinding.servicesRefresh.setOnRefreshListener(() -> {
+            servicesBinding.servicesRefresh.setRefreshing(false);
+            initViews();
+        });
+
+
+        OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Navigation.findNavController(requireView()).popBackStack();
+            }
+        };
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), backPressedCallback);
+
+
         return servicesBinding.getRoot();
     }
 
@@ -76,11 +98,16 @@ public class ServicesFragment extends Fragment {
     }
 
     private void getServices() {
+        customLoading.startLoading(getLayoutInflater());
+
+        arrServicesList.clear();
 
         RetrofitClient.getInstance().getapi().getServices("Bearer "+userSession.getKeyToken().get(KEY_TOKEN))
                 .enqueue(new Callback<ServicesResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ServicesResponse> call, @NonNull Response<ServicesResponse> response) {
+
+                        customLoading.dismissLoading();
                         if (response.isSuccessful()){
                             if (response.body() != null){
                                 arrServicesList = response.body().getServices();
@@ -99,12 +126,21 @@ public class ServicesFragment extends Fragment {
                             }else {
                                 arrServicesList = null;
                                 toast(requireActivity(), "Server error! try again later");
+
+                                servicesBinding.servicesRecyclerview.setVisibility(View.GONE);
+                                servicesBinding.servicesTxtempty.setVisibility(View.VISIBLE);
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ServicesResponse> call, @NonNull Throwable t) {
+
+                        customLoading.dismissLoading();
+
+                        servicesBinding.servicesRecyclerview.setVisibility(View.GONE);
+                        servicesBinding.servicesTxtempty.setVisibility(View.VISIBLE);
+
                         arrServicesList = null;
                         Log.d("serviceerror", t.getMessage());
                         toast(requireActivity(), "Something went wrong! try again later");

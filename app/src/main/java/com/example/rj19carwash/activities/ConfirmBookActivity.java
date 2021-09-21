@@ -3,22 +3,22 @@ package com.example.rj19carwash.activities;
 import static com.example.rj19carwash.Views.toast;
 import static com.example.rj19carwash.sessions.UserSession.KEY_TOKEN;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.navigation.Navigation;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
 import com.example.rj19carwash.R;
 import com.example.rj19carwash.databinding.ActivityConfirmBookBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.OrderStatusResponse;
 import com.example.rj19carwash.sessions.UserSession;
+import com.example.rj19carwash.utilities.CustomLoading;
 import com.razorpay.Checkout;
 import com.razorpay.Order;
 import com.razorpay.PaymentResultListener;
@@ -42,6 +42,8 @@ public class ConfirmBookActivity extends AppCompatActivity implements PaymentRes
 
     Intent bundle;
 
+    CustomLoading customLoading;
+
     UserSession userSession;
 
     Checkout checkout;
@@ -62,6 +64,8 @@ public class ConfirmBookActivity extends AppCompatActivity implements PaymentRes
         StrictMode.ThreadPolicy policy = new
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
+
+        customLoading = new CustomLoading(this);
 
         userSession = new UserSession(this);
 
@@ -122,33 +126,33 @@ public class ConfirmBookActivity extends AppCompatActivity implements PaymentRes
 
     public void startPayment(Order order) {
         checkout.setKeyID(getResources().getString(R.string.razorpay_key_id));
-        /**
+        /*
          * Instantiate Checkout
          */
         Checkout checkout = new Checkout();
 
-        /**
+        /*
          * Set your logo here
          */
-        checkout.setImage(R.drawable.ic_launcher_foreground);
+        checkout.setImage(R.mipmap.ic_launcher);
 
-        /**
+        /*
          * Reference to current activity
          */
 
-        /**
+        /*
          * Pass your payment options to the Razorpay Checkout as a JSONObject
          */
         try {
             JSONObject options = new JSONObject();
 
-            /**
+            /*
              * Merchant Name
              * eg: ACME Corp || HasGeek etc.
              */
             options.put("name", "RJ19 CAR WASH");
 
-            /**
+            /*
              * Description can be anything
              * eg: Reference No. #123123 - This order number is passed by you for your internal reference. This is not the `razorpay_order_id`.
              *     Invoice Payment
@@ -159,7 +163,7 @@ public class ConfirmBookActivity extends AppCompatActivity implements PaymentRes
             options.put("order_id", order.get("id"));
             options.put("currency", "INR");
 
-            /**
+            /*
              * Amount is always passed in currency subunits
              * Eg: "500" = INR 5.00
              */
@@ -174,7 +178,7 @@ public class ConfirmBookActivity extends AppCompatActivity implements PaymentRes
     @Override
     public void onPaymentSuccess(String s) {
 
-        toast(this, s);
+//        toast(this, s);
 
         confirmBookBinding.confirmbookFailurecard.setVisibility(View.GONE);
         confirmBookBinding.confirmbookSuccesscard.setVisibility(View.VISIBLE);
@@ -189,10 +193,11 @@ public class ConfirmBookActivity extends AppCompatActivity implements PaymentRes
     public void onPaymentError(int i, String s) {
 
         cancelOrder(order_id);
-        toast(this, "Error: " + s);
+//        toast(this, "Error: " + s);
 
         confirmBookBinding.confirmbookFailurecard.setVisibility(View.VISIBLE);
         confirmBookBinding.confirmbookSuccesscard.setVisibility(View.GONE);
+        confirmBookBinding.confirmbookBtnback.setText("");
 
 //        textView.setText("Error: " + s);
     }
@@ -208,13 +213,10 @@ public class ConfirmBookActivity extends AppCompatActivity implements PaymentRes
                             if (response.body() != null){
                                 if (response.body().getResponseCode() == 201){
                                     toast(ConfirmBookActivity.this, response.body().getMessage());
-//                                    Navigation.findNavController(requireView()).navigate(R.id.gobackbook);
                                 }else {
                                     toast(ConfirmBookActivity.this, response.body().getMessage());
                                 }
-                            }
-//                            Navigation.findNavController(requireView()).navigate(R.id.toOrders);
-                        }
+                            }}
                     }
 
                     @Override

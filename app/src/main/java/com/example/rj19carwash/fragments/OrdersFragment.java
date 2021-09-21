@@ -10,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.rj19carwash.R;
 import com.example.rj19carwash.adapters.OrdersAdapter;
@@ -21,6 +23,7 @@ import com.example.rj19carwash.databinding.FragmentOrdersBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.OrdersResponse;
 import com.example.rj19carwash.sessions.UserSession;
+import com.example.rj19carwash.utilities.CustomLoading;
 
 import java.util.ArrayList;
 
@@ -38,6 +41,7 @@ public class OrdersFragment extends Fragment {
 
     ArrayList<OrdersResponse.Datum> arrOrdersList = new ArrayList<>();
 
+    CustomLoading customLoading;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -45,7 +49,20 @@ public class OrdersFragment extends Fragment {
         // Inflate the layout for this fragment
         ordersBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_orders, container, false);
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), callback);
+
         initViews();
+
+        ordersBinding.ordersRefresh.setOnRefreshListener(() -> {
+            ordersBinding.ordersRefresh.setRefreshing(false);
+            initViews();
+        });
 
         return ordersBinding.getRoot();
     }
@@ -53,7 +70,7 @@ public class OrdersFragment extends Fragment {
     private void initViews() {
 
         userSession = new UserSession(requireActivity());
-
+        customLoading = new CustomLoading(requireContext());
         ordersBinding.ordersRecyclerview.setHasFixedSize(true);
 
         getOrders(userSession.getKeyToken().get(KEY_TOKEN), userSession.getCustomerId().get(KEY_CUSTOMER_ID));
@@ -62,34 +79,58 @@ public class OrdersFragment extends Fragment {
 
     private void getOrders(String token, Integer customer_id) {
 
+        customLoading.startLoading(getLayoutInflater());
+        arrOrdersList.clear();
+
         RetrofitClient.getInstance().getapi().getOrders("Bearer "+token, customer_id)
                 .enqueue(new Callback<OrdersResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<OrdersResponse> call, @NonNull Response<OrdersResponse> response) {
 
-                        if (response.isSuccessful()){
-                            if (response.body() != null){
+                        customLoading.dismissLoading();
+                        if (response.isSuccessful() && response.body() != null){
+
                                 if (response.body().getResponseCode() == 201){
+
                                     arrOrdersList = response.body().getData();
-                                    ordersAdapter = new OrdersAdapter(requireActivity(), arrOrdersList);
-                                    ordersBinding.ordersRecyclerview.setLayoutManager(new LinearLayoutManager(requireActivity()));
-                                    ordersBinding.ordersRecyclerview.setAdapter(ordersAdapter);
+
+                                    if (arrOrdersList.size() != 0) {
+
+                                        ordersBinding.ordersTxtempty.setVisibility(View.GONE);
+                                        ordersBinding.ordersRecyclerview.setVisibility(View.VISIBLE);
+
+                                        ordersAdapter = new OrdersAdapter(requireActivity(), arrOrdersList);
+                                        ordersBinding.ordersRecyclerview.setLayoutManager(new LinearLayoutManager(requireActivity()));
+                                        ordersBinding.ordersRecyclerview.setAdapter(ordersAdapter);
 
                                 }else {
-                                    // this is showing
-                                    toast(requireActivity(), response.message());
+                                        ordersBinding.ordersRecyclerview.setVisibility(View.GONE);
+                                        ordersBinding.ordersTxtempty.setVisibility(View.VISIBLE);
+                                    }
+                            }else {
+                                toast(requireContext(), "Something went wrong! try again later");
 
-                                }
+                                    ordersBinding.ordersRecyclerview.setVisibility(View.GONE);
+                                    ordersBinding.ordersTxtempty.setVisibility(View.VISIBLE);
                             }
+                        }else {
+                            toast(requireContext(), "Something went wrong! try again later");
+
+                            ordersBinding.ordersRecyclerview.setVisibility(View.GONE);
+                            ordersBinding.ordersTxtempty.setVisibility(View.VISIBLE);
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<OrdersResponse> call, @NonNull Throwable t) {
-
+                        customLoading.dismissLoading();
                         arrOrdersList = null;
+
+                        ordersBinding.ordersRecyclerview.setVisibility(View.GONE);
+                        ordersBinding.ordersTxtempty.setVisibility(View.VISIBLE);
+
                         Log.d("failorders",t.getMessage());
-                        toast(requireActivity(), "Server error try again later");
+                        toast(requireActivity(), "Server error! try again later");
                     }
                 });
     }

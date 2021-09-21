@@ -5,4 +5,7 @@
 
     <string name="razorpay_key_id">rzp_live_lGugoSh169nHiU</string>
     <string name="razorpay_secret_key">sbJ7BpKFd3757bW0GrrsXBK4</string>
+
+
+    <string name="map_api_key">AIzaSyBVouc8BYsxVDP2u3575z2RtgAFQtsiVks</string>
 </resources>

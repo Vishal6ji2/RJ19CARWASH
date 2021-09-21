@@ -46,6 +46,16 @@ public class ServicesAdapter extends RecyclerView.Adapter<ServicesAdapter.ViewHo
         return arrServicesList.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ServicesItemLayoutBinding servicesItemLayoutBinding;
         public ViewHolder(@NonNull ServicesItemLayoutBinding servicesItemLayoutBinding) {

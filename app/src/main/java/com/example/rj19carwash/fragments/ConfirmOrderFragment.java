@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -19,6 +20,7 @@ import com.example.rj19carwash.databinding.FragmentConfirmOrderBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.OrderStatusResponse;
 import com.example.rj19carwash.sessions.UserSession;
+import com.example.rj19carwash.utilities.CustomLoading;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +36,8 @@ public class ConfirmOrderFragment extends Fragment {
 
     int order_id;
 
+    CustomLoading customLoading;
+
     UserSession userSession;
 
 
@@ -47,6 +51,7 @@ public class ConfirmOrderFragment extends Fragment {
         bundle = getArguments();
 
         userSession = new UserSession(requireContext());
+        customLoading = new CustomLoading(requireContext());
 
         if (bundle != null){
             service_image = bundle.getString("service_image");
@@ -60,7 +65,19 @@ public class ConfirmOrderFragment extends Fragment {
         }
 
 
-        confirmOrderBinding.confirmTxtprice.setText(service_price);
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Handle the back button event
+                Navigation.findNavController(requireView()).popBackStack();
+            }
+        };
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), callback);
+
+
+
+        confirmOrderBinding.confirmTxtprice.setText(String.format("₹ %s", service_price));
         confirmOrderBinding.confirmTxttime.setText(service_time);
         confirmOrderBinding.confirmTxtservicename.setText(service_name);
 
@@ -74,26 +91,29 @@ public class ConfirmOrderFragment extends Fragment {
 
     private void setOrderStatus(String status) {
 
+        customLoading.startLoading(getLayoutInflater());
+
         RetrofitClient.getInstance().getapi().setOrderStatus("Bearer "+userSession.getKeyToken().get(KEY_TOKEN), order_id, status)
                 .enqueue(new Callback<OrderStatusResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<OrderStatusResponse> call, @NonNull Response<OrderStatusResponse> response) {
 
-                        if (response.isSuccessful()){
-                            if (response.body() != null){
+                        customLoading.dismissLoading();
+                        if (response.isSuccessful() && response.body() != null){
+
                                 if (response.body().getResponseCode() == 201){
                                    toast(requireContext(), response.body().getMessage());
                                 }else {
                                     toast(requireContext(), response.body().getMessage());
                                 }
-                            }
-                            Navigation.findNavController(requireView()).navigate(R.id.toOrders);
                         }
+                            Navigation.findNavController(requireView()).navigate(R.id.toOrders);
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<OrderStatusResponse> call, @NonNull Throwable t) {
 
+                        customLoading.dismissLoading();
                         Log.d("statuserror", t.getMessage());
                         toast(requireContext(), "Server error! try again later");
                     }

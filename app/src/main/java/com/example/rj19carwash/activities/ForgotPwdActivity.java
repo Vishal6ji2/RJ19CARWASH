@@ -19,6 +19,7 @@ import com.example.rj19carwash.databinding.ActivityForgotPwdBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.ForgotResponse;
 import com.example.rj19carwash.responses.LoginResponse;
+import com.example.rj19carwash.utilities.CustomLoading;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,11 +29,16 @@ public class ForgotPwdActivity extends AppCompatActivity {
 
     ActivityForgotPwdBinding forgotPwdBinding;
 
+    CustomLoading customLoading;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         forgotPwdBinding = DataBindingUtil.setContentView(this, R.layout.activity_forgot_pwd);
+
+        customLoading = new CustomLoading(this);
 
         forgotPwdBinding.btnForgot.setOnClickListener(view -> {
             if (isConnected(this)) {
@@ -50,36 +56,30 @@ public class ForgotPwdActivity extends AppCompatActivity {
 
     private void forgotPassword() {
 
-        setViewGroupEnabled(forgotPwdBinding.phoneLayout, false);
-        forgotPwdBinding.forgotLoadinglayout.setVisibility(View.VISIBLE);
-
+        customLoading.startLoading(getLayoutInflater());
 
         RetrofitClient.getInstance().getapi().forgotPassword(forgotPwdBinding.forgotEtPhone.getText().toString())
                 .enqueue(new Callback<ForgotResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ForgotResponse> call, @NonNull Response<ForgotResponse> response) {
-                        if (response.isSuccessful()){
-                            if (response.body() != null){
+                        customLoading.dismissLoading();
+                        if (response.isSuccessful() && response.body() != null){
                                 if (response.body().getResponseCode() == 201){
                                    toast(ForgotPwdActivity.this, response.body().getMessage());
                                    startActivity(new Intent(ForgotPwdActivity.this, LoginActivity.class));
                                    finish();
+                                }else {
+                                    toast(ForgotPwdActivity.this, response.body().getMessage());
                                 }
-                            }else {
-                                toast(ForgotPwdActivity.this, "try again later");
-                            }
+                        }else {
+                            toast(ForgotPwdActivity.this, "Something went wrong! try again");
                         }
-
-                        forgotPwdBinding.forgotLoadinglayout.setVisibility(View.GONE);
-                        setViewGroupEnabled(forgotPwdBinding.phoneLayout, true);
-
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ForgotResponse> call, @NonNull Throwable t) {
-                        forgotPwdBinding.forgotLoadinglayout.setVisibility(View.GONE);
-                        setViewGroupEnabled(forgotPwdBinding.phoneLayout, true);
 
+                        customLoading.dismissLoading();
                         Log.d("forgoterror", t.getLocalizedMessage());
                         toast(ForgotPwdActivity.this, "Server error! try again later");
                     }

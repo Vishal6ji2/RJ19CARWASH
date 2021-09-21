@@ -173,7 +173,7 @@ public class ConfirmationOrderFragment extends Fragment implements PaymentResult
     @Override
     public void onPaymentSuccess(String s) {
 
-        toast(requireContext(), s);
+//        toast(requireContext(), s);
 
         confirmationOrderBinding.confirmationFailurecard.setVisibility(View.GONE);
         confirmationOrderBinding.confirmationSuccesscard.setVisibility(View.VISIBLE);
@@ -188,12 +188,11 @@ public class ConfirmationOrderFragment extends Fragment implements PaymentResult
     public void onPaymentError(int i, String s) {
 
         cancelOrder(order_id);
-        toast(requireContext(), "Error: " + s);
+//        toast(requireContext(), "Error: " + s);
 
         confirmationOrderBinding.confirmationFailurecard.setVisibility(View.VISIBLE);
         confirmationOrderBinding.confirmationSuccesscard.setVisibility(View.GONE);
 
-//        textView.setText("Error: " + s);
     }
 
     private void cancelOrder(int order_id) {
@@ -211,6 +210,8 @@ public class ConfirmationOrderFragment extends Fragment implements PaymentResult
                                 }else {
                                     toast(requireContext(), response.body().getMessage());
                                 }
+                            }else {
+                                toast(requireContext(), "Something went wrong! try again");
                             }
                             Navigation.findNavController(requireView()).navigate(R.id.toOrders);
                         }

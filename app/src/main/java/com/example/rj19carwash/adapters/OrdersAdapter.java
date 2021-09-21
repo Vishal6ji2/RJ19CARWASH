@@ -1,5 +1,6 @@
 package com.example.rj19carwash.adapters;
 
+import static com.example.rj19carwash.utilities.TimeUtils.getDateTime;
 import static com.example.rj19carwash.utilities.TimeUtils.getDayMonth;
 
 import android.content.Context;
@@ -15,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.rj19carwash.R;
 import com.example.rj19carwash.databinding.OrdersItemLayoutBinding;
 import com.example.rj19carwash.responses.OrdersResponse;
+import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 
 
@@ -45,6 +48,16 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         return arrOrdersList.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         OrdersItemLayoutBinding ordersItemLayoutBinding;
@@ -57,8 +70,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         public void bindOrders(OrdersResponse.Datum ordersResponse){
 
             if (ordersResponse.getStatus().equals("0")) {
-                ordersItemLayoutBinding.orderItemTime.setText(getDayMonth(ordersResponse.getSlot()));
+                ordersItemLayoutBinding.orderItemTime.setText(getDateTime(ordersResponse.getSlot()));
                 ordersItemLayoutBinding.setOrders(ordersResponse);
+                Picasso.get().load("https://www.rj19carwash.com/"+ordersResponse.getServiceId().getServiceImage()).placeholder(R.mipmap.ic_launcher_foreground).into(ordersItemLayoutBinding.orderItemImg);
 
             }
 

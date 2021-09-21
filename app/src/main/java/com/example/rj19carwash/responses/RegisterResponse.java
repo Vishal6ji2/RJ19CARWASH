@@ -131,9 +131,10 @@ public class RegisterResponse implements Serializable
 
     public static class Errors implements Serializable
     {
-     /*   @SerializedName("phone")
+        @SerializedName("phone")
         @Expose
         private ArrayList<String> phone = null;
+        private final static long serialVersionUID = -7500472286893363030L;
 
         public ArrayList<String> getPhone() {
             return phone;
@@ -142,7 +143,6 @@ public class RegisterResponse implements Serializable
         public void setPhone(ArrayList<String> phone) {
             this.phone = phone;
         }
-*/
 
     }
 

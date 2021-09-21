@@ -2,6 +2,7 @@ package com.example.rj19carwash.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -41,6 +42,8 @@ public class SubCategoriesAdapter extends RecyclerView.Adapter<SubCategoriesAdap
 
         holder.bindCategories(arrCategoriesList.get(position));
 
+        Log.d("subcatimage", "https://www.rj19carwash.com/"+arrCategoriesList.get(position).getCategoryImage());
+
         holder.itemView.setOnClickListener(view -> {
             // goto subcategories fragment
 
@@ -58,6 +61,16 @@ public class SubCategoriesAdapter extends RecyclerView.Adapter<SubCategoriesAdap
         return arrCategoriesList.size();
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         SubcategoriesItemLayoutBinding categoriesItemLayoutBinding;
@@ -69,7 +82,7 @@ public class SubCategoriesAdapter extends RecyclerView.Adapter<SubCategoriesAdap
 
         public void bindCategories(SubCategoriesResponse.Subcategory subcategory){
             categoriesItemLayoutBinding.setSubcategories(subcategory);
-            Picasso.get().load("https://www.rj19carwash.com/"+subcategory.getCategoryImage()).into(categoriesItemLayoutBinding.cateItemIcon);
+            Picasso.get().load("https://www.rj19carwash.com/"+subcategory.getCategoryImage()).placeholder(R.mipmap.ic_launcher_foreground).into(categoriesItemLayoutBinding.cateItemIcon);
 
             categoriesItemLayoutBinding.executePendingBindings();
 

@@ -8,6 +8,7 @@ import static com.example.rj19carwash.sessions.UserSession.KEY_PHONE;
 import static com.example.rj19carwash.sessions.UserSession.KEY_PROFILE;
 import static com.example.rj19carwash.sessions.UserSession.KEY_TOKEN;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -30,6 +31,7 @@ import com.example.rj19carwash.databinding.FragmentProfileBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.ProfileResponse;
 import com.example.rj19carwash.sessions.UserSession;
+import com.example.rj19carwash.utilities.CustomLoading;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
@@ -39,6 +41,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,6 +58,8 @@ public class ProfileFragment extends Fragment implements OnMapReadyCallback {
 
     GoogleMap mMap;
 
+    CustomLoading customLoading;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -64,11 +69,11 @@ public class ProfileFragment extends Fragment implements OnMapReadyCallback {
         profileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
 
         profileBinding.profileMapview.onCreate(savedInstanceState);
-        profileBinding.profileMapview.getMapAsync(this);
 
         MapsInitializer.initialize(requireContext());
 
         userSession = new UserSession(requireContext());
+        customLoading = new CustomLoading(requireContext());
 
         getProfileDetails();
 
@@ -78,6 +83,7 @@ public class ProfileFragment extends Fragment implements OnMapReadyCallback {
                 // Handle the back button event
             }
         };
+
         requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), callback);
 
         profileBinding.profileEdit.setOnClickListener(view -> {
@@ -102,10 +108,14 @@ public class ProfileFragment extends Fragment implements OnMapReadyCallback {
 
     private void getProfileDetails() {
 
+        customLoading.startLoading(getLayoutInflater());
+
         RetrofitClient.getInstance().getapi().getProfile("Bearer "+userSession.getKeyToken().get(KEY_TOKEN), userSession.getCustomerData().get(KEY_PHONE))
                 .enqueue(new Callback<ProfileResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ProfileResponse> call, @NonNull Response<ProfileResponse> response) {
+
+                        customLoading.dismissLoading();
                         if (response.isSuccessful()){
                             if (response.body() != null) {
                                 if (response.body().getResponseCode() == 201) {
@@ -116,7 +126,7 @@ public class ProfileFragment extends Fragment implements OnMapReadyCallback {
                                         String name = profile.getProfile().getName();
                                         String email = profile.getProfile().getEmail();
                                         String phone = profile.getProfile().getPhone() ;
-                                        String gender = "" ; //U can remove later.. for now just for fix
+                                        String gender = profile.getProfile().getGender();
                                         String address = profile.getProfile().getAddress();
                                         String getProfile = profile.getProfile().getProfile() ;
                                         String status = profile.getProfile().getCustomerStatus() ;
@@ -131,7 +141,7 @@ public class ProfileFragment extends Fragment implements OnMapReadyCallback {
                                     setCustomerData();
                                 }
                             }else {
-                                toast(requireActivity(), response.body().getMessage());
+                                /*toast(requireActivity(), "Something went wrong! try again later");*/
                             }
                         }
                     }
@@ -139,6 +149,7 @@ public class ProfileFragment extends Fragment implements OnMapReadyCallback {
                     @Override
                     public void onFailure(@NonNull Call<ProfileResponse> call, @NonNull Throwable t) {
 
+                        customLoading.dismissLoading();
                         Log.d(TAG, t.getMessage());
                         toast(requireActivity(), "Server error! try again later");
                     }
@@ -147,17 +158,35 @@ public class ProfileFragment extends Fragment implements OnMapReadyCallback {
 
     private void setCustomerData() {
 
-        profileBinding.profileAddress.setText(userSession.getCustomerData().get(KEY_ADDRESS));
-        profileBinding.profileEmail.setText(userSession.getCustomerData().get(KEY_EMAIL));
-        profileBinding.profileName.setText(userSession.getCustomerData().get(KEY_NAME));
-        profileBinding.profilePhone.setText(String.format("+91 %s", userSession.getCustomerData().get(KEY_PHONE)));
+        customLoading.dismissLoading();
 
+        if (userSession.getCustomerData().get(KEY_ADDRESS).isEmpty()){
+            profileBinding.profileAddress.setVisibility(View.GONE);
+        }else {
+            profileBinding.profileAddress.setVisibility(View.VISIBLE);
+            profileBinding.profileAddress.setText(userSession.getCustomerData().get(KEY_ADDRESS));
+        }
+        if (userSession.getCustomerData().get(KEY_EMAIL).isEmpty()){
+            profileBinding.profileEmail.setVisibility(View.GONE);
+        }else {
+            profileBinding.profileEmail.setVisibility(View.VISIBLE);
+            profileBinding.profileEmail.setText(userSession.getCustomerData().get(KEY_EMAIL));
+        }
+        if (userSession.getCustomerData().get(KEY_NAME).isEmpty()){
+            profileBinding.profileName.setVisibility(View.GONE);
+        }else {
+            profileBinding.profileName.setVisibility(View.VISIBLE);
+            profileBinding.profileName.setText(userSession.getCustomerData().get(KEY_NAME));
+        }
+        profileBinding.profilePhone.setText(userSession.getCustomerData().get(KEY_PHONE));
 
-        if (userSession.getCustomerData().get(KEY_PROFILE) != null && Objects.requireNonNull(userSession.getCustomerData().get(KEY_PROFILE)).equals("")) {
+        profileBinding.profileMapview.getMapAsync(this);
+
+       /* if (userSession.getCustomerData().get(KEY_PROFILE) != null && Objects.requireNonNull(userSession.getCustomerData().get(KEY_PROFILE)).equals("")) {
             Picasso.get().load("https://www.rj19carwash.com/" + userSession.getCustomerData().get(KEY_PROFILE)).placeholder(R.drawable.profileicon).into(profileBinding.profileImage);
         }else {
             profileBinding.profileImage.setImageResource(R.drawable.profileicon);
-        }
+        }*/
     }
 
     public LatLng getLocationFromAddress(String strAddress) {
@@ -173,11 +202,12 @@ public class ProfileFragment extends Fragment implements OnMapReadyCallback {
                 return null;
             }
 
-            Address location = address.get(0);
-            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
-
+            if (address.size() > 0) {
+                Address location = address.get(0);
+                p1 = new LatLng(location.getLatitude(), location.getLongitude());
+            }
         } catch (IOException ex) {
-
+            toast(requireContext(), "Location not found! enter your Complete address");
             ex.printStackTrace();
         }
 
@@ -189,8 +219,10 @@ public class ProfileFragment extends Fragment implements OnMapReadyCallback {
 
         mMap = googleMap;
         LatLng latLng = getLocationFromAddress(userSession.getCustomerData().get(KEY_ADDRESS));
-        mMap.addMarker(new MarkerOptions().position(latLng).title(userSession.getCustomerData().get(KEY_ADDRESS)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+        if (latLng != null) {
+            mMap.addMarker(new MarkerOptions().position(latLng).title(userSession.getCustomerData().get(KEY_ADDRESS)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+        }
 
     }
 
@@ -223,6 +255,5 @@ public class ProfileFragment extends Fragment implements OnMapReadyCallback {
         super.onLowMemory();
         profileBinding.profileMapview.onLowMemory();
     }
-
 
 }

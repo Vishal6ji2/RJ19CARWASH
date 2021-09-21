@@ -3,13 +3,11 @@ package com.example.rj19carwash.activities;
 import static com.example.rj19carwash.Views.toast;
 import static com.example.rj19carwash.networks.CheckInternet.isConnected;
 import static com.example.rj19carwash.utilities.ViewUtils.phonePattern;
-import static com.example.rj19carwash.utilities.ViewUtils.setViewGroupEnabled;
 
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +18,7 @@ import com.example.rj19carwash.databinding.ActivityLoginBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.LoginResponse;
 import com.example.rj19carwash.sessions.UserSession;
+import com.example.rj19carwash.utilities.CustomLoading;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,11 +30,16 @@ public class LoginActivity extends AppCompatActivity {
 
     UserSession userSession;
 
+    CustomLoading customLoading;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         loginBinding = DataBindingUtil.setContentView(this,R.layout.activity_login);
+
+        customLoading = new CustomLoading(this);
 
         loginBinding.tvRegister.setPaintFlags(loginBinding.tvRegister.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         loginBinding.tvForgot.setPaintFlags(loginBinding.tvForgot.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -68,34 +72,38 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onSendOtpClick(String phone, String password){
+/*
         setViewGroupEnabled(loginBinding.phoneLayout, false);
         loginBinding.loginLoadinglayout.setVisibility(View.VISIBLE);
+*/
+
+        customLoading.startLoading(getLayoutInflater());
 
         RetrofitClient.getInstance().getapi().loginResponse(phone, password).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
+                customLoading.dismissLoading();
+
                 if (response.isSuccessful() && response.body() != null){
 
                     if (response.body().getResponseCode() == 201) {
-                        loginBinding.loginLoadinglayout.setVisibility(View.GONE);
-                        setViewGroupEnabled(loginBinding.phoneLayout, true);
+
                         toast(LoginActivity.this, response.body().getMessage());
-                        LoginResponse.Data data = response.body().getData();
 
                         userSession.setKeyToken(response.body().getData().getPhone(), response.body().getData().getToken());
+                        userSession.setKeyCustomerId(response.body().getData().getId());
 
-                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                        finish();
-
+                        if (response.body().getData().getAddress() == null && response.body().getData().getName() == null){
+                            startActivity(new Intent(LoginActivity.this, CompleteProfileActivity.class));
+                            finish();
+                        }else {
+                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            finish();
+                        }
                     }else {
-                        loginBinding.loginLoadinglayout.setVisibility(View.GONE);
-                        setViewGroupEnabled(loginBinding.phoneLayout, true);
                         toast(LoginActivity.this, response.body().getMessage());
-
                     }
                 }else {
-                    loginBinding.loginLoadinglayout.setVisibility(View.GONE);
-                    setViewGroupEnabled(loginBinding.phoneLayout, true);
                     toast(LoginActivity.this,"Wrong Credentials");
                 }
             }
@@ -103,8 +111,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<LoginResponse> call, @NonNull Throwable t) {
 
-                loginBinding.loginLoadinglayout.setVisibility(View.GONE);
-                setViewGroupEnabled(loginBinding.phoneLayout, true);
+                customLoading.dismissLoading();
+
                 Log.d("LoginViewModel",t.getMessage());
                 toast(LoginActivity.this, "Server error! try again later");
             }
@@ -112,4 +120,8 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
 }
