@@ -22,7 +22,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="@dimen/_10sdp"
-                android:text="Complete your Profile"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_14ssp"
                 tools:ignore="HardcodedText" />

@@ -42,7 +42,6 @@
             android:layout_toEndOf="@id/order_item_card"
             android:padding="@dimen/_3sdp"
             android:text="@{orders.serviceId.name}"
-            android:textColor="@color/black"
             android:textSize="@dimen/_13ssp"
             tools:ignore="HardcodedText" />
 
@@ -79,7 +78,6 @@
             android:layout_below="@id/order_item_price"
             android:layout_alignParentEnd="true"
             android:padding="@dimen/_3sdp"
-            android:text="2021-09-02 12:00:00"
             android:textColor="@color/pencilcolor"
             android:textSize="@dimen/_12ssp"
             tools:ignore="HardcodedText" />

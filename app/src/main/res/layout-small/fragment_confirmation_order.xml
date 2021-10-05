@@ -112,6 +112,7 @@
                 android:textAllCaps="false"
                 android:backgroundTint="@color/redcolor"
                 app:cornerRadius="@dimen/_10sdp"
+                android:textColor="@color/white"
                 tools:ignore="HardcodedText"
                 android:layout_marginTop="@dimen/_10sdp"/>
 

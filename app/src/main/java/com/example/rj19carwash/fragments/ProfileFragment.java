@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -67,6 +68,8 @@ public class ProfileFragment extends Fragment implements OnMapReadyCallback {
         // Inflate the layout for this fragment
 
         profileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false);
+
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
         profileBinding.profileMapview.onCreate(savedInstanceState);
 

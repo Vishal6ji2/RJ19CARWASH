@@ -114,7 +114,6 @@ public class UserSession {
         customerData.put(KEY_PROFILE,userSession.getString(KEY_PROFILE,""));
         customerData.put(KEY_CUSTOMER_STATUS,userSession.getString(KEY_CUSTOMER_STATUS,""));
 
-
         return customerData;
     }
 

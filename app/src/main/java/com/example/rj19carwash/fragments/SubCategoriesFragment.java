@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -53,6 +54,8 @@ public class SubCategoriesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         subCategoriesBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_sub_categories, container, false);
+
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
         customLoading = new CustomLoading(requireContext());
 

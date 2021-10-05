@@ -70,7 +70,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
         public void bindOrders(OrdersResponse.Datum ordersResponse){
 
             if (ordersResponse.getStatus().equals("0")) {
-                ordersItemLayoutBinding.orderItemTime.setText(getDateTime(ordersResponse.getSlot()));
+                if (ordersResponse.getSlot()!=null) {
+                    ordersItemLayoutBinding.orderItemTime.setText(getDateTime(ordersResponse.getSlot()));
+                }
                 ordersItemLayoutBinding.setOrders(ordersResponse);
                 Picasso.get().load("https://www.rj19carwash.com/"+ordersResponse.getServiceId().getServiceImage()).placeholder(R.mipmap.ic_launcher_foreground).into(ordersItemLayoutBinding.orderItemImg);
 

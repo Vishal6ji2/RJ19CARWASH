@@ -1,8 +1,6 @@
 package com.example.rj19carwash.fragments;
 
 import static com.example.rj19carwash.Views.toast;
-import static com.example.rj19carwash.sessions.UserSession.KEY_ADDRESS;
-import static com.example.rj19carwash.sessions.UserSession.KEY_NAME;
 import static com.example.rj19carwash.sessions.UserSession.KEY_TOKEN;
 
 import android.os.Bundle;
@@ -12,10 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavOptions;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.rj19carwash.R;
@@ -51,15 +48,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
 
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+
         userSession = new UserSession(requireContext());
         customLoading = new CustomLoading(requireContext());
-/*
-        if (userSession.getCustomerData().get(KEY_NAME).isEmpty() && userSession.getCustomerData().get(KEY_ADDRESS).isEmpty()){
-            toast(requireContext(), "Please complete your profile first");
-
-            NavOptions navOptions = new NavOptions.Builder().build();
-            Navigation.findNavController()
-        }*/
 
         initViews();
 
@@ -74,7 +66,6 @@ public class HomeFragment extends Fragment {
     public void initViews() {
 
         fragmentHomeBinding.categoriesRecyclerview.setHasFixedSize(true);
-//        categoriesViewModel = new ViewModelProvider(this).get(CategoriesViewModel.class);
 
         getCategories(userSession.getKeyToken().get(KEY_TOKEN));
 

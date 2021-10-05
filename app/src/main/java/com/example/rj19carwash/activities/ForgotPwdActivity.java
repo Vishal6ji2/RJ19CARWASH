@@ -7,6 +7,7 @@ import static com.example.rj19carwash.utilities.ViewUtils.setViewGroupEnabled;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
@@ -35,8 +36,9 @@ public class ForgotPwdActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         forgotPwdBinding = DataBindingUtil.setContentView(this, R.layout.activity_forgot_pwd);
+
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
         customLoading = new CustomLoading(this);
 
@@ -57,7 +59,7 @@ public class ForgotPwdActivity extends AppCompatActivity {
     private void forgotPassword() {
 
         customLoading.startLoading(getLayoutInflater());
-
+/*
         RetrofitClient.getInstance().getapi().forgotPassword(forgotPwdBinding.forgotEtPhone.getText().toString())
                 .enqueue(new Callback<ForgotResponse>() {
                     @Override
@@ -83,6 +85,6 @@ public class ForgotPwdActivity extends AppCompatActivity {
                         Log.d("forgoterror", t.getLocalizedMessage());
                         toast(ForgotPwdActivity.this, "Server error! try again later");
                     }
-                });
+                });*/
     }
 }

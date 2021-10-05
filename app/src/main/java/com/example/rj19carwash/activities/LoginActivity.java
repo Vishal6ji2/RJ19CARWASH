@@ -8,15 +8,18 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.rj19carwash.R;
 import com.example.rj19carwash.databinding.ActivityLoginBinding;
 import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.LoginResponse;
+import com.example.rj19carwash.sessions.ThemeSession;
 import com.example.rj19carwash.sessions.UserSession;
 import com.example.rj19carwash.utilities.CustomLoading;
 
@@ -32,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
 
     CustomLoading customLoading;
 
+    ThemeSession themeSession;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +44,20 @@ public class LoginActivity extends AppCompatActivity {
 
         loginBinding = DataBindingUtil.setContentView(this,R.layout.activity_login);
 
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         customLoading = new CustomLoading(this);
 
-        loginBinding.tvRegister.setPaintFlags(loginBinding.tvRegister.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        loginBinding.tvForgot.setPaintFlags(loginBinding.tvForgot.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-
         userSession = new UserSession(this);
+        themeSession = new ThemeSession(this);
+
+        if (themeSession.checkTheme()){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            themeSession.setTheme(true);
+        }else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            themeSession.setTheme(false);
+        }
+
 
         loginBinding.btnSendOtp.setOnClickListener(view -> {
             if (isConnected(this)) {
@@ -52,34 +65,21 @@ public class LoginActivity extends AppCompatActivity {
                     toast(LoginActivity.this, "Please enter Phone number");
                 }else if (!((loginBinding.loginEtPhone).getText().toString().matches(phonePattern))) {
                     toast(this, "Phone number is invalid");
-                }else if (loginBinding.loginEtPass.getText().toString().isEmpty()){
-                    toast(LoginActivity.this, "Please enter password");
                 }else {
-                    onSendOtpClick(loginBinding.loginEtPhone.getText().toString(), loginBinding.loginEtPass.getText().toString());
+                    onSendOtpClick(loginBinding.loginEtPhone.getText().toString());
                 }
             }else {
                 toast(this, "Please Check Your Internet Connection");
             }
         });
 
-        loginBinding.tvRegister.setOnClickListener(view -> {
-            startActivity(new Intent(this, RegisterActivity.class));
-            finish();
-        });
-
-        loginBinding.tvForgot.setOnClickListener(view -> startActivity(new Intent(this, ForgotPwdActivity.class)));
-
     }
 
-    public void onSendOtpClick(String phone, String password){
-/*
-        setViewGroupEnabled(loginBinding.phoneLayout, false);
-        loginBinding.loginLoadinglayout.setVisibility(View.VISIBLE);
-*/
+    public void onSendOtpClick(String phone){
 
         customLoading.startLoading(getLayoutInflater());
 
-        RetrofitClient.getInstance().getapi().loginResponse(phone, password).enqueue(new Callback<LoginResponse>() {
+        RetrofitClient.getInstance().getapi().loginResponse(phone).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
                 customLoading.dismissLoading();
@@ -90,8 +90,10 @@ public class LoginActivity extends AppCompatActivity {
 
                         toast(LoginActivity.this, response.body().getMessage());
 
-                        userSession.setKeyToken(response.body().getData().getPhone(), response.body().getData().getToken());
+                        userSession.logoutCustomerSession();
+
                         userSession.setKeyCustomerId(response.body().getData().getId());
+                        userSession.setKeyToken(response.body().getData().getPhone(), response.body().getData().getToken());
 
                         if (response.body().getData().getAddress() == null && response.body().getData().getName() == null){
                             startActivity(new Intent(LoginActivity.this, CompleteProfileActivity.class));

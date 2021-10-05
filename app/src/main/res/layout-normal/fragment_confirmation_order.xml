@@ -113,6 +113,7 @@
                 android:backgroundTint="@color/redcolor"
                 app:cornerRadius="@dimen/_10sdp"
                 tools:ignore="HardcodedText"
+                android:textColor="@color/white"
                 android:layout_marginTop="@dimen/_10sdp"/>
 
         </LinearLayout>

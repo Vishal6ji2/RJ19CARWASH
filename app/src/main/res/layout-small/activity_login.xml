@@ -19,164 +19,58 @@
             android:text="Sign In"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
             android:padding="10dp"
             android:gravity="center"
             tools:ignore="HardcodedText" />
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/phoneLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/loginbg"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:gravity="center">
 
-            <LinearLayout
-                android:id="@+id/phoneLayout"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/loginbg"
-                android:orientation="vertical"
-                android:visibility="visible"
-                android:gravity="center">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:padding="@dimen/_5sdp"
+                app:cardCornerRadius="@dimen/_10sdp">
 
-                <androidx.cardview.widget.CardView
+                <EditText
+                    android:id="@+id/login_et_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:padding="@dimen/_5sdp"
-                    app:cardCornerRadius="@dimen/_10sdp">
-
-                    <EditText
-                        android:id="@+id/login_et_phone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:hint="Phone"
-                        android:maxLength="10"
-                        android:digits="1234567890"
-                        android:maxLines="1"
-                        android:imeOptions="actionNext"
-                        android:inputType="phone"
-                        android:padding="@dimen/_10sdp"
-                        tools:ignore="Autofill,HardcodedText" />
-
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:padding="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    app:cardCornerRadius="@dimen/_10sdp">
-
-                    <EditText
-                        android:id="@+id/login_et_pass"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:hint="Password"
-                        android:inputType="textPassword"
-                        android:maxLength="20"
-                        android:maxLines="1"
-                        android:padding="@dimen/_10sdp"
-                        tools:ignore="Autofill,HardcodedText" />
-
-                </androidx.cardview.widget.CardView>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_sendOtp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@null"
+                    android:hint="Phone"
+                    android:maxLength="10"
+                    android:digits="1234567890"
+                    android:maxLines="1"
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
                     android:padding="@dimen/_10sdp"
-                    android:text="Sign In"
-                    android:textAllCaps="false"
-                    app:cornerRadius="@dimen/_10sdp"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="Autofill,HardcodedText" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_5sdp">
+            </androidx.cardview.widget.CardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Don't have an account yet?"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_13ssp"
-                        tools:ignore="HardcodedText,TextContrastCheck" />
-
-                    <TextView
-                        android:id="@+id/tv_register"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" Sign Up"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_13ssp"
-                        tools:ignore="HardcodedText,TextContrastCheck" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/_5sdp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Or Lost your password?"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_13ssp"
-                        tools:ignore="HardcodedText,TextContrastCheck" />
-
-                    <TextView
-                        android:id="@+id/tv_forgot"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" Reset"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_13ssp"
-                        tools:ignore="HardcodedText,TextContrastCheck" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/login_loadinglayout"
-                android:layout_height="match_parent"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_sendOtp"
                 android:layout_width="match_parent"
-                android:visibility="gone">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:padding="@dimen/_10sdp"
+                android:text="Submit"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                app:cornerRadius="@dimen/_10sdp"
+                tools:ignore="HardcodedText" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#6A000000"/>
-
-                <ProgressBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:progressTint="@color/design_default_color_primary"/>
-
-            </RelativeLayout>
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

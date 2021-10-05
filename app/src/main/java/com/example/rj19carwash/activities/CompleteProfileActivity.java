@@ -18,6 +18,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.rj19carwash.R;
@@ -53,6 +54,8 @@ public class CompleteProfileActivity extends AppCompatActivity implements OnMapR
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         completeProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_complete_profile);
+
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
         userSession = new UserSession(this);
         customLoading = new CustomLoading(this);

@@ -20,7 +20,6 @@
             android:gravity="center"
             android:padding="@dimen/_10sdp"
             android:textSize="@dimen/_14ssp"
-            android:textColor="@color/black"
             tools:ignore="HardcodedText" />
 
 

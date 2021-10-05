@@ -19,7 +19,6 @@
             android:text="Booking Orders"
             android:gravity="center"
             android:textSize="@dimen/_13ssp"
-            android:textColor="@color/black"
             android:padding="@dimen/_5sdp"
             tools:ignore="HardcodedText" />
 
@@ -28,9 +27,11 @@
             android:layout_height="@dimen/_80sdp"
             app:cardCornerRadius="@dimen/_80sdp"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_10sdp">
+            android:layout_marginTop="@dimen/_10sdp"
+            app:cardBackgroundColor="@color/design_default_color_primary">
 
             <ImageView
+                android:id="@+id/confirm_orderimg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -50,7 +51,6 @@
                 android:text="Car Wash with fam"
                 android:textSize="@dimen/_12ssp"
                 android:padding="@dimen/_5sdp"
-                android:textColor="@color/black"
                 android:layout_toStartOf="@id/confirm_txtprice"
                 android:layout_margin="@dimen/_5sdp"
                 tools:ignore="HardcodedText" />
@@ -76,7 +76,6 @@
                 android:padding="@dimen/_5sdp"
                 android:layout_margin="@dimen/_5sdp"
                 android:layout_toStartOf="@id/confirm_txttime"
-                android:textColor="@color/pencilcolor"
                 tools:ignore="HardcodedText" />
 
             <TextView
@@ -85,7 +84,6 @@
                 android:layout_height="wrap_content"
                 android:text="INR 50"
                 android:layout_below="@id/confirm_txtprice"
-                android:textColor="@color/pencilcolor"
                 android:padding="@dimen/_5sdp"
                 android:layout_margin="@dimen/_5sdp"
                 android:layout_alignParentEnd="true"
@@ -108,6 +106,7 @@
                 android:backgroundTint="@color/slotcolor"
                 android:textAllCaps="false"
                 android:layout_margin="@dimen/_10sdp"
+                android:textColor="@color/white"
                 app:cornerRadius="@dimen/_8sdp"
                 tools:ignore="HardcodedText" />
 
@@ -119,6 +118,7 @@
                 app:cornerRadius="@dimen/_8sdp"
                 android:textAllCaps="false"
                 android:layout_margin="@dimen/_10sdp"
+                android:textColor="@color/white"
                 android:backgroundTint="@android:color/holo_red_dark"
                 tools:ignore="HardcodedText"
                 android:padding="@dimen/_8sdp"/>

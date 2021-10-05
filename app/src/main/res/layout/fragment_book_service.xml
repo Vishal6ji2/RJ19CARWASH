@@ -39,10 +39,8 @@
                 android:id="@+id/bookservice_txtname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Service Name"
                 android:textSize="@dimen/_18ssp"
                 android:gravity="center"
-                android:textColor="@color/black"
                 android:padding="@dimen/_5sdp"
                 tools:ignore="HardcodedText" />
 
@@ -50,84 +48,12 @@
                 android:id="@+id/bookservice_txtdesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, "
                 android:gravity="center"
                 android:justificationMode="inter_word"
-                android:textColor="@color/black"
                 android:layout_margin="@dimen/_10sdp"
                 android:padding="@dimen/_3sdp"
                 android:textSize="@dimen/_12ssp"
                 tools:ignore="HardcodedText,UnusedAttribute" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
-                app:cardElevation="@dimen/_2sdp">
-
-                <TextView
-                    android:id="@+id/bookservice_txtemployee"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Employees are not available"
-                    android:textSize="@dimen/_14ssp"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/_10sdp"
-                    android:textColor="@color/quantum_grey"
-                    tools:ignore="HardcodedText"
-                    android:visibility="gone"/>
-
-                <Spinner
-                    android:id="@+id/bookservice_spinemployee"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/_10sdp"
-                    android:visibility="visible"/>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/bookservice_slotsrecyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                tools:itemCount="1"
-                tools:listitem="@layout/slots_item_layout"/>
-
-            <TextView
-                android:id="@+id/bookservice_txtslots"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Slots are not available"
-                android:textSize="@dimen/_14ssp"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:padding="@dimen/_10sdp"
-                android:textColor="@color/quantum_grey"
-                tools:ignore="HardcodedText"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/bookservice_txttimes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Times are not available"
-                android:textSize="@dimen/_14ssp"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:padding="@dimen/_10sdp"
-                android:textColor="@color/quantum_grey"
-                tools:ignore="HardcodedText"
-                android:visibility="gone"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/bookservice_timesrecyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                tools:itemCount="1"
-                tools:listitem="@layout/time_item_layout"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bookservice_btnbook"
@@ -138,7 +64,8 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:textAllCaps="false"
-                android:enabled="false"
+                android:textColor="@color/white"
+                android:enabled="true"
                 tools:ignore="HardcodedText" />
 
         </LinearLayout>

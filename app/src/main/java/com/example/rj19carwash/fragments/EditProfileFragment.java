@@ -8,7 +8,6 @@ import static com.example.rj19carwash.sessions.UserSession.KEY_NAME;
 import static com.example.rj19carwash.sessions.UserSession.KEY_PHONE;
 import static com.example.rj19carwash.sessions.UserSession.KEY_TOKEN;
 import static com.example.rj19carwash.utilities.ViewUtils.emailPattern;
-import static com.example.rj19carwash.utilities.ViewUtils.phonePattern;
 
 import android.location.Address;
 import android.location.Geocoder;
@@ -20,6 +19,7 @@ import android.view.ViewGroup;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -39,6 +39,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,7 +47,6 @@ import retrofit2.Response;
 
 public class EditProfileFragment extends Fragment implements OnMapReadyCallback {
 
-//    Place place;
 
     GoogleMap mMap;
 
@@ -63,12 +63,14 @@ public class EditProfileFragment extends Fragment implements OnMapReadyCallback 
         // Inflate the layout for this fragment
         editProfileBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_profile,container,false);
 
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+
         userSession = new UserSession(requireContext());
 
         customLoading = new CustomLoading(requireContext());
 
         customLoading.startLoading(getLayoutInflater());
-        editProfileBinding.editprofileEtPhone.setVisibility(View.GONE);
+        editProfileBinding.editprofileEtPhone.setEnabled(false);
         setCustomerData();
 
         editProfileBinding.editprofileBtnSave.setOnClickListener(view -> showProfileDialog());
@@ -142,10 +144,10 @@ public class EditProfileFragment extends Fragment implements OnMapReadyCallback 
         }else if (!editProfileBinding.editprofileEtEmail.getText().toString().matches(emailPattern) && editProfileBinding.editprofileEtEmail.getText().toString().isEmpty()) {
             toast(requireContext(), "Invalid Email-id");
 
-        }else if (!editProfileBinding.editprofileEtPhone.getText().toString().matches(phonePattern) && editProfileBinding.editprofileEtPhone.getText().toString().isEmpty()){
+        }/*else if (!editProfileBinding.editprofileEtPhone.getText().toString().matches(phonePattern) && editProfileBinding.editprofileEtPhone.getText().toString().isEmpty()){
             toast(requireContext(), "Invalid Phone number");
 
-        } else if (getLocationFromAddress(editProfileBinding.editprofileEtAddress.getText().toString()) == null) {
+        } */else if (getLocationFromAddress(editProfileBinding.editprofileEtAddress.getText().toString()) == null) {
             toast(requireContext(), "enter your complete address");
 
         }else {
@@ -156,7 +158,7 @@ public class EditProfileFragment extends Fragment implements OnMapReadyCallback 
     private void updateProfile() {
         customLoading.startLoading(getLayoutInflater());
 
-        RetrofitClient.getInstance().getapi().updateProfile("Bearer "+userSession.getKeyToken().get(KEY_TOKEN), userSession.getCustomerId().get(KEY_CUSTOMER_ID), editProfileBinding.editprofileEtName.getText().toString(), editProfileBinding.editprofileEtEmail.getText().toString(),editProfileBinding.editprofileEtAddress.getText().toString())
+        RetrofitClient.getInstance().getapi().updateProfile("Bearer "+userSession.getKeyToken().get(KEY_TOKEN), Objects.requireNonNull(userSession.getCustomerId().get(KEY_CUSTOMER_ID)), editProfileBinding.editprofileEtName.getText().toString(), editProfileBinding.editprofileEtEmail.getText().toString(),editProfileBinding.editprofileEtAddress.getText().toString())
                 .enqueue(new Callback<UpdateProfileResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<UpdateProfileResponse> call, @NonNull Response<UpdateProfileResponse> response) {

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -40,6 +41,8 @@ public class ChangePasswordFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         changePasswordBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_change_password, container, false);
+
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
         userSession = new UserSession(requireContext());
 
@@ -79,7 +82,7 @@ public class ChangePasswordFragment extends Fragment {
 
         customLoading.startLoading(getLayoutInflater());
 
-        RetrofitClient.getInstance().getapi().changePassword("Bearer "+userSession.getKeyToken().get(KEY_TOKEN), userSession.getCustomerData().get(KEY_PHONE), changePasswordBinding.changepwdNewpwd.getText().toString())
+    /*    RetrofitClient.getInstance().getapi().changePassword("Bearer "+userSession.getKeyToken().get(KEY_TOKEN), userSession.getCustomerData().get(KEY_PHONE), changePasswordBinding.changepwdNewpwd.getText().toString())
                 .enqueue(new Callback<ChangePasswordResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ChangePasswordResponse> call, @NonNull Response<ChangePasswordResponse> response) {
@@ -104,6 +107,6 @@ public class ChangePasswordFragment extends Fragment {
                         Log.d("changepwderror",t.getLocalizedMessage());
                     }
                 });
-    }
+    */}
 
 }

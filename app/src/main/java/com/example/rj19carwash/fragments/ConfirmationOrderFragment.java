@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -62,6 +63,7 @@ public class ConfirmationOrderFragment extends Fragment implements PaymentResult
         // Inflate the layout for this fragment
         confirmationOrderBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_confirmation_order, container, false);
 
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
         StrictMode.ThreadPolicy policy = new
                 StrictMode.ThreadPolicy.Builder().permitAll().build();

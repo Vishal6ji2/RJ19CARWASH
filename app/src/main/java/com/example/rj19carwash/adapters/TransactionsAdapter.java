@@ -1,7 +1,6 @@
 package com.example.rj19carwash.adapters;
 
 import static com.example.rj19carwash.utilities.TimeUtils.getDateTime;
-import static com.example.rj19carwash.utilities.TimeUtils.getDayMonth;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -17,11 +16,7 @@ import com.example.rj19carwash.databinding.TransactionItemLayoutBinding;
 import com.example.rj19carwash.responses.TransactionResponse;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.ViewHolder> {
 
@@ -74,11 +69,15 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
                 transactionItemLayoutBinding.transactionItemStatus.setText("Completed");
                 transactionItemLayoutBinding.transactionItemStatus.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.quantum_googgreen));
                 Picasso.get().load("https://www.rj19carwash.com/"+transactionResponse.getServiceId().getServiceImage()).placeholder(R.mipmap.ic_launcher_foreground).into(transactionItemLayoutBinding.transactionItemImg);
-                transactionItemLayoutBinding.transactionItemTime.setText(getDateTime(transactionResponse.getSlot()));
+                if (transactionResponse.getSlot()!=null) {
+                    transactionItemLayoutBinding.transactionItemTime.setText(getDateTime(transactionResponse.getSlot()));
+                }
                 transactionItemLayoutBinding.setTransaction(transactionResponse);
             }else if (transactionResponse.getStatus().equals("-1")){
                 transactionItemLayoutBinding.transactionItemStatus.setText("Cancelled");
-                transactionItemLayoutBinding.transactionItemTime.setText(getDateTime(transactionResponse.getSlot()));
+                if (transactionResponse.getSlot()!=null) {
+                    transactionItemLayoutBinding.transactionItemTime.setText(getDateTime(transactionResponse.getSlot()));
+                }
                 Picasso.get().load("https://www.rj19carwash.com/"+transactionResponse.getServiceId().getServiceImage()).placeholder(R.mipmap.ic_launcher_foreground).into(transactionItemLayoutBinding.transactionItemImg);
                 transactionItemLayoutBinding.transactionItemStatus.setTextColor(ContextCompat.getColor(itemView.getContext(), R.color.quantum_googred));
                 transactionItemLayoutBinding.setTransaction(transactionResponse);

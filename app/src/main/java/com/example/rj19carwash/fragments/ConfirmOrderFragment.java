@@ -2,6 +2,7 @@ package com.example.rj19carwash.fragments;
 
 import static com.example.rj19carwash.Views.toast;
 import static com.example.rj19carwash.sessions.UserSession.KEY_TOKEN;
+import static com.example.rj19carwash.utilities.TimeUtils.getDateTime;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -21,6 +23,7 @@ import com.example.rj19carwash.networks.RetrofitClient;
 import com.example.rj19carwash.responses.OrderStatusResponse;
 import com.example.rj19carwash.sessions.UserSession;
 import com.example.rj19carwash.utilities.CustomLoading;
+import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,6 +50,8 @@ public class ConfirmOrderFragment extends Fragment {
         // Inflate the layout for this fragment
 
         confirmOrderBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_confirm_order, container, false);
+
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
         bundle = getArguments();
 
@@ -76,9 +81,9 @@ public class ConfirmOrderFragment extends Fragment {
         requireActivity().getOnBackPressedDispatcher().addCallback(requireActivity(), callback);
 
 
-
+        Picasso.get().load("https://www.rj19carwash.com/"+service_image).placeholder(R.mipmap.ic_launcher_foreground).into(confirmOrderBinding.confirmOrderimg);
         confirmOrderBinding.confirmTxtprice.setText(String.format("₹ %s", service_price));
-        confirmOrderBinding.confirmTxttime.setText(service_time);
+        confirmOrderBinding.confirmTxttime.setText(getDateTime(service_time));
         confirmOrderBinding.confirmTxtservicename.setText(service_name);
 
         confirmOrderBinding.confirmBtncancel.setOnClickListener(view -> setOrderStatus("-1"));

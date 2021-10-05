@@ -1,16 +1,12 @@
 package com.example.rj19carwash.networks;
 
 import com.example.rj19carwash.responses.CategoriesResponse;
-import com.example.rj19carwash.responses.ChangePasswordResponse;
-import com.example.rj19carwash.responses.ForgotResponse;
 import com.example.rj19carwash.responses.LoginResponse;
 import com.example.rj19carwash.responses.OrderNowResponse;
 import com.example.rj19carwash.responses.OrderStatusResponse;
 import com.example.rj19carwash.responses.OrdersResponse;
 import com.example.rj19carwash.responses.ProfileResponse;
-import com.example.rj19carwash.responses.RegisterResponse;
 import com.example.rj19carwash.responses.ServicesResponse;
-import com.example.rj19carwash.responses.SlotsResponse;
 import com.example.rj19carwash.responses.SubCategoriesResponse;
 import com.example.rj19carwash.responses.TransactionResponse;
 import com.example.rj19carwash.responses.UpdateProfileResponse;
@@ -26,17 +22,19 @@ import retrofit2.http.Path;
 public interface MyApis {
 
     @FormUrlEncoded
-    @POST("customer-login")
+    @POST("customer-register")
     Call<LoginResponse> loginResponse(
-            @Field("phone") String phone,
-            @Field("password") String password
+            @Field("phone") String phone/*,
+            @Field("password") String password*/
     );
 
+/*
     @FormUrlEncoded
     @POST("customer-register")
     Call<RegisterResponse> registerResponse(
             @Field("phone") String phone
     );
+*/
 
 
     @GET("categories")
@@ -58,9 +56,10 @@ public interface MyApis {
 
     );
 
-    @GET("viewservice")
+    @GET("viewservice/{id}")
     Call<ServicesResponse> getServices(
-            @Header("Authorization") String token
+            @Header("Authorization") String token,
+            @Path("id") int sub_id
     );
 
     @GET("transaction/{customer_id}")
@@ -75,8 +74,6 @@ public interface MyApis {
     Call<OrderNowResponse> bookOrderNow(
             @Header("Authorization") String token,
             @Field("service_id") int service_id,
-            @Field("employee_id") int employee_id,
-            @Field("slot") String slot,
             @Field("price") String price,
             @Field("customer_id") int customer_id
     );
@@ -94,12 +91,15 @@ public interface MyApis {
 
     );
 
+/*
     @FormUrlEncoded
     @POST("customer-forgot-password")
     Call<ForgotResponse> forgotPassword(
             @Field("phone") String phone
     );
+*/
 
+/*
     @FormUrlEncoded
     @POST("booking-slot")
     Call<SlotsResponse> getSlots(
@@ -108,14 +108,15 @@ public interface MyApis {
             @Field("employee_id") int employee_id,
             @Field("customer_id") int customer_id
     );
-
+*/
+/*
     @FormUrlEncoded
     @POST("customer-change-password")
     Call<ChangePasswordResponse> changePassword(
             @Header("Authorization") String token,
             @Field("phone") String phone,
             @Field("password") String password
-    );
+    );*/
 
     @GET("orders/{customer_id}")
     Call<OrdersResponse> getOrders(

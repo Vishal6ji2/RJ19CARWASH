@@ -20,7 +20,6 @@
             android:textSize="@dimen/_14ssp"
             android:gravity="center"
             android:padding="@dimen/_10sdp"
-            android:textColor="@color/black"
             tools:ignore="HardcodedText" />
 
         <RelativeLayout
@@ -49,16 +48,14 @@
                 android:id="@+id/profile_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_13ssp"
-                android:justificationMode="inter_word"
-                android:textColor="@color/black"
-                android:layout_toStartOf="@id/profile_editimg"
-                android:padding="@dimen/_5sdp"
-                android:maxLines="1"
                 android:layout_centerVertical="true"
-                android:text="7239973921"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_toStartOf="@id/profile_editimg"
+                android:justificationMode="inter_word"
+                android:maxLines="1"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_13ssp"
                 tools:ignore="HardcodedText,UnusedAttribute" />
 
             <LinearLayout
@@ -88,9 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/_13ssp"
-            android:textColor="@color/black"
             android:padding="@dimen/_5sdp"
-            android:text="Vishal Kumavat"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_5sdp"
@@ -101,9 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/_13ssp"
-            android:textColor="@color/black"
             android:padding="@dimen/_5sdp"
-            android:text="vishal6kumavat7@gmail.com"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
             tools:ignore="HardcodedText" />
@@ -114,10 +107,8 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/_13ssp"
             android:justificationMode="inter_word"
-            android:textColor="@color/black"
             android:padding="@dimen/_5sdp"
             android:maxLines="3"
-            android:text="Near RAilway fatak 321602"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_5sdp"
             tools:ignore="HardcodedText,UnusedAttribute" />
@@ -125,7 +116,7 @@
         <com.google.android.gms.maps.MapView
             android:id="@+id/profile_mapview"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_150sdp"
+            android:layout_height="match_parent"
             android:layout_margin="@dimen/_5sdp"
             tools:ignore="SpeakableTextPresentCheck" />
 
@@ -134,7 +125,8 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="@dimen/_10sdp"
             android:layout_margin="@dimen/_5sdp"
-            android:padding="@dimen/_10sdp">
+            android:padding="@dimen/_10sdp"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"

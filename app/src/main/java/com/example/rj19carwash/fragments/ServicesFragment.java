@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -45,6 +46,8 @@ public class ServicesFragment extends Fragment {
 
     Bundle bundle;
 
+    int subcat_id;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -53,17 +56,22 @@ public class ServicesFragment extends Fragment {
 
         servicesBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_services, container, false);
 
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+
         bundle = getArguments();
         customLoading = new CustomLoading(requireContext());
 
         if (isConnected(requireActivity())){
+            bundle = getArguments();
             if (bundle != null) {
-
-                if (bundle.getString("subcat_name") != null){
+                if (bundle.getInt("subcat_id", 1) !=0){
                     servicesBinding.servicesTxtsubname.setText(bundle.getString("subcat_name"));
+                    subcat_id = bundle.getInt("subcat_id", 1);
+                    initViews();
+                }else {
+//                it is showing this toast
+                    toast(requireActivity(), "Something went wrong");
                 }
-                initViews();
-
             }
         }else {
             toast(requireActivity(), "Check Your Internet Connection");
@@ -102,7 +110,7 @@ public class ServicesFragment extends Fragment {
 
         arrServicesList.clear();
 
-        RetrofitClient.getInstance().getapi().getServices("Bearer "+userSession.getKeyToken().get(KEY_TOKEN))
+        RetrofitClient.getInstance().getapi().getServices("Bearer "+userSession.getKeyToken().get(KEY_TOKEN), subcat_id)
                 .enqueue(new Callback<ServicesResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<ServicesResponse> call, @NonNull Response<ServicesResponse> response) {

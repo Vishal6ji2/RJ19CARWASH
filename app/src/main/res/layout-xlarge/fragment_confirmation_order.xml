@@ -110,6 +110,7 @@
                 android:layout_height="wrap_content"
                 android:text="Go Back"
                 android:textAllCaps="false"
+                android:textColor="@color/white"
                 android:backgroundTint="@color/redcolor"
                 app:cornerRadius="@dimen/_10sdp"
                 tools:ignore="HardcodedText"

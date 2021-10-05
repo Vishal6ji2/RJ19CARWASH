@@ -11,6 +11,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.rj19carwash.R;
@@ -36,7 +37,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         registerBinding = DataBindingUtil.setContentView(this, R.layout.activity_register);
-        
+
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         registerBinding.tvSignin.setPaintFlags(registerBinding.tvSignin.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
 
         customLoading = new CustomLoading(this);
@@ -67,6 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         customLoading.startLoading(getLayoutInflater());
 
+/*
         RetrofitClient.getInstance().getapi().registerResponse(phone).enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(@NonNull Call<RegisterResponse> call, @NonNull Response<RegisterResponse> response) {
@@ -99,6 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
                 toast(RegisterActivity.this, "Server error! try again later");
             }
         });
+*/
 
     }
 

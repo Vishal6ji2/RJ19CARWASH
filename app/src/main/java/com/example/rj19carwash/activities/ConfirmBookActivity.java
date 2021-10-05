@@ -11,6 +11,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.rj19carwash.R;
@@ -60,6 +61,8 @@ public class ConfirmBookActivity extends AppCompatActivity implements PaymentRes
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         confirmBookBinding = DataBindingUtil.setContentView(this, R.layout.activity_confirm_book);
+
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
         StrictMode.ThreadPolicy policy = new
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -197,7 +200,7 @@ public class ConfirmBookActivity extends AppCompatActivity implements PaymentRes
 
         confirmBookBinding.confirmbookFailurecard.setVisibility(View.VISIBLE);
         confirmBookBinding.confirmbookSuccesscard.setVisibility(View.GONE);
-        confirmBookBinding.confirmbookBtnback.setText("");
+
 
 //        textView.setText("Error: " + s);
     }
